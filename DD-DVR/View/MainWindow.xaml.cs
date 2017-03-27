@@ -25,28 +25,29 @@ namespace DD_DVR
         {
             InitializeComponent();
 
-            double speed = 64;
+            double speed = 2;
 
             MediaPlayer player1 = new MediaPlayer() { SpeedRatio = speed };
-            player1.Open(new Uri(@"D:\TEST\128\201-03-212606-215606-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
+            player1.Open(new Uri(@"C:\testVide1\201-01-140854-142354-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
             v1.Fill = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player1 });
             player1.Play();
             
 
             MediaPlayer player2 = new MediaPlayer() { SpeedRatio = speed };
-            player2.Open(new Uri(@"D:\TEST\128\201-04-182607-185606-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
+            player2.Open(new Uri(@"C:\testVide1\201-03-140856-142354-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
             v2.Fill = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player2 });
             player2.Play();
 
             MediaPlayer player3 = new MediaPlayer() { SpeedRatio = speed };
-            player3.Open(new Uri(@"D:\TEST\128\201-03-225606-232606-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
+            player3.Open(new Uri(@"C:\testVide1\201-04-140856-142356-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
             v3.Fill = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player3 });
             player3.Play();
 
             MediaPlayer player4 = new MediaPlayer() { SpeedRatio = speed };
-            player4.Open(new Uri(@"D:\TEST\128\201-03-202606-205605-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
+            player4.Open(new Uri(@"C:\testVide1\201-04-142356-143855-00c000.h264.mkv", UriKind.RelativeOrAbsolute));
             v4.Fill = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player4 });
             player4.Play();
+            
         }
     }
 }
