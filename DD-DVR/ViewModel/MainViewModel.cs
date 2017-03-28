@@ -25,8 +25,6 @@ namespace DD_DVR.ViewModel
         private void Callback(object sender, ElapsedEventArgs e)
         {
             UsedMemory = GC.GetTotalMemory(true) / 1024;
-            
-
             UsedCpu = cpucounter.NextValue();
         }
 

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DD_DVR.Video
 {
-    class DVRPlayer
+    class DVRPlayer : INotifyPropertyChanged
     {
 
         // Может исползовать массив стримов, удобней перебирать цыклом и делать однотипные операции!
@@ -40,10 +42,25 @@ namespace DD_DVR.Video
             if (videoPath4.Count > 0) Streams.Add(new Stream(videoPath4));
         }
 
+
+
         public void Play()
         {
             foreach (Stream s in Streams) s.Play();
         }
+
+        #region implementation INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Новый OnPropertyChanged которому вообще не нужно передавать ни свойство ни название свойства)))
+        /// </summary>
+        /// <param name="propertyName"> Заполняется автоматически названием вызываюшего члена!</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion implementation INotifyPropertyChanged
 
 
     }
