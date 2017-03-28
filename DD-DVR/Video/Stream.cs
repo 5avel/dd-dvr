@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -24,21 +21,32 @@ namespace DD_DVR.Video
 
         public Stream(List<string> fileList)
         {
-            FileList = fileList;
-            SpeedRatio = 1;
+            if(fileList != null && fileList.Count > 0)
+            {
+                FileList = fileList;
+                player = new MediaPlayer();
+                player.MediaEnded += Player_MediaEnded;
+                player.SpeedRatio = 32;
+            }
+            
+            
+
            
+        }
+
+        private void Player_MediaEnded(object sender, EventArgs e)
+        {
+            CurentPosition++;
+            player.Open(new Uri(FileList[CurentPosition], UriKind.RelativeOrAbsolute));
+            player.Play();
         }
 
         public void Play()
         {
-            if(Position == null)
-            {
-                CurentSource = FileList[0];
-                CurentPosition = 0;
-                player = new MediaPlayer() { SpeedRatio = SpeedRatio };
-                player.Open(new Uri(CurentSource, UriKind.RelativeOrAbsolute));
-                VideoBrush = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player });
-            }
+            
+            player.Open(new Uri(FileList[CurentPosition], UriKind.RelativeOrAbsolute));
+            VideoBrush = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player });
+            
             player.Play();
         }
 
