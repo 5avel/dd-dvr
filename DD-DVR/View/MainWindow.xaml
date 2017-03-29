@@ -6,11 +6,13 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:DD_DVR"
         xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
+
         mc:Ignorable="d"
         Title="DD-DVR"
         MinHeight="600"
         MinWidth="800">
-
+    
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -23,32 +25,11 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="1" Grid.Row="0" Grid.Column="0">
-            <Rectangle   Name="v1" Fill="#FF99B9E8" />
-        </Border>
-        <Border BorderThickness="1" Grid.Row="0" Grid.Column="1">
-            <Rectangle  Name="v2" Fill="#FF99B9E8" />
-        </Border>
-        <Border BorderThickness="1" Grid.Row="1" Grid.Column="0">
-            <Rectangle  Name="v3"  Fill="#FF99B9E8" />
-        </Border>
-        <Border BorderThickness="1" Grid.Row="1" Grid.Column="1">
-            <Rectangle   Name="v4"  Fill="#FF99B9E8" />
-        </Border>
-
-        <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Height="20"  Value="{Binding UsedCpu}" Maximum="100" Foreground="#FFEC0B0B"  />
-        <ProgressBar Grid.Row="2" Grid.ColumnSpan="3" Height="10"   Value="{Binding UsedMemory}" Maximum="15000" Margin="0"  />
-
-
+        <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
+           VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" Grid.Row="0"/>
     </Grid>
 </Controls:MetroWindow>

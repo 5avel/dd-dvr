@@ -46,7 +46,27 @@ namespace DD_DVR.Video
 
         public void Play()
         {
-            foreach (Stream s in Streams) s.Play();
+            foreach (Stream s in Streams) { s.Play(); } 
+        }
+
+        public void Stop()
+        {
+            foreach (Stream s in Streams) s.Stop();
+        }
+
+        public void Pause()
+        {
+            foreach (Stream s in Streams) s.Pause();
+        }
+
+        public void SpeedUp()
+        {
+            foreach (Stream s in Streams) s.player.SpeedRatio*=2;
+        }
+
+        public void SpeedDown()
+        {
+            foreach (Stream s in Streams) s.player.SpeedRatio /= 2;
         }
 
         #region implementation INotifyPropertyChanged

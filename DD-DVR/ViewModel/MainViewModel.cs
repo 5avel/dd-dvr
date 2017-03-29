@@ -3,6 +3,8 @@ using System.Timers;
 using System.Windows.Input;
 using MVVMLib;
 using System.Diagnostics;
+using DD_DVR.Video;
+using System.Windows.Media;
 
 namespace DD_DVR.ViewModel
 {
@@ -12,6 +14,9 @@ namespace DD_DVR.ViewModel
         PerformanceCounter cpucounter;
         PerformanceCounter memcounter;
 
+       
+
+
         public MainViewModel()
         {
             cpucounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
@@ -20,6 +25,9 @@ namespace DD_DVR.ViewModel
             timer = new Timer(500);
             timer.Elapsed += Callback;
             timer.Start();
+
+           
+           
         }
 
         private void Callback(object sender, ElapsedEventArgs e)
@@ -49,6 +57,10 @@ namespace DD_DVR.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
+       
+
 
     }
 }

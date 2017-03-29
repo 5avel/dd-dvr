@@ -7,7 +7,7 @@ namespace DD_DVR.Video
 {
     class Stream
     {
-        private MediaPlayer player = null;
+        public MediaPlayer player = new MediaPlayer();
         private string CurentSource = null; // текущий файл воспроизведения
         private int CurentPosition = 0;     // позиция воспроизведения
 
@@ -15,7 +15,11 @@ namespace DD_DVR.Video
 
         List<string> FileList = new List<string>(); // список файлов
 
-        public double SpeedRatio { get; set; } // привязать напрямую к свойству плеера 
+        public double SpeedRatio
+        {
+            get { return player.SpeedRatio; }
+            set { player.SpeedRatio = value; }
+        } // привязать напрямую к свойству плеера 
         public DrawingBrush VideoBrush { set; get; }
 
 
@@ -24,14 +28,13 @@ namespace DD_DVR.Video
             if(fileList != null && fileList.Count > 0)
             {
                 FileList = fileList;
-                player = new MediaPlayer();
                 player.MediaEnded += Player_MediaEnded;
-                player.SpeedRatio = 32;
-            }
-            
-            
+                
 
-           
+                player.Open(new Uri(FileList[CurentPosition], UriKind.RelativeOrAbsolute));
+                VideoBrush = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player });
+
+            }
         }
 
         private void Player_MediaEnded(object sender, EventArgs e)
@@ -43,14 +46,17 @@ namespace DD_DVR.Video
 
         public void Play()
         {
-            
-            player.Open(new Uri(FileList[CurentPosition], UriKind.RelativeOrAbsolute));
-            VideoBrush = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player });
-            
             player.Play();
         }
 
-      
+        internal void Stop()
+        {
+            player.Stop();
+        }
 
+        internal void Pause()
+        {
+            player.Pause();
+        }
     }
 }
