@@ -41,7 +41,7 @@
                 <RowDefinition Height="23*"/>
                 <RowDefinition Height="28*"/>
             </Grid.RowDefinitions>
-            <Slider Grid.Row="0"/>
+            <Slider Grid.Row="0" Minimum="0" Maximum="{Binding NaturalDuration}" Value="{Binding Position}"/>
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <Button Command="{Binding DvrPlayCommand}" Content="Play" />
                 <Button Command="{Binding DvrPauseCommand}" Content="Pause" />

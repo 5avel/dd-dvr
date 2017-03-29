@@ -13,11 +13,6 @@ namespace DD_DVR
         public MainWindow()
         {
             InitializeComponent();
-
-
-           
-
-            
         }
     }
 }

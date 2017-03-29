@@ -17,8 +17,7 @@ namespace DD_DVR.Video
 
         public string VideoSourcePath { get; set; } // путь к папке с файлами *.mkv
 
-        public DateTime Position { get; set; } // позиия воспроизведения видео
-
+       
         public DVRPlayer(string videoFolder)
         {
             // проверка папки на сушествование

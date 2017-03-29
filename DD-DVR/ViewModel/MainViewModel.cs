@@ -10,21 +10,18 @@ namespace DD_DVR.ViewModel
 {
     class MainViewModel : ViewModelBase
     {
-        private Timer timer;
+        
         PerformanceCounter cpucounter;
         PerformanceCounter memcounter;
 
-       
-
-
         public MainViewModel()
         {
-            cpucounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            memcounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
+            //cpucounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            //memcounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
 
-            timer = new Timer(500);
-            timer.Elapsed += Callback;
-            timer.Start();
+            //timer = new Timer(500);
+            //timer.Elapsed += Callback;
+            //timer.Start();
 
            
            
