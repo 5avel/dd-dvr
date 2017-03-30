@@ -6,13 +6,18 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:DD_DVR"
         xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
+        xmlns:converter="clr-namespace:DD_DVR.View.ValueConverters"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
 
         mc:Ignorable="d"
         Title="DD-DVR"
         MinHeight="600"
         MinWidth="800">
-    
+    <Window.Resources>
+        <ResourceDictionary>
+            <converter:HeightToWidth3x4ValueConverter x:Key="HeightToWidth3x4ValueConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -24,12 +29,15 @@
             <Button Content="Настройки" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition MinWidth="200" Width="*"/>
         </Grid.ColumnDefinitions>
-        <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
-           VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" Grid.Row="0"/>
+
+        <Border Grid.Column="0" Width="{Binding Path=ActualHeight, Converter={StaticResource HeightToWidth3x4ValueConverter}, RelativeSource={RelativeSource Self}}">
+            <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
+        </Border>
     </Grid>
 </Controls:MetroWindow>

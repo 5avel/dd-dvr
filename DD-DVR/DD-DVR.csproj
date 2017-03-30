@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\VideoViewModel.cs" />
+    <Compile Include="View\ValueConverters\HeightToWidth3x4ValueConverter.cs" />
     <Compile Include="View\VideoView.xaml.cs">
       <DependentUpon>VideoView.xaml</DependentUpon>
     </Compile>

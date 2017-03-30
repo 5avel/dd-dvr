@@ -16,11 +16,14 @@ namespace DD_DVR.ViewModel
     class VideoViewModel : ViewModelBase
     {
 
-        private DVRPlayer dvr = new DVRPlayer(@"C:\testVide1");
+        private DVRPlayer dvr = new DVRPlayer(@"D:\TEST\128");
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }
         public DrawingBrush VideoBrushCam4 { get; set; }
+
+        private List<DrawingBrush> ListVideoBrushs;
+   
 
         private System.Timers.Timer timer;
 
@@ -30,10 +33,13 @@ namespace DD_DVR.ViewModel
             get { return _position; }
             set
             {
+                if (_position == value) return;
+                //if (Math.Abs(_position - value) <= 20000) return;
                 _position = value;
+                foreach (Stream s in dvr.Streams) s.player.Position = new TimeSpan(0, 0, 0, 0, _position); //  _position;
                 OnPropertyChanged();
             }
-        } // позиия воспроизведения видео, милисекунды от начала файла
+        } // позиия воспроизведения видео, Tiks от начала файла
 
         private int _naturalDuration;
         public int NaturalDuration
@@ -41,6 +47,7 @@ namespace DD_DVR.ViewModel
             get { return _naturalDuration; }
             set
             {
+                if (_naturalDuration == value) return;
                 _naturalDuration = value;
                 OnPropertyChanged();
             }
@@ -49,12 +56,11 @@ namespace DD_DVR.ViewModel
 
         public VideoViewModel()
         {
-            VideoBrushCam1 = dvr.Streams[0].VideoBrush;
-            VideoBrushCam2 = dvr.Streams[1].VideoBrush;
-            VideoBrushCam3 = dvr.Streams[2].VideoBrush;
-            // VideoBrushCam4 = dvr.Streams[3].VideoBrush;
+            VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
+            VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
+            VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
+            VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
-            
 
             timer = new System.Timers.Timer(100);
             timer.Elapsed += Callback;
@@ -71,10 +77,6 @@ namespace DD_DVR.ViewModel
                     NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
                 }
             }));
-
-
-
-
         }
 
         private RelayCommand _dvrPlayCommand;
