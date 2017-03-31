@@ -24,5 +24,7 @@ namespace DD_DVR.View
         {
             InitializeComponent();
         }
+
+
     }
 }

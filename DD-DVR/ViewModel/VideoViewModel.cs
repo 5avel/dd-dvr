@@ -10,6 +10,7 @@ using System.Timers;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace DD_DVR.ViewModel
 {
@@ -61,10 +62,8 @@ namespace DD_DVR.ViewModel
             VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
             VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
-
             timer = new System.Timers.Timer(100);
             timer.Elapsed += Callback;
-
         }
 
         private void Callback(object sender, ElapsedEventArgs e)
@@ -116,7 +115,7 @@ namespace DD_DVR.ViewModel
                     param =>
                     {
                         dvr.Pause();
-                        timer.Stop();
+                        //timer.Stop();
                     }));
             }
         }
@@ -136,6 +135,24 @@ namespace DD_DVR.ViewModel
             get
             {
                 return _dvrSpeedDownCommand ?? (_dvrSpeedDownCommand = new RelayCommand(param => dvr.SpeedDown()));
+            }
+        }
+
+        private RelayCommand _dvrRightStepCommand;
+        public ICommand DvrRightStepCommand
+        {
+            get
+            {
+                return _dvrRightStepCommand ?? (_dvrRightStepCommand = new RelayCommand(param => dvr.Step()));
+            }
+        }
+
+        private RelayCommand _dvrLeftStepCommand;
+        public ICommand DvrLeftStepCommand
+        {
+            get
+            {
+                return _dvrLeftStepCommand ?? (_dvrLeftStepCommand = new RelayCommand(param => dvr.Step(false)));
             }
         }
     }

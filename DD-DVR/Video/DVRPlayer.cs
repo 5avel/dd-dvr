@@ -68,6 +68,11 @@ namespace DD_DVR.Video
             foreach (Stream s in Streams) s.player.SpeedRatio /= 2;
         }
 
+        public void Step(bool isRightStep = true)
+        {
+            foreach (Stream s in Streams) s.Step(isRightStep);
+        }
+
         #region implementation INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 

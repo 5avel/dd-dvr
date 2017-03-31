@@ -10,10 +10,19 @@
       mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="350">
 
     <Page.DataContext>
-        <viewModel:VideoViewModel/>
+        <viewModel:VideoViewModel x:Name="dc"/>
     </Page.DataContext>
 
-    <Grid>
+    <Page.InputBindings>
+        <KeyBinding Key="W" Modifiers="" Command="{Binding DvrPlayCommand}"/>
+        <KeyBinding Key="S" Modifiers="" Command="{Binding DvrPauseCommand}"/>
+        <KeyBinding Key="A" Modifiers="" Command="{Binding DvrSpeedDownCommand}"/>
+        <KeyBinding Key="D" Modifiers="" Command="{Binding DvrSpeedUpCommand}"/>
+        <KeyBinding Key="E" Modifiers="" Command="{Binding DvrRightStepCommand}"/>
+        <KeyBinding Key="Q" Modifiers="" Command="{Binding DvrLeftStepCommand}"/>
+    </Page.InputBindings>
+
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -24,25 +33,25 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0.1" Grid.Row="0" Grid.Column="0">
+        <Border BorderThickness="1" Grid.Row="0" Grid.Column="0">
             <Rectangle Fill="{Binding VideoBrushCam1}"  />
         </Border>
-        <Border BorderThickness="0.1" Grid.Row="0" Grid.Column="1">
+        <Border BorderThickness="1" Grid.Row="0" Grid.Column="1">
             <Rectangle Fill="{Binding VideoBrushCam2}" />
         </Border>
-        <Border BorderThickness="0.1" Grid.Row="1" Grid.Column="0">
+        <Border BorderThickness="1" Grid.Row="1" Grid.Column="0">
             <Rectangle  Fill="{Binding VideoBrushCam3}" />
         </Border>
-        <Border BorderThickness="0.1" Grid.Row="1" Grid.Column="1">
+        <Border BorderThickness="1" Grid.Row="1" Grid.Column="1">
             <Rectangle Fill="{Binding VideoBrushCam4}" />
         </Border>
 
         <Grid Grid.ColumnSpan="2" Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="23*"/>
-                <RowDefinition Height="28*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <Slider Grid.Row="0" Minimum="0" Maximum="{Binding NaturalDuration}" Value="{Binding Position}" />
+            <Slider Grid.Row="0" Minimum="0" Maximum="{Binding NaturalDuration}" Value="{Binding Position}" Focusable="True" />
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <Button Command="{Binding DvrPlayCommand}" Content="Play" />
                 <Button Command="{Binding DvrPauseCommand}" Content="Pause" />
