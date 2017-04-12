@@ -29,7 +29,7 @@ namespace DD_DVR.Video
             {
                 FileList = fileList;
                 player.MediaEnded += Player_MediaEnded;
-                
+                player.ScrubbingEnabled = true;
 
                 player.Open(new Uri(FileList[CurentPosition], UriKind.RelativeOrAbsolute));
                 VideoBrush = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = player });
@@ -62,12 +62,9 @@ namespace DD_DVR.Video
         internal void Step(bool isRightStep = true)
         {
             if(isRightStep)
-                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds+200);
+                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds + 82);
             else
-                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds - 200);
-
-            Play();
-            Pause();
+                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds - 82);
         }
     }
 }
