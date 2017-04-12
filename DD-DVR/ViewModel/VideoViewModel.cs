@@ -17,14 +17,11 @@ namespace DD_DVR.ViewModel
     class VideoViewModel : ViewModelBase
     {
 
-        private DVRPlayer dvr = new DVRPlayer(@"D:\TEST\128");
+        private DVRPlayer dvr = new DVRPlayer(@"D:\TestVideo");
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }
         public DrawingBrush VideoBrushCam4 { get; set; }
-
-        private List<DrawingBrush> ListVideoBrushs;
-   
 
         private System.Timers.Timer timer;
 
@@ -115,7 +112,7 @@ namespace DD_DVR.ViewModel
                     param =>
                     {
                         dvr.Pause();
-                        //timer.Stop();
+                        timer.Stop();
                     }));
             }
         }

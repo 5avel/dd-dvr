@@ -56,7 +56,7 @@ namespace DD_DVR.Video
 
         internal void Pause()
         {
-            player.SpeedRatio = 0;
+            player.Pause();
         }
 
         internal void Step(bool isRightStep = true)
@@ -65,6 +65,9 @@ namespace DD_DVR.Video
                 player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds+200);
             else
                 player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds - 200);
+
+            Play();
+            Pause();
         }
     }
 }
