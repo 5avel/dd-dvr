@@ -62,9 +62,9 @@ namespace DD_DVR.Video
         internal void Step(bool isRightStep = true)
         {
             if(isRightStep)
-                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds + 82);
+                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds + 84);
             else
-                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds - 82);
+                player.Position = new TimeSpan(0, 0, 0, 0, (int)player.Position.TotalMilliseconds - 84);
         }
     }
 }

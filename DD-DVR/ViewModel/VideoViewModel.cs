@@ -32,7 +32,6 @@ namespace DD_DVR.ViewModel
             set
             {
                 if (_position == value) return;
-                //if (Math.Abs(_position - value) <= 20000) return;
                 _position = value;
                 foreach (Stream s in dvr.Streams) s.player.Position = new TimeSpan(0, 0, 0, 0, _position); //  _position;
                 OnPropertyChanged();

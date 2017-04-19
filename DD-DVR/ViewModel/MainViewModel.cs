@@ -16,6 +16,7 @@ namespace DD_DVR.ViewModel
 
         public MainViewModel()
         {
+            instance = this;
             //cpucounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             //memcounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
 
@@ -23,8 +24,8 @@ namespace DD_DVR.ViewModel
             //timer.Elapsed += Callback;
             //timer.Start();
 
-           
-           
+
+
         }
 
         private void Callback(object sender, ElapsedEventArgs e)
@@ -56,8 +57,25 @@ namespace DD_DVR.ViewModel
         }
 
 
-       
 
+        #region implementation Singleton
+        private static MainViewModel instance;
+        private static object syncRoot = new Object();
+
+        public static MainViewModel getInstance(string name)
+        {
+            if (instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if (instance == null)
+                        instance = new MainViewModel();
+                }
+            }
+            return instance;
+        }
+
+        #endregion implementation Singleton
 
     }
 }

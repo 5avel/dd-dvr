@@ -14,7 +14,7 @@
     </Page.DataContext>
 
     <Page.InputBindings>
-        <KeyBinding Key="W" Modifiers="" Command="{Binding DvrPlayCommand}"/>
+        <KeyBinding Key="W" Modifiers=""  Command="{Binding DvrPlayCommand}"/>
         <KeyBinding Key="S" Modifiers="" Command="{Binding DvrPauseCommand}"/>
         <KeyBinding Key="A" Modifiers="" Command="{Binding DvrSpeedDownCommand}"/>
         <KeyBinding Key="D" Modifiers="" Command="{Binding DvrSpeedUpCommand}"/>
