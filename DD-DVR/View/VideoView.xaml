@@ -13,14 +13,14 @@
         <viewModel:VideoViewModel x:Name="dc"/>
     </Page.DataContext>
 
-    <Page.InputBindings>
+    <!--<Page.InputBindings>
         <KeyBinding Key="W" Modifiers=""  Command="{Binding DvrPlayCommand}"/>
         <KeyBinding Key="S" Modifiers="" Command="{Binding DvrPauseCommand}"/>
         <KeyBinding Key="A" Modifiers="" Command="{Binding DvrSpeedDownCommand}"/>
         <KeyBinding Key="D" Modifiers="" Command="{Binding DvrSpeedUpCommand}"/>
         <KeyBinding Key="E" Modifiers="" Command="{Binding DvrRightStepCommand}"/>
         <KeyBinding Key="Q" Modifiers="" Command="{Binding DvrLeftStepCommand}"/>
-    </Page.InputBindings>
+    </Page.InputBindings>-->
 
     <Grid >
         <Grid.RowDefinitions>
@@ -51,13 +51,13 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <Slider Grid.Row="0" Minimum="0" Maximum="{Binding NaturalDuration}" Value="{Binding Position}" Focusable="True" />
+            <Slider Grid.Row="0" Minimum="0" Maximum="{Binding NaturalDuration,FallbackValue=100}" Value="{Binding Position,FallbackValue=0}" />
             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Button Command="{Binding DvrPlayCommand}" Content="Play" />
-                <Button Command="{Binding DvrPauseCommand}" Content="Pause" />
-                <Button Command="{Binding DvrStopCommand}" Content="Stop" />
-                <Button Command="{Binding DvrSpeedUpCommand}" Content="SpeedUp" />
-                <Button Command="{Binding DvrSpeedDownCommand}" Content="SpeedDown" />
+                <Button Command="{Binding DvrPlayCommand}" Content="Play" Focusable="False" />
+                <Button Command="{Binding DvrPauseCommand}" Content="Pause" Focusable="False" />
+                <Button Command="{Binding DvrStopCommand}" Content="Stop" Focusable="False" />
+                <Button Command="{Binding DvrSpeedUpCommand}" Content="SpeedUp" Focusable="False" />
+                <Button Command="{Binding DvrSpeedDownCommand}" Content="SpeedDown" Focusable="False" />
             </StackPanel>
         </Grid>
     </Grid>

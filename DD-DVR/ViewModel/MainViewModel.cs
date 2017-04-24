@@ -5,6 +5,7 @@ using MVVMLib;
 using System.Diagnostics;
 using DD_DVR.Video;
 using System.Windows.Media;
+using System.Windows;
 
 namespace DD_DVR.ViewModel
 {
@@ -16,15 +17,13 @@ namespace DD_DVR.ViewModel
 
         public MainViewModel()
         {
-            instance = this;
+            
             //cpucounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             //memcounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
 
             //timer = new Timer(500);
             //timer.Elapsed += Callback;
             //timer.Start();
-
-
 
         }
 
@@ -56,26 +55,49 @@ namespace DD_DVR.ViewModel
             }
         }
 
-
-
-        #region implementation Singleton
-        private static MainViewModel instance;
-        private static object syncRoot = new Object();
-
-        public static MainViewModel getInstance(string name)
+        private RelayCommand _test;
+        public ICommand Test
         {
-            if (instance == null)
+            get
             {
-                lock (syncRoot)
+                return _test ?? (_test = new RelayCommand(param =>
                 {
-                    if (instance == null)
-                        instance = new MainViewModel();
-                }
+                    var videoVM = VideoViewModel.GetInstance();
+                    if (videoVM == null && param == null) return;
+                    if ("W" == param.ToString())
+                    {
+                        videoVM.DvrPlayCommand.Execute(null);
+                    }
+                    else if("S" == param.ToString())
+                    {
+                        videoVM.DvrPauseCommand.Execute(null);
+                    }
+                    else if ("A" == param.ToString())
+                    {
+                        videoVM.DvrSpeedDownCommand.Execute(null);
+                    }
+                    else if ("D" == param.ToString())
+                    {
+                        videoVM.DvrSpeedUpCommand.Execute(null);
+                    }
+                    else if ("E" == param.ToString())
+                    {
+                        videoVM.DvrRightStepCommand.Execute(null);
+                    }
+                    else if ("Q" == param.ToString())
+                    {
+                        videoVM.DvrLeftStepCommand.Execute(null);
+                    }
+                    else if ("Space" == param.ToString())
+                    {
+                        MessageBox.Show("Space");
+                    }
+
+                }));
             }
-            return instance;
         }
 
-        #endregion implementation Singleton
+       
 
     }
 }

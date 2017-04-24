@@ -53,6 +53,7 @@ namespace DD_DVR.ViewModel
 
         public VideoViewModel()
         {
+            instance = this;
             VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
             VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
             VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
@@ -151,5 +152,15 @@ namespace DD_DVR.ViewModel
                 return _dvrLeftStepCommand ?? (_dvrLeftStepCommand = new RelayCommand(param => dvr.Step(false)));
             }
         }
+
+        #region implementation Singleton
+        private static VideoViewModel instance;
+
+        public static VideoViewModel GetInstance()
+        {
+            return instance;
+        }
+
+        #endregion implementation Singleton
     }
 }

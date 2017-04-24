@@ -22,6 +22,17 @@
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Key="W" Modifiers="" CommandParameter="W" Command="{Binding Test}"/>
+        <KeyBinding Key="S" Modifiers="" CommandParameter="S" Command="{Binding Test}"/>
+        <KeyBinding Key="A" Modifiers="" CommandParameter="A" Command="{Binding Test}"/>
+        <KeyBinding Key="D" Modifiers="" CommandParameter="D" Command="{Binding Test}"/>
+        <KeyBinding Key="E" Modifiers="" CommandParameter="E" Command="{Binding Test}"/>
+        <KeyBinding Key="Q" Modifiers="" CommandParameter="Q" Command="{Binding Test}"/>
+
+        <KeyBinding Key="Space" Modifiers="" CommandParameter="Space" Command="{Binding Test}"/>
+    </Window.InputBindings>
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="Видео" />
