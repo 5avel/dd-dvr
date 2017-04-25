@@ -23,6 +23,8 @@ namespace DD_DVR.ViewModel
         public DrawingBrush VideoBrushCam3 { get; set; }
         public DrawingBrush VideoBrushCam4 { get; set; }
 
+        private bool isPoused = true;
+
         private System.Timers.Timer timer;
 
         private int _position = 0;
@@ -75,55 +77,76 @@ namespace DD_DVR.ViewModel
             }));
         }
 
-        private RelayCommand _dvrPlayCommand;
-        public ICommand DvrPlayCommand
+        private RelayCommand _dvrSpeedDownLeftStepCommand;
+        public ICommand DvrSpeedDownLeftStepCommand
         {
             get
             {
-                return _dvrPlayCommand ?? (_dvrPlayCommand = new RelayCommand(
+                return _dvrSpeedDownLeftStepCommand ?? (_dvrSpeedDownLeftStepCommand = new RelayCommand(param =>
+                {
+                    if (isPoused)
+                    {
+                        dvr.Step(false);
+                    }
+                    else
+                    {
+                        CurspeedRatio /= 2;
+                    }
+                }));
+            }
+        }
+
+
+
+        private RelayCommand _dvrPlayPauseCommand;
+        public ICommand DvrPlayPauseCommand
+        {
+            get
+            {
+                return _dvrPlayPauseCommand ?? (_dvrPlayPauseCommand = new RelayCommand(
                     param =>
                     {
-                        if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
+                        if (isPoused)
                         {
-                            NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
+                            if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
+                            {
+                                NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
+                            }
+                            dvr.Play();
+                            timer.Start();
+                            isPoused = false;
                         }
-                        dvr.Play();
-                        if (!dvr.Streams[0].player.CanPause)
+                        else
                         {
-                            dvr.SetSpeedRatio(_curspeedRatio);
+                            dvr.Pause();
+                            timer.Stop();
+                            CurspeedRatio = 1;
+                            isPoused = true;
                         }
-                        timer.Start();
                     }));
             }
         }
 
-        private RelayCommand _dvrStopCommand;
-        public ICommand DvrStopCommand
+        private RelayCommand _dvrSpeedUpRightStepCommand;
+        public ICommand DvrSpeedUpRightStepCommand
         {
             get
             {
-                return _dvrStopCommand ?? (_dvrStopCommand = new RelayCommand(
-                    param => 
+                return _dvrSpeedUpRightStepCommand ?? (_dvrSpeedUpRightStepCommand = new RelayCommand(param =>
+                {
+                    if (isPoused)
                     {
-                        dvr.Stop();
-                        timer.Stop();
-                    }));
+                        dvr.Step();
+                    }
+                    else
+                    {
+                        CurspeedRatio *= 2;
+                    }
+                }));
             }
         }
 
-        private RelayCommand _dvrPauseCommand;
-        public ICommand DvrPauseCommand
-        {
-            get
-            {
-                return _dvrPauseCommand ?? (_dvrPauseCommand = new RelayCommand(
-                    param =>
-                    {
-                        dvr.Pause();
-                        timer.Stop();
-                    }));
-            }
-        }
+
 
         #region SpeedRatio
 
@@ -142,45 +165,8 @@ namespace DD_DVR.ViewModel
             }
         }
 
-        private RelayCommand _dvrSpeedUpCommand;
-        public ICommand DvrSpeedUpCommand
-        {
-            get
-            {
-                return _dvrSpeedUpCommand ?? (_dvrSpeedUpCommand = new RelayCommand(param => CurspeedRatio*=2));
-            }
-        }
-
-        private RelayCommand _dvrSpeedDownCommand;
-        public ICommand DvrSpeedDownCommand
-        {
-            get
-            {
-                return _dvrSpeedDownCommand ?? (_dvrSpeedDownCommand = new RelayCommand(param => CurspeedRatio /= 2));
-            }
-        }
+     
         #endregion SpeedRatio
-
-        private RelayCommand _dvrRightStepCommand;
-        public ICommand DvrRightStepCommand
-        {
-            get
-            {
-                return _dvrRightStepCommand ?? (_dvrRightStepCommand = new RelayCommand(param => dvr.Step()));
-            }
-        }
-
-        private RelayCommand _dvrLeftStepCommand;
-        public ICommand DvrLeftStepCommand
-        {
-            get
-            {
-                return _dvrLeftStepCommand ?? (_dvrLeftStepCommand = new RelayCommand(param => dvr.Step(false)));
-            }
-        }
-
-
-
         #region implementation GetInstance
         private static VideoViewModel instance;
 

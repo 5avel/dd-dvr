@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:DD_DVR"
         xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
         xmlns:converter="clr-namespace:DD_DVR.View.ValueConverters"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
@@ -23,23 +22,50 @@
     </Window.DataContext>
 
     <Window.InputBindings>
-        <KeyBinding Key="W" CommandParameter="W" Command="{Binding Test}"/>
-        <KeyBinding Key="S" CommandParameter="S" Command="{Binding Test}"/>
-        <KeyBinding Key="A" CommandParameter="A" Command="{Binding Test}"/>
-        <KeyBinding Key="D" CommandParameter="D" Command="{Binding Test}"/>
-        <KeyBinding Key="E" CommandParameter="E" Command="{Binding Test}"/>
-        <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding Test}"/>
+        <KeyBinding Key="W" CommandParameter="W" Command="{Binding VideoKeyBinding}"/>
+        <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
+        <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
-        <KeyBinding Key="Space" Modifiers="" CommandParameter="Space" Command="{Binding Test}"/>
+        <KeyBinding Key="Space" Modifiers="" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
     </Window.InputBindings>
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="Видео" />
+            
+            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="маршрут..."
+                          SelectedIndex="-1"/>
+            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="астобус..."
+                          SelectedIndex="-1"/>
+            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="водитель..."
+                          SelectedIndex="-1"/>
+            <Button Width="70" Height="15" Padding="0 -2 0 0"
+                    Content="Открыть" Focusable="False"
+                    Style="{DynamicResource AccentedSquareButtonStyle}" />
+            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="видео..."
+                          SelectedIndex="-1"/>
+           
             <Button Content="Отчёты" />
             <Button Content="Настройки" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            
+            
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
