@@ -58,19 +58,14 @@ namespace DD_DVR.Video
             foreach (Stream s in Streams) s.Pause();
         }
 
-        public void SpeedUp()
-        {
-            foreach (Stream s in Streams) s.player.SpeedRatio*=2;
-        }
-
-        public void SpeedDown()
-        {
-            foreach (Stream s in Streams) s.player.SpeedRatio /= 2;
-        }
-
         public void Step(bool isRightStep = true)
         {
             foreach (Stream s in Streams) s.Step(isRightStep);
+        }
+
+        internal void SetSpeedRatio(double curspeedRatio)
+        {
+            foreach (Stream s in Streams) s.player.SpeedRatio = curspeedRatio;
         }
 
         #region implementation INotifyPropertyChanged
@@ -84,6 +79,8 @@ namespace DD_DVR.Video
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+     
         #endregion implementation INotifyPropertyChanged
 
 

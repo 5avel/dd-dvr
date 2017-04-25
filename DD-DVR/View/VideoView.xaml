@@ -58,6 +58,7 @@
                 <Button Command="{Binding DvrStopCommand}" Content="Stop" Focusable="False" />
                 <Button Command="{Binding DvrSpeedUpCommand}" Content="SpeedUp" Focusable="False" />
                 <Button Command="{Binding DvrSpeedDownCommand}" Content="SpeedDown" Focusable="False" />
+                <TextBox Text="{Binding CurspeedRatio}" />
             </StackPanel>
         </Grid>
     </Grid>

@@ -25,7 +25,7 @@ namespace DD_DVR.ViewModel
 
         private System.Timers.Timer timer;
 
-        private int _position;
+        private int _position = 0;
         public int Position
         {
             get { return _position; }
@@ -33,12 +33,15 @@ namespace DD_DVR.ViewModel
             {
                 if (_position == value) return;
                 _position = value;
-                foreach (Stream s in dvr.Streams) s.player.Position = new TimeSpan(0, 0, 0, 0, _position); //  _position;
+               
+                    var newPosition = new TimeSpan(0, 0, 0, 0, _position);
+                    foreach (Stream s in dvr.Streams) s.player.Position = newPosition;
+                
                 OnPropertyChanged();
             }
         } // позиия воспроизведения видео, Tiks от начала файла
 
-        private int _naturalDuration;
+        private int _naturalDuration = 100;
         public int NaturalDuration
         {
             get { return _naturalDuration; }
@@ -59,7 +62,7 @@ namespace DD_DVR.ViewModel
             VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
             VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
-            timer = new System.Timers.Timer(100);
+            timer = new System.Timers.Timer(300);
             timer.Elapsed += Callback;
         }
 
@@ -68,10 +71,7 @@ namespace DD_DVR.ViewModel
             dvr.Streams[0].player.Dispatcher.BeginInvoke(new Action(delegate ()
             {
                 Position = (int)dvr.Streams[0].player.Position.TotalMilliseconds;
-                if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
-                {
-                    NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
-                }
+               
             }));
         }
 
@@ -83,7 +83,15 @@ namespace DD_DVR.ViewModel
                 return _dvrPlayCommand ?? (_dvrPlayCommand = new RelayCommand(
                     param =>
                     {
+                        if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
+                        {
+                            NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
+                        }
                         dvr.Play();
+                        if (!dvr.Streams[0].player.CanPause)
+                        {
+                            dvr.SetSpeedRatio(_curspeedRatio);
+                        }
                         timer.Start();
                     }));
             }
@@ -117,12 +125,29 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        #region SpeedRatio
+
+        private double _curspeedRatio = 1;
+        public double CurspeedRatio
+        {
+            get => _curspeedRatio;
+            set
+            {
+                if (value >= 0.25 && value <= 64)
+                {
+                    _curspeedRatio = value;
+                    dvr.SetSpeedRatio(_curspeedRatio);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private RelayCommand _dvrSpeedUpCommand;
         public ICommand DvrSpeedUpCommand
         {
             get
             {
-                return _dvrSpeedUpCommand ?? (_dvrSpeedUpCommand = new RelayCommand(param => dvr.SpeedUp()));
+                return _dvrSpeedUpCommand ?? (_dvrSpeedUpCommand = new RelayCommand(param => CurspeedRatio*=2));
             }
         }
 
@@ -131,9 +156,10 @@ namespace DD_DVR.ViewModel
         {
             get
             {
-                return _dvrSpeedDownCommand ?? (_dvrSpeedDownCommand = new RelayCommand(param => dvr.SpeedDown()));
+                return _dvrSpeedDownCommand ?? (_dvrSpeedDownCommand = new RelayCommand(param => CurspeedRatio /= 2));
             }
         }
+        #endregion SpeedRatio
 
         private RelayCommand _dvrRightStepCommand;
         public ICommand DvrRightStepCommand
@@ -153,7 +179,9 @@ namespace DD_DVR.ViewModel
             }
         }
 
-        #region implementation Singleton
+
+
+        #region implementation GetInstance
         private static VideoViewModel instance;
 
         public static VideoViewModel GetInstance()
@@ -161,6 +189,6 @@ namespace DD_DVR.ViewModel
             return instance;
         }
 
-        #endregion implementation Singleton
+        #endregion implementation GetInstance
     }
 }
