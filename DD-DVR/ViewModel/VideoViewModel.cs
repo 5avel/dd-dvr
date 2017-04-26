@@ -17,7 +17,7 @@ namespace DD_DVR.ViewModel
     class VideoViewModel : ViewModelBase
     {
 
-        private DVRPlayer dvr = new DVRPlayer(@"D:\TestVideo");
+        private DVRPlayer dvr = new DVRPlayer(@"D:\test2\t4");
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }
@@ -35,9 +35,10 @@ namespace DD_DVR.ViewModel
             {
                 if (_position == value) return;
                 _position = value;
-               
-                    var newPosition = new TimeSpan(0, 0, 0, 0, _position);
-                    foreach (Stream s in dvr.Streams) s.player.Position = newPosition;
+                    
+                var newPosition = new TimeSpan(0, 0, 0, 0, _position);
+                PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
+                foreach (Stream s in dvr.Streams) s.player.Position = newPosition;
                 
                 OnPropertyChanged();
             }
@@ -55,6 +56,29 @@ namespace DD_DVR.ViewModel
             }
         } // позиия воспроизведения видео, милисекунды от начала файла
 
+        private string _positionS;
+        public string PositionS
+        {
+            get { return _positionS; }
+            set
+            {
+                if (_positionS == value) return;
+                _positionS = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _naturalDurationS;
+        public string NaturalDurationS
+        {
+            get { return _naturalDurationS; }
+            set
+            {
+                if (_naturalDurationS == value) return;
+                _naturalDurationS = value;
+                OnPropertyChanged();
+            }
+        }
 
         public VideoViewModel()
         {
@@ -64,7 +88,7 @@ namespace DD_DVR.ViewModel
             VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
             VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
-            timer = new System.Timers.Timer(300);
+            timer = new System.Timers.Timer(500);
             timer.Elapsed += Callback;
         }
 
@@ -110,7 +134,9 @@ namespace DD_DVR.ViewModel
                         {
                             if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
                             {
-                                NaturalDuration = (int)dvr.Streams[0].player.NaturalDuration.TimeSpan.TotalMilliseconds;
+                                var ndts = dvr.Streams[0].player.NaturalDuration.TimeSpan;
+                                NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
+                                NaturalDuration = (int)ndts.TotalMilliseconds;
                             }
                             dvr.Play();
                             timer.Start();

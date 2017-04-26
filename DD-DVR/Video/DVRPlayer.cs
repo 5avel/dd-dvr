@@ -39,6 +39,22 @@ namespace DD_DVR.Video
             List<string> videoPath4 = new List<string>();
             foreach (var item in dir.GetFiles(@"*-04-*-*-*.mkv")) videoPath4.Add(item.FullName);
             if (videoPath4.Count > 0) Streams.Add(new Stream(videoPath4));
+
+
+            //foreach (var item in dir.GetFiles(@"channel1_*_*_*_*.mkv")) videoPath1.Add(item.FullName);
+            //if (videoPath1.Count > 0) Streams.Add(new Stream(videoPath1));
+
+            //List<string> videoPath2 = new List<string>();
+            //foreach (var item in dir.GetFiles(@"channel2_*_*_*_*.mkv")) videoPath2.Add(item.FullName);
+            //if (videoPath2.Count > 0) Streams.Add(new Stream(videoPath2));
+
+            //List<string> videoPath3 = new List<string>();
+            //foreach (var item in dir.GetFiles(@"channel3_*_*_*_*.mkv")) videoPath3.Add(item.FullName);
+            //if (videoPath3.Count > 0) Streams.Add(new Stream(videoPath3));
+
+            //List<string> videoPath4 = new List<string>();
+            //foreach (var item in dir.GetFiles(@"channel4_*_*_*_*.mkv")) videoPath4.Add(item.FullName);
+            //if (videoPath4.Count > 0) Streams.Add(new Stream(videoPath4));
         }
 
 

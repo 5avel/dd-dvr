@@ -10,13 +10,14 @@
 
         mc:Ignorable="d"
         Title="DD-DVR"
-        MinHeight="600"
-        MinWidth="800">
+        MinHeight="750"
+        MinWidth="1024"  BorderBrush="#FF0B1B66" Background="#FF007ACC">
     <Window.Resources>
         <ResourceDictionary>
             <converter:HeightToWidth3x4ValueConverter x:Key="HeightToWidth3x4ValueConverter" />
         </ResourceDictionary>
     </Window.Resources>
+    
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -47,6 +48,9 @@
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="водитель..."
                           SelectedIndex="-1"/>
+            <Button Width="70" Height="15" Padding="0 -2 0 0"
+                    Content="Загузить" Focusable="False"
+                    Style="{DynamicResource AccentedSquareButtonStyle}" />
             <Button Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Открыть" Focusable="False"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
