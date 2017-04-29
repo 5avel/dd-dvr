@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace DD_DVR.Converter
 {
-    class VideoConverter : IDisposable
+    public class VideoConverter : IDisposable
     {
         public VideoConverter(string inPath, string outPath)
         {
@@ -29,17 +29,24 @@ namespace DD_DVR.Converter
         private StreamReader m_streamReader = null;
         private CultureInfo m_culture = new CultureInfo(0x0409);
 
-       
+        public event EventHandler<EventArgs> ConvertingStarted = delegate { };
+        public event EventHandler<EventArgs> OneFileConvertingComplete = delegate { };
+        public event EventHandler<EventArgs> OneFileConvertingFiled = delegate { };
+        public event EventHandler<EventArgs> ConvertingComplete = delegate { };
+
 
         public async void StartConvertAsync()
         {
             await Task.Run(() =>
             {
                 if (!Directory.Exists(inPath)) throw new DirectoryNotFoundException(inPath);
+                if (!Directory.Exists(outPath)) throw new DirectoryNotFoundException(outPath);
 
                 var fileArray = Directory.GetFiles(inPath, "*.*264", SearchOption.TopDirectoryOnly);
 
-                if (fileArray.Count() == 0) throw new FileNotFoundException("0 файлов '264' в папке - "+inPath);
+                if (fileArray.Count() == 0) throw new FileNotFoundException("Нет файлов '264' в папке - "+inPath);
+
+                ConvertingStarted(this, new EventArgs());
 
                 for (int i = 0; i < fileArray.Length; i++)
                 {
@@ -50,26 +57,36 @@ namespace DD_DVR.Converter
                 {
                     if(Converting(fileArray[i]))
                     {
-                         // Событие один сконвертировался
+                        // Событие один сконвертировался
+                        OneFileConvertingComplete(this, new EventArgs());
                     }
                     else
                     {
                         if(Converting(fileArray[i], true))
                         {
                             // Событие один сконвертировался с востановлением
+                            OneFileConvertingComplete(this, new EventArgs());
                         }
                         else
                         {
                             // Событие один не востановился
+                            OneFileConvertingFiled(this, new EventArgs());
                         }
                     }
                 }
 
                 // Событие конец конвертации
+                ConvertingComplete(this, new EventArgs());
 
             });
         }
 
+        /// <summary>
+        /// Конвертирует один видеофайл из h264 в MKV.
+        /// </summary>
+        /// <param name="fileName">Имя файла</param>
+        /// <param name="repair">True восстановить поврежденный файл, полной конвертацией mpeg4</param>
+        /// <returns> true - успешная конвертация</returns>
         private bool Converting(string fileName, bool repair = false)
         {
             if (repair)
@@ -122,3 +139,5 @@ namespace DD_DVR.Converter
         }
     }
 }
+
+/// TODO: Порядок конвертации 1,2,3,4 1,2,3,4 итд.

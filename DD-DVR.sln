@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DD-DVR.Data", "DD-DVR.Data\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DD-DVR.Converter", "DD-DVR.Converter\DD-DVR.Converter.csproj", "{722C309C-ECA4-47E6-8831-225075A75DFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DD-DVR.Converter.Test", "DD-DVR.Converter.Test\DD-DVR.Converter.Test.csproj", "{F1329583-E98E-452F-BC1D-EC8947701C61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1B28F8C-C963-470C-A275-0AEECF1D1A56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +43,15 @@ Global
 		{722C309C-ECA4-47E6-8831-225075A75DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722C309C-ECA4-47E6-8831-225075A75DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{722C309C-ECA4-47E6-8831-225075A75DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1329583-E98E-452F-BC1D-EC8947701C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1329583-E98E-452F-BC1D-EC8947701C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1329583-E98E-452F-BC1D-EC8947701C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1329583-E98E-452F-BC1D-EC8947701C61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1329583-E98E-452F-BC1D-EC8947701C61} = {C1B28F8C-C963-470C-A275-0AEECF1D1A56}
 	EndGlobalSection
 EndGlobal
