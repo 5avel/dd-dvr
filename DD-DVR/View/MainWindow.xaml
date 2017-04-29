@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="DD_DVR.MainWindow"
+﻿<Controls:MetroWindow x:Class="DD_DVR.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,6 @@
         xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
         xmlns:converter="clr-namespace:DD_DVR.View.ValueConverters"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
-
         mc:Ignorable="d"
         Title="DD-DVR"
         MinHeight="750"
@@ -61,7 +60,7 @@
                           SelectedIndex="-1"/>
            
             <Button Content="Отчёты" />
-            <Button Content="Настройки" />
+            <Button Content="Настройки" Command="{Binding SettingsWindowOpenCommand}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.LeftWindowCommands>

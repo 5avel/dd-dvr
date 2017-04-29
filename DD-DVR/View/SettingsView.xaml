@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow x:Class="DD_DVR.View.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
+        mc:Ignorable="d" Background="AliceBlue"
+        Title="SettingsView" Height="300" Width="300">
+    <Window.DataContext>
+        <viewModel:SettingsViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="229*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        <TextBox Text="{Binding VideoLibPath}" />
+
+    </Grid>
+</controls:MetroWindow>

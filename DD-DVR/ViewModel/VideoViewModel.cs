@@ -1,23 +1,36 @@
 ﻿using DD_DVR.Video;
 using MVVMLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
-using System.Windows;
 
 namespace DD_DVR.ViewModel
 {
     class VideoViewModel : ViewModelBase
     {
+        public VideoViewModel()
+        {
+            instance = this;
+            VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
+            VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
+            VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
+            VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
-        private DVRPlayer dvr = new DVRPlayer(@"D:\test2\t4");
+            timer = new System.Timers.Timer(300);
+            timer.Elapsed += Callback;
+
+            dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
+        }
+
+        private void Player_MediaOpened(object sender, EventArgs e)
+        {
+            var ndts = ((MediaPlayer)sender).NaturalDuration.TimeSpan;
+            NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
+            NaturalDuration = (int)ndts.TotalMilliseconds;
+        }
+
+        private DVRPlayer dvr = new DVRPlayer(@"D:\TestVideo");
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }
@@ -78,18 +91,6 @@ namespace DD_DVR.ViewModel
                 _naturalDurationS = value;
                 OnPropertyChanged();
             }
-        }
-
-        public VideoViewModel()
-        {
-            instance = this;
-            VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
-            VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
-            VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
-            VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
-
-            timer = new System.Timers.Timer(500);
-            timer.Elapsed += Callback;
         }
 
         private void Callback(object sender, ElapsedEventArgs e)

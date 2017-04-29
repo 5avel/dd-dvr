@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Collections.ObjectModel;
 using DD_DVR.Model;
+using DD_DVR.View;
 
 namespace DD_DVR.ViewModel
 {
@@ -53,6 +54,22 @@ namespace DD_DVR.ViewModel
             }
         }
 
-        
+        private RelayCommand _settingsWindowOpenCommand;
+        public ICommand SettingsWindowOpenCommand
+        {
+            get
+            {
+                return _settingsWindowOpenCommand ?? (_settingsWindowOpenCommand = new RelayCommand(param =>
+                {
+                    SettingsView sv = new SettingsView();
+                    sv.ShowDialog();
+                    
+                   
+
+                }));
+            }
+        }
+
+
     }
 }
