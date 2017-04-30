@@ -29,9 +29,9 @@ namespace DD_DVR.Converter
         private StreamReader m_streamReader = null;
         private CultureInfo m_culture = new CultureInfo(0x0409);
 
-        public event EventHandler<EventArgs> ConvertingStarted = delegate { };
-        public event EventHandler<EventArgs> OneFileConvertingComplete = delegate { };
-        public event EventHandler<EventArgs> OneFileConvertingFiled = delegate { };
+        public event EventHandler<ConvertingStartedEventArgs> ConvertingStarted = delegate { };
+        public event EventHandler<OneFileConvertingCompleteEventArgs> OneFileConvertingComplete = delegate { };
+        public event EventHandler<OneFileConvertingFiledEventArgs> OneFileConvertingFiled = delegate { };
         public event EventHandler<EventArgs> ConvertingComplete = delegate { };
 
 
@@ -46,7 +46,8 @@ namespace DD_DVR.Converter
 
                 if (fileArray.Count() == 0) throw new FileNotFoundException("Нет файлов '264' в папке - "+inPath);
 
-                ConvertingStarted(this, new EventArgs());
+                // Событие начало конвертации
+                ConvertingStarted(this, new ConvertingStartedEventArgs(fileArray.Count()));
 
                 for (int i = 0; i < fileArray.Length; i++)
                 {
@@ -58,19 +59,19 @@ namespace DD_DVR.Converter
                     if(Converting(fileArray[i]))
                     {
                         // Событие один сконвертировался
-                        OneFileConvertingComplete(this, new EventArgs());
+                        OneFileConvertingComplete(this, new OneFileConvertingCompleteEventArgs(i));
                     }
                     else
                     {
                         if(Converting(fileArray[i], true))
                         {
                             // Событие один сконвертировался с востановлением
-                            OneFileConvertingComplete(this, new EventArgs());
+                            OneFileConvertingComplete(this, new OneFileConvertingCompleteEventArgs(i));
                         }
                         else
                         {
                             // Событие один не востановился
-                            OneFileConvertingFiled(this, new EventArgs());
+                            OneFileConvertingFiled(this, new OneFileConvertingFiledEventArgs(i, fileArray[i]));
                         }
                     }
                 }
@@ -138,6 +139,38 @@ namespace DD_DVR.Converter
             m_ffmpegProcess.Dispose();
         }
     }
+
+    public class ConvertingStartedEventArgs : EventArgs
+    {
+       public int VideoFileCount { set; get; }
+
+        public ConvertingStartedEventArgs(int videoFileCount)
+        {
+            VideoFileCount = videoFileCount;
+        }
+    }
+
+    public class OneFileConvertingCompleteEventArgs : EventArgs
+    {
+        public int VideoFileNum { set; get; }
+
+        public OneFileConvertingCompleteEventArgs(int videoFileNum)
+        {
+            VideoFileNum = videoFileNum;
+        }
+    }
+
+    public class OneFileConvertingFiledEventArgs : EventArgs
+    {
+        public int VideoFileNum { set; get; }
+        public int VideoFileName { set; get; }
+        public OneFileConvertingFiledEventArgs(int videoFileNum, string videoFileName)
+        {
+            VideoFileNum = videoFileNum;
+            VideoFileName = videoFileNum;
+        }
+    }
+
 }
 
 /// TODO: Порядок конвертации 1,2,3,4 1,2,3,4 итд.
