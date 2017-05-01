@@ -10,7 +10,7 @@ namespace DD_DVR.Converter.Test
     {
         static void Main(string[] args)
         {
-            VideoConverter vc = new VideoConverter(@"D:\video", @"C:\video");
+            VideoConverter vc = new VideoConverter(@"D:\Работа\video2\ОбразцыВидеофайлов\2017-05-01", @"C:\video");
 
             vc.ConvertingStarted += (s,e) => Console.WriteLine(DateTime.Now + " ConvertingStarted fileCount:"+ e.VideoFileCount);
             vc.OneFileConvertingComplete += (s, e) => Console.WriteLine(DateTime.Now + " OneFileConvertingComplete fileNum:"+e.VideoFileNum);

@@ -48,7 +48,7 @@
                           Controls:TextBoxHelper.Watermark="водитель..."
                           SelectedIndex="-1"/>
             <Button Width="70" Height="15" Padding="0 -2 0 0"
-                    Content="Загузить" Focusable="False"
+                    Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
             <Button Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Открыть" Focusable="False"
@@ -79,5 +79,6 @@
             <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
         </Border>
+        <ProgressBar Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Value="{Binding ConvrtationItemNum}" Maximum="{Binding ConvrtationItemCount}" Minimum="0"/>
     </Grid>
 </Controls:MetroWindow>

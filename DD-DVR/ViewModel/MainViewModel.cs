@@ -9,6 +9,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using DD_DVR.Model;
 using DD_DVR.View;
+using DD_DVR.Converter;
 
 namespace DD_DVR.ViewModel
 {
@@ -18,6 +19,30 @@ namespace DD_DVR.ViewModel
         public MainViewModel()
         {
             Routs.Add(new Rout() { Title = "Орловщина" });
+        }
+
+        private int _convrtationItemCount = 5;
+        public int ConvrtationItemCount
+        {
+            get { return _convrtationItemCount; }
+            set
+            {
+                if (_convrtationItemCount == value) return;
+                _convrtationItemCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _convrtationItemNum = 0;
+        public int ConvrtationItemNum
+        {
+            get { return _convrtationItemNum; }
+            set
+            {
+                if (_convrtationItemNum == value) return;
+                _convrtationItemNum = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -75,10 +100,21 @@ namespace DD_DVR.ViewModel
                 return _loadRawVideoCommand ?? (_loadRawVideoCommand = new RelayCommand(param =>
                 {
                     // VM -> BL -> Converter
+                    VideoConverter vc = new VideoConverter(@"D:\Работа\video2\ОбразцыВидеофайлов\2017-05-01\", @"D:\test2\t6\");
+                    vc.ConvertingStarted += (s, e) =>
+                    {
+                        ConvrtationItemCount = e.VideoFileCount;
+                    };
+
+                
+                    vc.OneFileConvertingComplete += (s, e) => ConvrtationItemNum = e.VideoFileNum;
+                    vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
+                    vc.ConvertingComplete += (s, e) => ConvrtationItemCount = 0;
+                    vc.StartConvertAsync();
                 }));
             }
         }
 
-
+       
     }
 }
