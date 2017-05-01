@@ -12,15 +12,16 @@ namespace DD_DVR.ViewModel
         public VideoViewModel()
         {
             instance = this;
-            VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
-            VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
-            VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
-            VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
+            // событие видео закружено, можно привязывать кисти.
+            //VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
+            //VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
+            //VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
+            //VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
 
             timer = new System.Timers.Timer(300);
             timer.Elapsed += Callback;
 
-            dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
+            //dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
         }
 
         private void Player_MediaOpened(object sender, EventArgs e)
@@ -30,7 +31,12 @@ namespace DD_DVR.ViewModel
             NaturalDuration = (int)ndts.TotalMilliseconds;
         }
 
-        private DVRPlayer dvr = new DVRPlayer(@"D:\TestVideo");
+        public void LoadVideo(string pathToVideo)
+        {
+
+        }
+
+        private DVRPlayer dvr = new DVRPlayer();
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }

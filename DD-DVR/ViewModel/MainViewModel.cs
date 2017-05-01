@@ -63,9 +63,18 @@ namespace DD_DVR.ViewModel
                 {
                     SettingsView sv = new SettingsView();
                     sv.ShowDialog();
-                    
-                   
+                }));
+            }
+        }
 
+        private RelayCommand _loadRawVideoCommand;
+        public ICommand LoadRawVideoCommand
+        {
+            get
+            {
+                return _loadRawVideoCommand ?? (_loadRawVideoCommand = new RelayCommand(param =>
+                {
+                    // VM -> BL -> Converter
                 }));
             }
         }

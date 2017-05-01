@@ -9,7 +9,7 @@
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="DD-DVR"
-        MinHeight="750"
+        MinHeight="650"
         MinWidth="1024"  BorderBrush="#FF0B1B66" Background="#FF007ACC">
     <Window.Resources>
         <ResourceDictionary>

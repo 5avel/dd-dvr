@@ -18,10 +18,15 @@ namespace DD_DVR.Video
         public string VideoSourcePath { get; set; } // путь к папке с файлами *.mkv
 
        
-        public DVRPlayer(string videoFolder)
+        public DVRPlayer()
         {
             // проверка папки на сушествование
             Streams = new List<Stream>();
+           
+        }
+
+        public void LoadVideo(string videoFolder)
+        {
             DirectoryInfo dir = new DirectoryInfo(videoFolder);
 
             List<string> videoPath1 = new List<string>();
