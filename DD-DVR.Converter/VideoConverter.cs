@@ -40,7 +40,7 @@ namespace DD_DVR.Converter
             await Task.Run(() =>
             {
                 if (!Directory.Exists(inPath)) throw new DirectoryNotFoundException(inPath);
-                if (!Directory.Exists(outPath)) throw new DirectoryNotFoundException(outPath);
+                //if (!Directory.Exists(outPath)) throw new DirectoryNotFoundException(outPath);
 
                 var fileArray = Directory.GetFiles(inPath, "*.*264", SearchOption.TopDirectoryOnly);
 

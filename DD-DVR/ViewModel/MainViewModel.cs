@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using DD_DVR.Model;
 using DD_DVR.View;
 using DD_DVR.Converter;
+using DD_DVR.BL;
 
 namespace DD_DVR.ViewModel
 {
@@ -99,18 +100,32 @@ namespace DD_DVR.ViewModel
             {
                 return _loadRawVideoCommand ?? (_loadRawVideoCommand = new RelayCommand(param =>
                 {
-                    // VM -> BL -> Converter
-                    VideoConverter vc = new VideoConverter(@"D:\Работа\video2\ОбразцыВидеофайлов\2017-05-01\", @"D:\test2\t6\");
-                    vc.ConvertingStarted += (s, e) =>
+                    // открываем папку с rawVideo
+                    using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
                     {
-                        ConvrtationItemCount = e.VideoFileCount;
-                    };
-
-                
-                    vc.OneFileConvertingComplete += (s, e) => ConvrtationItemNum = e.VideoFileNum;
-                    vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
-                    vc.ConvertingComplete += (s, e) => ConvrtationItemCount = 0;
-                    vc.StartConvertAsync();
+                        dlg.RootFolder = Environment.SpecialFolder.MyComputer;
+                       
+                        
+                        if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
+                        {
+                            var vfr = new VideoFolderResolver();
+                            string saveVideoFolder;
+                            int streamCount;
+                            int videoFilesCount;
+                            if (vfr.ResolveRawVideoFolder(dlg.SelectedPath, out saveVideoFolder, out streamCount, out videoFilesCount))
+                            {
+                                // если все ок, открываем флайаут с информацией о ковертации и предлагаем начать конвертацию
+                                VideoConverter vc = new VideoConverter(dlg.SelectedPath, saveVideoFolder);
+                                vc.ConvertingStarted += (s, e) => ConvrtationItemCount = e.VideoFileCount;
+                                vc.OneFileConvertingComplete += (s, e) => ConvrtationItemNum = e.VideoFileNum;
+                                vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
+                                vc.ConvertingComplete += (s, e) => ConvrtationItemCount = 0;
+                                vc.StartConvertAsync();
+                            }
+                        }
+                        
+                    }
+                  
                 }));
             }
         }
