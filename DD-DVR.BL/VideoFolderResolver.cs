@@ -8,16 +8,16 @@ namespace DD_DVR.BL
 {
     public class VideoFolderResolver
     {
-        private ILogerService loger; // для логирования 
+        //private ILogger logger; // для логирования 
         private IConfigurationService configuration; // для доступа к настройкам прогаммы
 
-        public VideoFolderResolver(ILogerService loger, IConfigurationService configuration)
+        public VideoFolderResolver(IConfigurationService logger)
         {
-            this.loger = loger;
-            this.configuration = configuration;
+           
         }
         public VideoFolderResolver()
         {
+            
         }
 
         public bool ResolveRawVideoFolder(string path, out string saveVideoFolder, out int streamCount, out int videoFilesCount)

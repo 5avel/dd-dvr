@@ -11,6 +11,7 @@ using DD_DVR.Model;
 using DD_DVR.View;
 using DD_DVR.Converter;
 using DD_DVR.BL;
+using NLog;
 
 namespace DD_DVR.ViewModel
 {
@@ -122,8 +123,7 @@ namespace DD_DVR.ViewModel
                                 vc.ConvertingComplete += (s, e) => ConvrtationItemCount = 0;
                                 vc.StartConvertAsync();
                             }
-                        }
-                        
+                        }                    
                     }
                   
                 }));

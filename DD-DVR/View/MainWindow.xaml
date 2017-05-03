@@ -46,6 +46,8 @@
                           ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="водитель..."
+                          SelectedItem="{Binding SelectedSalesPeriod}"
+                          IsSynchronizedWithCurrentItem="True"
                           SelectedIndex="-1"/>
             <Button Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
