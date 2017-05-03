@@ -12,6 +12,7 @@ using DD_DVR.View;
 using DD_DVR.Converter;
 using DD_DVR.BL;
 using NLog;
+using DD_DVR.Data;
 
 namespace DD_DVR.ViewModel
 {
@@ -20,7 +21,10 @@ namespace DD_DVR.ViewModel
         
         public MainViewModel()
         {
-            Routs.Add(new Rout() { Title = "Орловщина" });
+            var routRepository = new RoutRepository();
+            Drivers = new ObservableCollection<Driver>(routRepository.GetAllDrivers());
+            Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
+            Buses = new ObservableCollection<Bus>(routRepository.GetAllBuses());
         }
 
         private int _convrtationItemCount = 5;
@@ -48,8 +52,47 @@ namespace DD_DVR.ViewModel
         }
 
 
-        ObservableCollection<Rout> _routs = new ObservableCollection<Rout>();
-        public ObservableCollection<Rout> Routs { get => _routs; set => _routs = value; }
+        ObservableCollection<Driver> _drivers = new ObservableCollection<Driver>();
+        public ObservableCollection<Driver> Drivers { get => _drivers; set => _drivers = value; }
+
+        private Driver _selectedDriver;
+        public Driver SelectedDriver
+        {
+            get => _selectedDriver;
+            set
+            {
+                _selectedDriver = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ObservableCollection<Rout> _routes = new ObservableCollection<Rout>();
+        public ObservableCollection<Rout> Routes { get => _routes; set => _routes = value; }
+
+        private Rout _selectedRout;
+        public Rout SelectedRout
+        {
+            get => _selectedRout;
+            set
+            {
+                _selectedRout = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ObservableCollection<Bus> _bus = new ObservableCollection<Bus>();
+        public ObservableCollection<Bus> Buses { get => _bus; set => _bus = value; }
+
+        private Bus _selectedBus;
+        public Bus SelectedBus
+        {
+            get => _selectedBus;
+            set
+            {
+                _selectedBus = value;
+                OnPropertyChanged();
+            }
+        }
 
         private RelayCommand _videoKeyBinding;
         public ICommand VideoKeyBinding
@@ -126,10 +169,28 @@ namespace DD_DVR.ViewModel
                         }                    
                     }
                   
+                },
+                param => 
+                {
+                    if ( SelectedRout == null || SelectedBus == null || SelectedDriver == null) return false;
+                    return true;
                 }));
             }
         }
 
-       
+        private RelayCommand _loadVideoCommand;
+        public ICommand LoadVideoCommand
+        {
+            get
+            {
+                return _loadVideoCommand ?? (_loadVideoCommand = new RelayCommand(param =>
+                {
+                    MessageBox.Show(SelectedDriver?.Title);
+
+                }));
+            }
+        }
+
+
     }
 }

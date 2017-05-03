@@ -33,27 +33,28 @@
         <Controls:WindowCommands>
             
             <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="маршрут..."
+                      SelectedItem="{Binding SelectedRout}"
                           SelectedIndex="-1"/>
             <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="астобус..."
+                          SelectedItem="{Binding SelectedBus}"
                           SelectedIndex="-1"/>
             <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="водитель..."
-                          SelectedItem="{Binding SelectedSalesPeriod}"
-                          IsSynchronizedWithCurrentItem="True"
+                          SelectedItem="{Binding SelectedDriver}"
                           SelectedIndex="-1"/>
             <Button Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
             <Button Width="70" Height="15" Padding="0 -2 0 0"
-                    Content="Открыть" Focusable="False"
+                    Content="Открыть" Focusable="False" Command="{Binding LoadVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
             <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Routs}" DisplayMemberPath="Title"

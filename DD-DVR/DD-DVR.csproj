@@ -70,7 +70,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Rout.cs" />
     <Compile Include="Model\SettingsProvider.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\VideoViewModel.cs" />
@@ -140,6 +139,10 @@
     <ProjectReference Include="..\DD-DVR.Converter\DD-DVR.Converter.csproj">
       <Project>{722C309C-ECA4-47E6-8831-225075A75DFA}</Project>
       <Name>DD-DVR.Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DD-DVR.Data\DD-DVR.Data.csproj">
+      <Project>{9F8CB3B1-2D13-4E8E-A8E1-C9F5CE5F7844}</Project>
+      <Name>DD-DVR.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVVMLib\MVVMLib.csproj">
       <Project>{4af41736-2e96-4917-8d33-db950afb6fb0}</Project>
