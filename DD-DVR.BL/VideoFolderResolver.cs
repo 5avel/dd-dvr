@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DD_DVR.Data;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,19 +10,12 @@ namespace DD_DVR.BL
 {
     public class VideoFolderResolver
     {
-        //private ILogger logger; // для логирования 
-        private IConfigurationService configuration; // для доступа к настройкам прогаммы
-
-        public VideoFolderResolver(IConfigurationService logger)
-        {
-           
-        }
         public VideoFolderResolver()
         {
             
         }
 
-        public bool ResolveRawVideoFolder(string path, out string saveVideoFolder, out int streamCount, out int videoFilesCount)
+        public bool ResolveRawVideoFolder(string path, string busTitle, out string saveVideoFolder, out int streamCount, out int videoFilesCount)
         {
             // получить количество файлов с расширением *.*264
             // получить количество потоков
@@ -29,9 +24,12 @@ namespace DD_DVR.BL
             // получить путь к корню для сохранения конвертированного вигео
             // сформировать полный путь для сохранения конвертированного вигео: корень/номер_автобуса/дата
             // проверить свободное место на диске для сохранения конвертированного видео
+            ConfigurationRepository cr = new ConfigurationRepository();
+            string outputVodeoDir = cr.GetOutputVodeoDir();
+            DirectoryInfo di = new DirectoryInfo(path);
+            var separator = Path.DirectorySeparatorChar;
 
-
-            saveVideoFolder = @"C:\video\4567\2017-02-20";
+            saveVideoFolder = outputVodeoDir + separator + busTitle + separator +di.Name;
             System.IO.Directory.CreateDirectory(saveVideoFolder);
             streamCount = 3;
             videoFilesCount = 69;

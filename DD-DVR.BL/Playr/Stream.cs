@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
-namespace DD_DVR.Video
+namespace DD_DVR.BL.Playr
 {
-    class Stream
+    public class Stream
     {
         public MediaPlayer player = new MediaPlayer();
         private string CurentSource = null; // текущий файл воспроизведения

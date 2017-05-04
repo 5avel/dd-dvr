@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Timers;
 using System.Windows.Input;
 using MVVMLib;
-using System.Diagnostics;
-using DD_DVR.Video;
-using System.Windows.Media;
 using System.Windows;
 using System.Collections.ObjectModel;
-using DD_DVR.Model;
 using DD_DVR.View;
 using DD_DVR.Converter;
 using DD_DVR.BL;
@@ -16,11 +11,17 @@ using DD_DVR.Data;
 
 namespace DD_DVR.ViewModel
 {
+    enum AppState { Waiting, Playing, Converting }
     class MainViewModel : ViewModelBase
     {
+      
+
+        public AppState AppState { set; get; }
         
         public MainViewModel()
         {
+            AppState = AppState.Waiting;
+
             var routRepository = new RoutRepository();
             Drivers = new ObservableCollection<Driver>(routRepository.GetAllDrivers());
             Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
@@ -148,23 +149,36 @@ namespace DD_DVR.ViewModel
                     using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
                     {
                         dlg.RootFolder = Environment.SpecialFolder.MyComputer;
-                       
-                        
                         if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
                         {
                             var vfr = new VideoFolderResolver();
                             string saveVideoFolder;
                             int streamCount;
                             int videoFilesCount;
-                            if (vfr.ResolveRawVideoFolder(dlg.SelectedPath, out saveVideoFolder, out streamCount, out videoFilesCount))
+                            if (vfr.ResolveRawVideoFolder(dlg.SelectedPath, SelectedBus.Title, out saveVideoFolder, out streamCount, out videoFilesCount))
                             {
                                 // если все ок, открываем флайаут с информацией о ковертации и предлагаем начать конвертацию
                                 VideoConverter vc = new VideoConverter(dlg.SelectedPath, saveVideoFolder);
-                                vc.ConvertingStarted += (s, e) => ConvrtationItemCount = e.VideoFileCount;
+                                vc.ConvertingStarted += (s, e) =>
+                                {
+                                    ConvrtationItemCount = e.VideoFileCount;
+                                    AppState = AppState.Converting;
+                                };
                                 vc.OneFileConvertingComplete += (s, e) => ConvrtationItemNum = e.VideoFileNum;
                                 vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
-                                vc.ConvertingComplete += (s, e) => ConvrtationItemCount = 0;
+                                vc.ConvertingComplete += (s, e) =>
+                                {
+                                    ConvrtationItemCount = 0;
+                                    // меняем состояние на плей
+                                    AppState = AppState.Playing;
+                                    // Подгатавливаем обекты для воспроизведения видео
+
+                                };
                                 vc.StartConvertAsync();
+                            }
+                            else // не удалось получить данные 
+                            {
+
                             }
                         }                    
                     }
@@ -172,7 +186,8 @@ namespace DD_DVR.ViewModel
                 },
                 param => 
                 {
-                    if ( SelectedRout == null || SelectedBus == null || SelectedDriver == null) return false;
+                    if ( SelectedRout == null || SelectedBus == null || SelectedDriver == null
+                    ) return false;
                     return true;
                 }));
             }
@@ -185,7 +200,8 @@ namespace DD_DVR.ViewModel
             {
                 return _loadVideoCommand ?? (_loadVideoCommand = new RelayCommand(param =>
                 {
-                    MessageBox.Show(SelectedDriver?.Title);
+                    // меняем состояние на плей
+                    // Подгатавливаем обекты для воспроизведения видео
 
                 }));
             }

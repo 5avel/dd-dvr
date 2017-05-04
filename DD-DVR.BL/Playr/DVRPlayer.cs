@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DD_DVR.Video
+namespace DD_DVR.BL.Playr
 {
-    class DVRPlayer : INotifyPropertyChanged
+    public class DVRPlayer : INotifyPropertyChanged
     {
 
         // Может исползовать массив стримов, удобней перебирать цыклом и делать однотипные операции!
@@ -84,7 +84,7 @@ namespace DD_DVR.Video
             foreach (Stream s in Streams) s.Step(isRightStep);
         }
 
-        internal void SetSpeedRatio(double curspeedRatio)
+        public void SetSpeedRatio(double curspeedRatio)
         {
             foreach (Stream s in Streams) s.player.SpeedRatio = curspeedRatio;
         }

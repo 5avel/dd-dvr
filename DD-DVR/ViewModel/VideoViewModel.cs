@@ -1,4 +1,4 @@
-﻿using DD_DVR.Video;
+﻿using DD_DVR.BL.Playr;
 using MVVMLib;
 using System;
 using System.Timers;

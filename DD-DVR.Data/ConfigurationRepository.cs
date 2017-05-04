@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DD_DVR.Data
 {
-    class ConfigurationRepository
+    public class ConfigurationRepository
     {
+        public string GetOutputVodeoDir()
+        {
+            return @"D:\DD-DVR\Video\";
+        }
     }
 }
