@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -39,14 +35,32 @@ namespace DD_DVR.BL.Player
             set
             {
                 curentMediaSource = value;
-                SetMediaSource(curentMediaSource);
+                if(curentMediaSource != null) SetMediaSource(curentMediaSource);
             }
             get { return curentMediaSource; }
         }
 
-        public void LoadMedia(string path)
+        private TimeSpan position;
+        public TimeSpan Position
+        {
+            get { return position; }
+            set
+            {
+                position = value;
+                p1.Position = position;
+                p2.Position = position;
+                p3.Position = position;
+                p4.Position = position;
+            }
+        }
+
+        public bool LoadMedia(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
+
+            Stop();
+            MediaSourceCollection.Clear(); // clear MediaSourceCollection
+            Close(); // clear MediaPlayer
 
             var stream1FileInfo = dir.GetFiles(@"*-01-*-*-*.mkv");
             var stream2FileInfo = dir.GetFiles(@"*-02-*-*-*.mkv");
@@ -57,22 +71,41 @@ namespace DD_DVR.BL.Player
             {
                 MediaSourceCollection.Add(new MediaSource
                 {
-                    Stream1 = stream1FileInfo[i].FullName,
-                    Stream2 = stream2FileInfo[i].FullName,
-                    Stream3 = stream3FileInfo[i].FullName,
-                    Stream4 = stream4FileInfo[i].FullName
+                    Stream1 = i < stream1FileInfo.Length ? stream1FileInfo[i].FullName : null,
+                    Stream2 = i < stream2FileInfo.Length ? stream2FileInfo[i].FullName : null,
+                    Stream3 = i < stream3FileInfo.Length ? stream3FileInfo[i].FullName : null,
+                    Stream4 = i < stream4FileInfo.Length ? stream4FileInfo[i].FullName : null
                 });
             }
 
+            if(MediaSourceCollection.Count == 0) return false;
+
             CurentMediaSource = MediaSourceCollection[0];
+            return true;
         }
 
         private void SetMediaSource(MediaSource ms)
         {
-            p1.Open(new Uri(ms.Stream1, UriKind.RelativeOrAbsolute));
-            p2.Open(new Uri(ms.Stream2, UriKind.RelativeOrAbsolute));
-            p3.Open(new Uri(ms.Stream3, UriKind.RelativeOrAbsolute));
-            p4.Open(new Uri(ms.Stream4, UriKind.RelativeOrAbsolute));
+            if (ms.Stream1 != null)
+            {
+                p1.ScrubbingEnabled = true;
+                p1.Open(new Uri(ms.Stream1, UriKind.RelativeOrAbsolute));
+            }
+            if (ms.Stream2 != null)
+            {
+                p2.ScrubbingEnabled = true;
+                p2.Open(new Uri(ms.Stream2, UriKind.RelativeOrAbsolute));
+            }
+            if (ms.Stream3 != null)
+            {
+                p3.ScrubbingEnabled = true;
+                p3.Open(new Uri(ms.Stream3, UriKind.RelativeOrAbsolute));
+            }
+            if (ms.Stream4 != null)
+            {
+                p4.ScrubbingEnabled = true;
+                p4.Open(new Uri(ms.Stream4, UriKind.RelativeOrAbsolute));
+            }
         }
 
 
@@ -92,6 +125,22 @@ namespace DD_DVR.BL.Player
             p1.Pause();
         }
 
+        public void Stop()
+        {
+            p4.Stop();
+            p3.Stop();
+            p2.Stop();
+            p1.Stop();
+        }
+
+        private void Close()
+        {
+            p4.Close();
+            p3.Close();
+            p2.Close();
+            p1.Close();
+        }
+
         public void SetSpeedRatio(double curspeedRatio)
         {
             p1.SpeedRatio = curspeedRatio;
@@ -100,7 +149,23 @@ namespace DD_DVR.BL.Player
             p4.SpeedRatio = curspeedRatio;
         }
 
+        public void LeftStep()
+        {
+            var step = new TimeSpan(0, 0, 0, 0, (int)p1.Position.TotalMilliseconds - 84);
+            p4.Position = step;
+            p3.Position = step;
+            p2.Position = step;
+            p1.Position = step;
+        }
 
+        public void RightStep()
+        {
+            var step = new TimeSpan(0, 0, 0, 0, (int)p1.Position.TotalMilliseconds + 84);
+            p1.Position = step;
+            p2.Position = step;
+            p3.Position = step;
+            p4.Position = step;
+        }
 
         #region Implementing Multithreaded Singleton
         private static volatile DVRPlayer instance;
@@ -121,7 +186,6 @@ namespace DD_DVR.BL.Player
             }
         }
         #endregion Implementing Multithreaded Singleton
-            
     }
 
     public class MediaSource
@@ -135,6 +199,4 @@ namespace DD_DVR.BL.Player
         public DateTime FinishDT { set; get; }
 
     }
-
-
 }

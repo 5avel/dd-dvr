@@ -1,5 +1,4 @@
 ﻿using DD_DVR.BL.Player;
-using DD_DVR.BL.Playr;
 using MVVMLib;
 using System;
 using System.Timers;
@@ -23,7 +22,7 @@ namespace DD_DVR.ViewModel
 
             timer = new System.Timers.Timer(300);
             timer.Elapsed += Callback;
-            dvr.LoadMedia(@"D:\DD-DVR\Video\2345\2017-05-04");
+            
             //dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
         }
 
@@ -33,12 +32,6 @@ namespace DD_DVR.ViewModel
             NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
             NaturalDuration = (int)ndts.TotalMilliseconds;
         }
-
-        public void LoadVideo(string pathToVideo)
-        {
-
-        }
-
        
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
@@ -46,6 +39,11 @@ namespace DD_DVR.ViewModel
         public DrawingBrush VideoBrushCam4 { get; set; }
 
         private bool isPoused = true;
+        public bool IsPoused
+        {
+            set { isPoused = value; }
+            get { return isPoused; }
+        }
 
         private System.Timers.Timer timer;
 
@@ -60,8 +58,9 @@ namespace DD_DVR.ViewModel
                     
                 var newPosition = new TimeSpan(0, 0, 0, 0, _position);
                 PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
+                dvr.Position = newPosition;
                 //foreach (StreamOld s in dvr.Streams) s.player.Position = newPosition;
-                
+
                 OnPropertyChanged();
             }
         } // позиия воспроизведения видео, Tiks от начала файла
@@ -120,7 +119,7 @@ namespace DD_DVR.ViewModel
                 {
                     if (isPoused)
                     {
-                       // dvr.Step(false);
+                        dvr.LeftStep();
                     }
                     else
                     {
@@ -172,7 +171,7 @@ namespace DD_DVR.ViewModel
                 {
                     if (isPoused)
                     {
-                        //dvr.Step();
+                        dvr.RightStep();
                     }
                     else
                     {

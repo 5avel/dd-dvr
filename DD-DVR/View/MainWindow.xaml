@@ -57,9 +57,10 @@
                     Content="Открыть" Focusable="False" Command="{Binding LoadVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
             <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Routs}" DisplayMemberPath="Title"
+                          ItemsSource="{Binding MediaSourceCollection}" DisplayMemberPath="Stream1"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="видео..."
+                      SelectedItem="{Binding SelectedMediaSource}"
                           SelectedIndex="-1"/>
            
             <Button Content="Отчёты" />
