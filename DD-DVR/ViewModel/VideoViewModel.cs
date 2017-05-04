@@ -1,4 +1,5 @@
-﻿using DD_DVR.BL.Playr;
+﻿using DD_DVR.BL.Player;
+using DD_DVR.BL.Playr;
 using MVVMLib;
 using System;
 using System.Timers;
@@ -9,18 +10,20 @@ namespace DD_DVR.ViewModel
 {
     class VideoViewModel : ViewModelBase
     {
+        DVRPlayer dvr = DVRPlayer.Instance;
         public VideoViewModel()
         {
             instance = this;
             // событие видео закружено, можно привязывать кисти.
-            //VideoBrushCam1 = dvr.Streams[0]?.VideoBrush;
-            //VideoBrushCam2 = dvr.Streams[1]?.VideoBrush;
-            //VideoBrushCam3 = dvr.Streams[2]?.VideoBrush;
-            //VideoBrushCam4 = dvr.Streams[3]?.VideoBrush;
+           
+            VideoBrushCam1 = dvr.Cam1;
+            VideoBrushCam2 = dvr.Cam2;
+            VideoBrushCam3 = dvr.Cam3;
+            VideoBrushCam4 = dvr.Cam4;
 
             timer = new System.Timers.Timer(300);
             timer.Elapsed += Callback;
-
+            dvr.LoadMedia(@"D:\DD-DVR\Video\2345\2017-05-04");
             //dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
         }
 
@@ -36,7 +39,7 @@ namespace DD_DVR.ViewModel
 
         }
 
-        private DVRPlayer dvr = new DVRPlayer();
+       
         public DrawingBrush VideoBrushCam1 { get; set; }
         public DrawingBrush VideoBrushCam2 { get; set; }
         public DrawingBrush VideoBrushCam3 { get; set; }
@@ -57,7 +60,7 @@ namespace DD_DVR.ViewModel
                     
                 var newPosition = new TimeSpan(0, 0, 0, 0, _position);
                 PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
-                foreach (Stream s in dvr.Streams) s.player.Position = newPosition;
+                //foreach (StreamOld s in dvr.Streams) s.player.Position = newPosition;
                 
                 OnPropertyChanged();
             }
@@ -101,9 +104,9 @@ namespace DD_DVR.ViewModel
 
         private void Callback(object sender, ElapsedEventArgs e)
         {
-            dvr.Streams[0].player.Dispatcher.BeginInvoke(new Action(delegate ()
+            dvr.p1.Dispatcher.BeginInvoke(new Action(delegate ()
             {
-                Position = (int)dvr.Streams[0].player.Position.TotalMilliseconds;
+                Position = (int)dvr.p1.Position.TotalMilliseconds;
                
             }));
         }
@@ -117,7 +120,7 @@ namespace DD_DVR.ViewModel
                 {
                     if (isPoused)
                     {
-                        dvr.Step(false);
+                       // dvr.Step(false);
                     }
                     else
                     {
@@ -139,9 +142,9 @@ namespace DD_DVR.ViewModel
                     {
                         if (isPoused)
                         {
-                            if (dvr.Streams[0].player.NaturalDuration.HasTimeSpan)
+                            if (dvr.p1.NaturalDuration.HasTimeSpan)
                             {
-                                var ndts = dvr.Streams[0].player.NaturalDuration.TimeSpan;
+                                var ndts = dvr.p1.NaturalDuration.TimeSpan;
                                 NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
                                 NaturalDuration = (int)ndts.TotalMilliseconds;
                             }
@@ -169,7 +172,7 @@ namespace DD_DVR.ViewModel
                 {
                     if (isPoused)
                     {
-                        dvr.Step();
+                        //dvr.Step();
                     }
                     else
                     {

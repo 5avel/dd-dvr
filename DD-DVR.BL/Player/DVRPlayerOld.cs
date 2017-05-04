@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace DD_DVR.BL.Playr
 {
-    public class DVRPlayer : INotifyPropertyChanged
+    public class DVRPlayerOld
     {
 
         // Может исползовать массив стримов, удобней перебирать цыклом и делать однотипные операции!
-        public List<Stream> Streams { set; get; }
+        public List<StreamOld> Streams { set; get; }
 
         public string VideoSourcePath { get; set; } // путь к папке с файлами *.mkv
 
        
-        public DVRPlayer()
+        public DVRPlayerOld()
         {
             // проверка папки на сушествование
-            Streams = new List<Stream>();
+            Streams = new List<StreamOld>();
            
         }
 
@@ -31,19 +31,19 @@ namespace DD_DVR.BL.Playr
 
             List<string> videoPath1 = new List<string>();
             foreach (var item in dir.GetFiles(@"*-01-*-*-*.mkv")) videoPath1.Add(item.FullName);
-            if (videoPath1.Count > 0) Streams.Add(new Stream(videoPath1));
+            if (videoPath1.Count > 0) Streams.Add(new StreamOld(videoPath1));
 
             List<string> videoPath2 = new List<string>();
             foreach (var item in dir.GetFiles(@"*-02-*-*-*.mkv")) videoPath2.Add(item.FullName);
-            if (videoPath2.Count > 0) Streams.Add(new Stream(videoPath2));
+            if (videoPath2.Count > 0) Streams.Add(new StreamOld(videoPath2));
 
             List<string> videoPath3 = new List<string>();
             foreach (var item in dir.GetFiles(@"*-03-*-*-*.mkv")) videoPath3.Add(item.FullName);
-            if (videoPath3.Count > 0) Streams.Add(new Stream(videoPath3));
+            if (videoPath3.Count > 0) Streams.Add(new StreamOld(videoPath3));
 
             List<string> videoPath4 = new List<string>();
             foreach (var item in dir.GetFiles(@"*-04-*-*-*.mkv")) videoPath4.Add(item.FullName);
-            if (videoPath4.Count > 0) Streams.Add(new Stream(videoPath4));
+            if (videoPath4.Count > 0) Streams.Add(new StreamOld(videoPath4));
 
 
             //foreach (var item in dir.GetFiles(@"channel1_*_*_*_*.mkv")) videoPath1.Add(item.FullName);
@@ -66,44 +66,27 @@ namespace DD_DVR.BL.Playr
 
         public void Play()
         {
-            foreach (Stream s in Streams) { s.Play(); } 
+            foreach (StreamOld s in Streams) { s.Play(); } 
         }
 
         public void Stop()
         {
-            foreach (Stream s in Streams) s.Stop();
+            foreach (StreamOld s in Streams) s.Stop();
         }
 
         public void Pause()
         {
-            foreach (Stream s in Streams) s.Pause();
+            foreach (StreamOld s in Streams) s.Pause();
         }
 
         public void Step(bool isRightStep = true)
         {
-            foreach (Stream s in Streams) s.Step(isRightStep);
+            foreach (StreamOld s in Streams) s.Step(isRightStep);
         }
 
         public void SetSpeedRatio(double curspeedRatio)
         {
-            foreach (Stream s in Streams) s.player.SpeedRatio = curspeedRatio;
+            foreach (StreamOld s in Streams) s.player.SpeedRatio = curspeedRatio;
         }
-
-        #region implementation INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Новый OnPropertyChanged которому вообще не нужно передавать ни свойство ни название свойства)))
-        /// </summary>
-        /// <param name="propertyName"> Заполняется автоматически названием вызываюшего члена!</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-     
-        #endregion implementation INotifyPropertyChanged
-
-
     }
 }

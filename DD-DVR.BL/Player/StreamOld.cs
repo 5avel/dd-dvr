@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace DD_DVR.BL.Playr
 {
-    public class Stream
+    public class StreamOld
     {
         public MediaPlayer player = new MediaPlayer();
         private string CurentSource = null; // текущий файл воспроизведения
@@ -23,7 +23,7 @@ namespace DD_DVR.BL.Playr
         public DrawingBrush VideoBrush { set; get; }
 
 
-        public Stream(List<string> fileList)
+        public StreamOld(List<string> fileList)
         {
             if(fileList != null && fileList.Count > 0)
             {
