@@ -16,7 +16,7 @@
             <converter:HeightToWidth3x4ValueConverter x:Key="HeightToWidth3x4ValueConverter" />
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -31,28 +31,9 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            
-            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
-                          Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="маршрут..."
-                      SelectedItem="{Binding SelectedRout}"
-                          SelectedIndex="-1"/>
-            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
-                          Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="астобус..."
-                          SelectedItem="{Binding SelectedBus}"
-                          SelectedIndex="-1"/>
-            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
-                          Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="водитель..."
-                          SelectedItem="{Binding SelectedDriver}"
-                          SelectedIndex="-1"/>
-            <Button Width="70" Height="15" Padding="0 -2 0 0"
-                    Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
-                    Style="{DynamicResource AccentedSquareButtonStyle}" />
+
+
+
             <Button Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Открыть" Focusable="False" Command="{Binding LoadVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
@@ -62,27 +43,55 @@
                           Controls:TextBoxHelper.Watermark="видео..."
                       SelectedItem="{Binding SelectedMediaSource}"
                           SelectedIndex="-1"/>
-           
-            <Button Content="Отчёты" />
-            <Button Content="Настройки" Command="{Binding SettingsWindowOpenCommand}" />
+
+            <Button Content="Отчёты" Command="{Binding ShowConvrtationFlyoutCommand}"  Focusable="False" />
+            <Button Content="Настройки"  Focusable="False" Command="{Binding SettingsWindowOpenCommand}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Controls:MetroWindow.LeftWindowCommands>
-        <Controls:WindowCommands>
-            
-            
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.LeftWindowCommands>
+
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition MinWidth="200" Width="*"/>
         </Grid.ColumnDefinitions>
-
+        <Controls:Flyout Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" Panel.ZIndex="99" Header="Конвертация" Position="Top" Height="100" IsModal="False" Theme="Accent" IsOpen="{Binding ConvrtationFlyoutIsOpen}" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="38"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <ComboBox Margin="5"  Width="150" Focusable="False" Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="маршрут..."
+                      SelectedItem="{Binding SelectedRout}"
+                          SelectedIndex="-1"/>
+                    <ComboBox Margin="5" Width="150" Focusable="False" Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="астобус..."
+                          SelectedItem="{Binding SelectedBus}"
+                          SelectedIndex="-1"/>
+                    <ComboBox Margin="5" Width="150" Focusable="False"  Height="15" Padding="0 -2 0 0"
+                          ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="водитель..."
+                          SelectedItem="{Binding SelectedDriver}"
+                          SelectedIndex="-1"/>
+                    <Button Margin="5" Width="70" Height="15" Padding="0 -2 0 0"
+                    Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
+                    Style="{DynamicResource AccentedSquareButtonStyle}" />
+                </StackPanel>
+                <ProgressBar Margin="5" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding ConvrtationItemNum}" Maximum="{Binding ConvrtationItemCount}" Minimum="0"/>
+            </Grid>
+        </Controls:Flyout>
         <Border Grid.Column="0" Width="{Binding Path=ActualHeight, Converter={StaticResource HeightToWidth3x4ValueConverter}, RelativeSource={RelativeSource Self}}">
             <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
         </Border>
-        <ProgressBar Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Value="{Binding ConvrtationItemNum}" Maximum="{Binding ConvrtationItemCount}" Minimum="0"/>
+        
     </Grid>
 </Controls:MetroWindow>

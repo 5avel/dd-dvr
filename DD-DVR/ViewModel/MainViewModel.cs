@@ -41,6 +41,18 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private bool _convrtationFlyoutIsOpen = false;
+        public bool ConvrtationFlyoutIsOpen
+        {
+            get { return _convrtationFlyoutIsOpen; }
+            set
+            {
+
+                _convrtationFlyoutIsOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
         private int _convrtationItemNum = 0;
         public int ConvrtationItemNum
         {
@@ -184,13 +196,14 @@ namespace DD_DVR.ViewModel
                                 vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
                                 vc.ConvertingComplete += (s, e) =>
                                 {
-                                    ConvrtationItemCount = 0;
+                                    ConvrtationItemNum = 0;
                                     // меняем состояние на плей
                                     AppState = AppState.Playing;
                                     // Подгатавливаем обекты для воспроизведения видео
                                     VideoViewModel.GetInstance().IsPoused = true;
                                     DVRPlayer.Instance.p1.Dispatcher.BeginInvoke(new Action(delegate ()
                                     {
+                                        
                                         if (!DVRPlayer.Instance.LoadMedia(saveVideoFolder))
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
 
@@ -243,6 +256,20 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private RelayCommand _showConvrtationFlyoutCommand;
+        public ICommand ShowConvrtationFlyoutCommand
+        {
+            get
+            {
+                return _showConvrtationFlyoutCommand ?? (_showConvrtationFlyoutCommand = new RelayCommand(param =>
+                {
+                    ConvrtationFlyoutIsOpen = !ConvrtationFlyoutIsOpen;
+
+                }));
+            }
+        }
+
+        //ConvrtationFlyoutIsOpen
 
     }
 }
