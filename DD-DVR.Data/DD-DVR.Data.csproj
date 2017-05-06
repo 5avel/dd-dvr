@@ -43,6 +43,7 @@
     <Compile Include="Bus.cs" />
     <Compile Include="ConfigurationRepository.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="FareReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rout.cs" />
     <Compile Include="RoutRepository.cs" />

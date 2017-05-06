@@ -15,8 +15,6 @@ namespace DD_DVR.ViewModel
     enum AppState { Waiting, Playing, Converting }
     class MainViewModel : ViewModelBase
     {
-      
-
         public AppState AppState { set; get; }
         
         public MainViewModel()
