@@ -27,6 +27,8 @@ namespace DD_DVR.ViewModel
             Drivers = new ObservableCollection<Driver>(routRepository.GetAllDrivers());
             Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
             Buses = new ObservableCollection<Bus>(routRepository.GetAllBuses());
+
+            DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
 
         private int _convrtationItemCount = 5;

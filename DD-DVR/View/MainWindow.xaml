@@ -31,20 +31,9 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-
-
-
-            <Button Width="70" Height="15" Padding="0 -2 0 0"
-                    Content="Открыть" Focusable="False" Command="{Binding LoadVideoCommand}"
-                    Style="{DynamicResource AccentedSquareButtonStyle}" />
-            <ComboBox Width="120"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding MediaSourceCollection}" DisplayMemberPath="Stream1"
-                          Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="видео..."
-                      SelectedItem="{Binding SelectedMediaSource}"
-                          SelectedIndex="-1"/>
-
-            <Button Content="Отчёты" Command="{Binding ShowConvrtationFlyoutCommand}"  Focusable="False" />
+            <Button Content="Конвертация" Command="{Binding ShowConvrtationFlyoutCommand}"  Focusable="False" />
+            <Button Content="Открыть" Command="{Binding LoadVideoCommand}"  Focusable="False" />
+            <Button Content="Отчёты"   Focusable="False" />
             <Button Content="Настройки"  Focusable="False" Command="{Binding SettingsWindowOpenCommand}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
@@ -92,6 +81,13 @@
             <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
         </Border>
-        
-    </Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Grid.Column="1">
+            <ComboBox ItemsSource="{Binding MediaSourceCollection}" DisplayMemberPath="Stream1"
+                          Controls:TextBoxHelper.ClearTextButton="False"
+                          Controls:TextBoxHelper.Watermark="видео..."
+                      SelectedItem="{Binding SelectedMediaSource}"
+                          SelectedIndex="-1"/>
+
+        </StackPanel>
+        </Grid>
 </Controls:MetroWindow>

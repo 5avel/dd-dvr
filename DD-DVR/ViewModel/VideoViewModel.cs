@@ -23,7 +23,7 @@ namespace DD_DVR.ViewModel
             timer = new System.Timers.Timer(300);
             timer.Elapsed += Callback;
             
-            //dvr.Streams[0].player.MediaOpened += Player_MediaOpened;
+            dvr.p1.MediaOpened += Player_MediaOpened;
         }
 
         private void Player_MediaOpened(object sender, EventArgs e)
@@ -144,8 +144,8 @@ namespace DD_DVR.ViewModel
                             if (dvr.p1.NaturalDuration.HasTimeSpan)
                             {
                                 var ndts = dvr.p1.NaturalDuration.TimeSpan;
-                                NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
-                                NaturalDuration = (int)ndts.TotalMilliseconds;
+                               // NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
+                               // NaturalDuration = (int)ndts.TotalMilliseconds;
                             }
                             dvr.Play();
                             timer.Start();

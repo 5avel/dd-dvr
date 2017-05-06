@@ -13,6 +13,8 @@ namespace DD_DVR.BL.Player
         private MediaPlayer p3 = new MediaPlayer() { ScrubbingEnabled = true };
         private MediaPlayer p4 = new MediaPlayer() { ScrubbingEnabled = true };
 
+        public event EventHandler<MediaSourceEventArgs> CurentMediaSourceUpdated = delegate { };
+
         private ObservableCollection<MediaSource> mediaSourceCollection = new ObservableCollection<MediaSource>();
         private MediaSource curentMediaSource;
         private DVRPlayer()
@@ -22,6 +24,19 @@ namespace DD_DVR.BL.Player
             Cam3 = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = p3 });
             Cam4 = new DrawingBrush(new VideoDrawing() { Rect = new Rect(0, 0, 300, 200), Player = p4 });
             MediaSourceCollection = new ObservableCollection<MediaSource>();
+
+            // подписка на событие окончания видео файла p1
+            p1.MediaEnded += P1_MediaEnded;
+
+        }
+
+        private void P1_MediaEnded(object sender, EventArgs e)
+        {
+            var curentMediaSourceNum = MediaSourceCollection.IndexOf(CurentMediaSource);
+            if (MediaSourceCollection.Count - 1 <= curentMediaSourceNum) return;
+
+            CurentMediaSource = (MediaSourceCollection[curentMediaSourceNum + 1]);
+            Play();
         }
 
         public DrawingBrush Cam1 { set; get; }
@@ -36,6 +51,7 @@ namespace DD_DVR.BL.Player
             {
                 curentMediaSource = value;
                 if(curentMediaSource != null) SetMediaSource(curentMediaSource);
+                CurentMediaSourceUpdated(this, new MediaSourceEventArgs(curentMediaSource));
             }
             get { return curentMediaSource; }
         }
@@ -198,5 +214,14 @@ namespace DD_DVR.BL.Player
         public DateTime StartDT { set; get; }
         public DateTime FinishDT { set; get; }
 
+    }
+
+    public class MediaSourceEventArgs: EventArgs
+    {
+        public MediaSource mediaSource;
+        public MediaSourceEventArgs(MediaSource ms)
+        {
+            mediaSource = ms;
+        }
     }
 }
