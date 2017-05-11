@@ -76,7 +76,7 @@ namespace DD_DVR.BL.Player
 
             Stop();
             MediaSourceCollection.Clear(); // clear MediaSourceCollection
-            Close(); // clear MediaPlayer
+            //Close(); // clear MediaPlayer
 
             var stream1FileInfo = dir.GetFiles(@"*-01-*-*-*.mkv");
             var stream2FileInfo = dir.GetFiles(@"*-02-*-*-*.mkv");
@@ -122,6 +122,7 @@ namespace DD_DVR.BL.Player
                 p4.ScrubbingEnabled = true;
                 p4.Open(new Uri(ms.Stream4, UriKind.RelativeOrAbsolute));
             }
+            
         }
 
 

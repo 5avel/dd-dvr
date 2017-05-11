@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DD_DVR.Data.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

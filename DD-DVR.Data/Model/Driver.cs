@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DD_DVR.Data
+namespace DD_DVR.Data.Model
 {
-    public class Bus
+    public class Driver
     {
         public string Title { set; get; }
     }

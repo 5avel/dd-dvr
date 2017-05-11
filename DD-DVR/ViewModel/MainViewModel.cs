@@ -9,22 +9,21 @@ using DD_DVR.BL;
 using NLog;
 using DD_DVR.Data;
 using DD_DVR.BL.Player;
+using DD_DVR.Data.Model;
 
 namespace DD_DVR.ViewModel
 {
-    enum AppState { Waiting, Playing, Converting }
     class MainViewModel : ViewModelBase
     {
-        public AppState AppState { set; get; }
         
         public MainViewModel()
         {
-            AppState = AppState.Waiting;
-
             var routRepository = new RoutRepository();
+            var rateRepository = new RateRepository();
             Drivers = new ObservableCollection<Driver>(routRepository.GetAllDrivers());
             Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
             Buses = new ObservableCollection<Bus>(routRepository.GetAllBuses());
+            Rates = new ObservableCollection<Rate>(rateRepository.GetAllRates());
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
@@ -112,16 +111,32 @@ namespace DD_DVR.ViewModel
         ObservableCollection<MediaSource> _mediaSource = DVRPlayer.Instance.MediaSourceCollection;
         public ObservableCollection<MediaSource> MediaSourceCollection { get => DVRPlayer.Instance.MediaSourceCollection; set => DVRPlayer.Instance.MediaSourceCollection = value; }
 
-        private MediaSource _selectedMediaSource;
         public MediaSource SelectedMediaSource
         {
             get => DVRPlayer.Instance.CurentMediaSource;
             set
             {
                 DVRPlayer.Instance.CurentMediaSource = value;
+                VideoViewModel.GetInstance().IsPoused = true;
                 OnPropertyChanged();
             }
         }
+
+
+        ObservableCollection<Rate> _rates = new ObservableCollection<Rate>();
+        public ObservableCollection<Rate> Rates { get => _rates; set => _rates = value; }
+
+        private Rate _selectedRate;
+        public Rate SelectedRate
+        {
+            get => _selectedRate;
+            set
+            {
+                _selectedRate = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private RelayCommand _videoKeyBinding;
         public ICommand VideoKeyBinding
@@ -190,15 +205,12 @@ namespace DD_DVR.ViewModel
                                 vc.ConvertingStarted += (s, e) =>
                                 {
                                     ConvrtationItemCount = e.VideoFileCount;
-                                    AppState = AppState.Converting;
                                 };
                                 vc.OneFileConvertingComplete += (s, e) => ConvrtationItemNum = e.VideoFileNum;
                                 vc.OneFileConvertingFiled += (s, e) => MessageBox.Show(DateTime.Now + " OneFileConvertingFiled fileNum:" + e.VideoFileNum + " fileName:" + e.VideoFileName);
                                 vc.ConvertingComplete += (s, e) =>
                                 {
                                     ConvrtationItemNum = 0;
-                                    // меняем состояние на плей
-                                    AppState = AppState.Playing;
                                     // Подгатавливаем обекты для воспроизведения видео
                                     VideoViewModel.GetInstance().IsPoused = true;
                                     DVRPlayer.Instance.p1.Dispatcher.BeginInvoke(new Action(delegate ()
@@ -208,8 +220,6 @@ namespace DD_DVR.ViewModel
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
 
                                     }));
-                                   
-
                                 };
                                 vc.StartConvertAsync();
                             }

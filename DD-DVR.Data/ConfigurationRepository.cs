@@ -8,6 +8,11 @@ namespace DD_DVR.Data
 {
     public class ConfigurationRepository
     {
+        public ConfigurationRepository()
+        {
+            Currency = "грн.";
+        }
+        public string Currency { set; get; }
         public string GetOutputVodeoDir()
         {
             return @"D:\DD-DVR\Video\";
