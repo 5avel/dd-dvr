@@ -89,6 +89,11 @@
                       SelectedItem="{Binding SelectedMediaSource}"
                           SelectedIndex="-1"/>
             <ListBox  Margin="5" HorizontalAlignment="Stretch" Focusable="False"  ItemsSource="{Binding Rates}" >
+               <ListBox.ItemContainerStyle>
+                  <Style TargetType="Control">
+                      <Setter Property="Focusable" Value="False" />
+                  </Style>
+               </ListBox.ItemContainerStyle> 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Focusable="False" HorizontalAlignment="Stretch" Content="{Binding Text}" />
