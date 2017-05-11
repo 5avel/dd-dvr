@@ -207,13 +207,48 @@ namespace DD_DVR.BL.Player
 
     public class MediaSource
     {
-        public string Stream1 { set; get; }
+        private string _stream1;
+        public string Stream1
+        {
+            get { return _stream1; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _stream1 = value;
+                    SetStartOrFinishDT(value);
+                }
+            }
+        }
+
         public string Stream2 { set; get; }
         public string Stream3 { set; get; }
         public string Stream4 { set; get; }
 
         public DateTime StartDT { set; get; }
         public DateTime FinishDT { set; get; }
+
+        private void SetStartOrFinishDT(string value)
+        {  
+            FileInfo fi = new FileInfo(value);
+            string fName = fi.Name;            // "201-01-194924-200424-00p000.h264.mkv"
+            string pName = fi.Directory.Name;  // "2017-04-26"
+
+            string temp = pName + "_" + fName.Substring(7,6);
+            StartDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+
+            string temp2 = pName + "_" + fName.Substring(14, 6);
+            FinishDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);  
+        }
+
+        public string Text
+        {
+            get
+            {
+                return StartDT.ToString("HH:mm:ss") + "-" + FinishDT.ToString("HH:mm:ss");
+            }
+            set { }
+        }
 
     }
 

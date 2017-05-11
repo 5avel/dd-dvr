@@ -81,20 +81,20 @@
             <Frame Source="/DD-DVR;component/View/VideoView.xaml" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" NavigationUIVisibility="Hidden" />
         </Border>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Grid.Column="1">
-            <ComboBox ItemsSource="{Binding MediaSourceCollection}" DisplayMemberPath="Stream1"
-                      Margin="5"
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Grid.Column="1" Focusable="False" >
+            <ComboBox ItemsSource="{Binding MediaSourceCollection}" DisplayMemberPath="Text"
+                      Margin="5" Focusable="False"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="видео..."
                       SelectedItem="{Binding SelectedMediaSource}"
                           SelectedIndex="-1"/>
-            <ListView Margin="5" HorizontalAlignment="Stretch" ItemsSource="{Binding Rates}" SelectedItem="{Binding SelectedRate}" >
-                <ListView.ItemTemplate>
+            <ListBox  Margin="5" HorizontalAlignment="Stretch" Focusable="False"  ItemsSource="{Binding Rates}" >
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Label HorizontalAlignment="Center" Content="{Binding Text}" />
+                        <Button Focusable="False" HorizontalAlignment="Stretch" Content="{Binding Text}" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>
