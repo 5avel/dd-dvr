@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -91,6 +91,7 @@ namespace DD_DVR.BL.Player
                     Stream2 = i < stream2FileInfo.Length ? stream2FileInfo[i].FullName : null,
                     Stream3 = i < stream3FileInfo.Length ? stream3FileInfo[i].FullName : null,
                     Stream4 = i < stream4FileInfo.Length ? stream4FileInfo[i].FullName : null
+                    //TODO: перед добавлением в сримы сверять время файлов, отличия 2 секунды.
                 });
             }
 

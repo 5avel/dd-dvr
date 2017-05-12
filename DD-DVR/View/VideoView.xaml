@@ -50,13 +50,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
-                <Button Command="{Binding DvrSpeedDownLeftStepCommand}"  Focusable="False" Margin="2 0" >
+                <Button Command="{Binding DvrSpeedDownLeftStepCommand}" ToolTip="LeftStep/SpeedDown"  Focusable="False" Margin="2 0" >
                     <iconPacks:PackIconMaterial Width="12" Height="12" Kind="SkipBackward" Foreground="#FF1B23D1" />
                 </Button>
-                <Button Height="15" Command="{Binding DvrPlayPauseCommand}"  Focusable="False" Margin="2 0" >
+                <Button Height="15" Command="{Binding DvrPlayPauseCommand}" ToolTip="Play/Pause" Focusable="False" Margin="2 0" >
                     <iconPacks:PackIconMaterial Width="12" Height="12" Kind="PlayPause" Foreground="#FF1B23D1" />
                 </Button>
-                <Button Command="{Binding DvrSpeedUpRightStepCommand}"  Focusable="False" Margin="2 0" >
+                <Button Command="{Binding DvrSpeedUpRightStepCommand}" ToolTip="RightStep/SpeedUp" Focusable="False" Margin="2 0" >
                     <iconPacks:PackIconMaterial Width="12" Height="12" Kind="SkipForward" Foreground="#FF1B23D1" />
                 </Button>
             </StackPanel>
