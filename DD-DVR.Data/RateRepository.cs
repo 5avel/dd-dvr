@@ -9,15 +9,26 @@ namespace DD_DVR.Data
 {
     public class RateRepository
     {
-        public IEnumerable<Rate> GetAllRates()
+        public RateRepository()
         {
-            return new List<Rate>
+            Rates = new List<Rate>
             {
                 new Rate() {Price = 3.00m },
                 new Rate() {Price = 4.00m },
                 new Rate() { Price = 5m },
                 new Rate() {Price = 6m }
             };
+        }
+        private List<Rate> Rates = new List<Rate>();
+
+        public IEnumerable<Rate> GetAllRates()
+        {
+            return Rates;
+        }
+
+        public Rate GetSelectedRate()
+        {
+            return Rates[2];
         }
     }
 }

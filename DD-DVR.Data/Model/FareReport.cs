@@ -8,21 +8,28 @@ namespace DD_DVR.Data.Model
 {
     public class FareReport
     {
-        List<Tour> tours = new List<Tour>();
+       
+
+        public FareReport()
+        {
+            Tours = new List<Tour>();
+        }
+        public List<Tour> Tours { set; get; }
+        public bool IsClosed { get; set; }
     }
 
     public class Tour
     {
-        DateTime tourStart;
-        DateTime tourEnd;
-        List<Passenger> passengers = new List<Passenger>();
+        public DateTime tourStart;
+        public DateTime tourEnd;
+        public List<Passenger> passengers = new List<Passenger>();
     }
 
     public class Passenger
     {
-        DateTime payTime;
-        decimal pay;
-        bool isExemption;
+        public DateTime payTime;
+        public decimal pay;
+        public bool isExemption;
     }
 
 }

@@ -15,7 +15,6 @@ namespace DD_DVR.ViewModel
 {
     class MainViewModel : ViewModelBase
     {
-        
         public MainViewModel()
         {
             var routRepository = new RoutRepository();
@@ -24,9 +23,14 @@ namespace DD_DVR.ViewModel
             Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
             Buses = new ObservableCollection<Bus>(routRepository.GetAllBuses());
             Rates = new ObservableCollection<Rate>(rateRepository.GetAllRates());
+            SelectedRate = rateRepository.GetSelectedRate();
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
+
+        BL.FareReport fr;
+
+        #region  Convrtation
 
         private int _convrtationItemCount = 5;
         public int ConvrtationItemCount
@@ -63,7 +67,6 @@ namespace DD_DVR.ViewModel
                 OnPropertyChanged();
             }
         }
-
 
         ObservableCollection<Driver> _drivers = new ObservableCollection<Driver>();
         public ObservableCollection<Driver> Drivers { get => _drivers; set => _drivers = value; }
@@ -106,6 +109,9 @@ namespace DD_DVR.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        #endregion  Convrtation
+
 
 
         ObservableCollection<MediaSource> _mediaSource = DVRPlayer.Instance.MediaSourceCollection;
@@ -247,18 +253,25 @@ namespace DD_DVR.ViewModel
             {
                 return _loadVideoCommand ?? (_loadVideoCommand = new RelayCommand(param =>
                 {
-                    // меняем состояние на плей
-                    // Подгатавливаем обекты для воспроизведения видео
+                    // Открываем готовое к просмотру видео для подсчета пасажиров
                     using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
                     {
                         ConfigurationRepository cr = new ConfigurationRepository();
-                        dlg.RootFolder = Environment.SpecialFolder.MyComputer;
-                        dlg.SelectedPath = cr.GetOutputVodeoDir();
+                        dlg.RootFolder = Environment.SpecialFolder.MyComputer; // установка корневого коталага
+                        dlg.SelectedPath = cr.GetOutputVodeoDir(); // установка текущей папки из конфига
                         if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
                         {
-                            VideoViewModel.GetInstance().IsPoused = true;
-                            if(!DVRPlayer.Instance.LoadMedia(dlg.SelectedPath))
-                                MessageBox.Show("В папке '"+dlg.SelectedPath+"' не найдены файлы *.mkv!");
+                            VideoViewModel.GetInstance().IsPoused = true; // ставим состояние вюмодели плеера на паузу
+                            if (DVRPlayer.Instance.LoadMedia(dlg.SelectedPath))
+                            { // загрузили видео 
+                                // в BL начинаем просчет дня
+                                fr = new BL.FareReport();
+                                fr.StartCalculation();
+                            }
+                            else
+                            {
+                                MessageBox.Show("В папке '" + dlg.SelectedPath + "' не найдены файлы *.mkv!");
+                            }
                         }
                     }
 
@@ -275,6 +288,41 @@ namespace DD_DVR.ViewModel
                 {
                     ConvrtationFlyoutIsOpen = !ConvrtationFlyoutIsOpen;
 
+                }));
+            }
+        }
+
+        private RelayCommand _startTourCommand;
+        public ICommand StartTourCommand
+        {
+            get
+            {
+                return _startTourCommand ?? (_startTourCommand = new RelayCommand(param =>
+                {
+                    fr.StartTour();
+
+                },
+                param=>
+                {
+                    if(fr?.Report == null || !fr.isClosedTour) return false;
+                    return true;
+                }));
+            }
+        }
+
+        private RelayCommand _endTourCommand;
+        public ICommand EndTourCommand
+        {
+            get
+            {
+                return _endTourCommand ?? (_endTourCommand = new RelayCommand(param =>
+                {
+                    fr.EndTour();
+                },
+                param =>
+                {
+                    if (fr?.Report == null || fr.isClosedTour) return false;
+                    return true;
                 }));
             }
         }

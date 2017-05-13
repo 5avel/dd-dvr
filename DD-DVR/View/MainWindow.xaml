@@ -133,9 +133,9 @@
                         <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
                     <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Focusable="False"
-                            Content="Конец круга"/>
+                            Content="Конец круга" Command="{Binding EndTourCommand}" />
                     <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Focusable="False"
-                            Content="Начало круга"/>
+                            Content="Начало круга" Command="{Binding StartTourCommand}" />
                 </Grid>
                 
             </Border>
