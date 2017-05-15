@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DD_DVR.BL
 {
-    public class FareReport
+    public class FareReportBuilder
     {
         public Data.Model.FareReport Report;
 

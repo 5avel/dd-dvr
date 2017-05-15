@@ -10,6 +10,7 @@ using NLog;
 using DD_DVR.Data;
 using DD_DVR.BL.Player;
 using DD_DVR.Data.Model;
+using System.Linq;
 
 namespace DD_DVR.ViewModel
 {
@@ -28,7 +29,7 @@ namespace DD_DVR.ViewModel
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
 
-        BL.FareReport fr;
+        BL.FareReportBuilder fr;
 
         #region  Convrtation
 
@@ -144,6 +145,44 @@ namespace DD_DVR.ViewModel
         }
 
 
+
+        #region Repport
+
+        public string CurentLap
+        {
+            get
+            {
+                if (fr == null) return "0";
+                return fr.Report.Tours.Count.ToString(); ;
+            }
+        }
+
+        public string CurentLapPasangerCount
+        {
+            get
+            {
+                if (fr != null && fr.Report.Tours != null && fr.Report.Tours[fr.Report.Tours.Count-1].passengers != null)
+                {
+                    return fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Count.ToString();
+                }
+                else
+                    return "0";
+            }
+        }
+
+        public string CurentLapExemptionPasangerCount
+        {
+            get
+            {
+                if (fr == null) return "0";
+                return fr.Report.Tours[fr.Report.Tours.Count].passengers.Where(p => p.isExemption).Count().ToString();
+            }
+        }
+
+        #endregion Repport
+
+
+
         private RelayCommand _videoKeyBinding;
         public ICommand VideoKeyBinding
         {
@@ -167,7 +206,31 @@ namespace DD_DVR.ViewModel
                     }
                     else if ("Space" == param.ToString())
                     {
-                        MessageBox.Show("Space");
+                        if(fr != null)
+                        {
+                            fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Add(
+                                new Passenger()
+                                {
+                                    isExemption = false,
+                                    pay = SelectedRate.Price,
+                                    payTime = DateTime.Now
+                                });
+                            OnPropertyChanged("CurentLapPasangerCount");
+                        }
+                    }
+                    else if ("V" == param.ToString())
+                    {
+                        if (fr != null)
+                        {
+                            fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                               new Passenger()
+                               {
+                                   isExemption = true,
+                                   pay = 0,
+                                   payTime = DateTime.Now
+                               });
+                            OnPropertyChanged("CurentLapExemptionPasangerCount");
+                        }
                     }
 
                 }));
@@ -265,7 +328,7 @@ namespace DD_DVR.ViewModel
                             if (DVRPlayer.Instance.LoadMedia(dlg.SelectedPath))
                             { // загрузили видео 
                                 // в BL начинаем просчет дня
-                                fr = new BL.FareReport();
+                                fr = new BL.FareReportBuilder();
                                 fr.StartCalculation();
                             }
                             else
@@ -300,6 +363,7 @@ namespace DD_DVR.ViewModel
                 return _startTourCommand ?? (_startTourCommand = new RelayCommand(param =>
                 {
                     fr.StartTour();
+                    OnPropertyChanged("CurentLap");
 
                 },
                 param=>
