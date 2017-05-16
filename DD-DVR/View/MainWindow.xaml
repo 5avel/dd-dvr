@@ -124,7 +124,7 @@
             <Border Margin="5 0 5 5" Padding="5" BorderThickness="1" BorderBrush="White" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -137,29 +137,29 @@
                     <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Focusable="False"
                             Content="Конец круга" Command="{Binding EndTourCommand}" />
                     
-                    <StackPanel  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">                    
-                        <Label Content="Круг:"/>
+                    <StackPanel  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Horizontal">                    
+                        <Label Width="80" Content="Круг:"/>
                         <Label Content="{Binding CurentLap}" />
                     </StackPanel>
-                    <StackPanel  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="Пасажиров:"/>
+                    <StackPanel  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Label  Width="80" Content="Пасажиров:"/>
                         <Label Content="{Binding CurentLapPasangersCount}" />
                     </StackPanel>
-                    <StackPanel  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="Льготников:"/>
+                    <StackPanel  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Label  Width="80" Content="Льготников:"/>
                         <Label Content="{Binding CurentLapExemptionPasangersCount}" />
                     </StackPanel>
 
-                    <StackPanel  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="Пасажиров всего:"/>
+                    <StackPanel  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Label  Width="110" Content="Пасажиров всего:"/>
                         <Label Content="{Binding PasangersCount}" />
                     </StackPanel>
-                    <StackPanel  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="Льготников всего:"/>
+                    <StackPanel  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Label  Width="110" Content="Льготников всего:"/>
                         <Label Content="{Binding ExemptionPasangersCount}" />
                     </StackPanel>
-                    <StackPanel  Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="Sum:"/>
+                    <StackPanel  Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Label  Width="110" Content="Sum:"/>
                         <Label Content="{Binding PasangersTotalPay}" />
                     </StackPanel>
 
