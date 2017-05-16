@@ -26,7 +26,8 @@
         <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
         <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
-        <KeyBinding Key="Space" Modifiers="" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
+        <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
+        <KeyBinding Key="V" CommandParameter="V" Command="{Binding VideoKeyBinding}"/>
     </Window.InputBindings>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -116,7 +117,8 @@
                     <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
                     <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
-                    <KeyBinding Key="Space" Modifiers="" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
+                    <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
+                    <KeyBinding Key="V" CommandParameter="V" Command="{Binding VideoKeyBinding}"/>
                 </ListBox.InputBindings>
             </ListBox>
             <Border Margin="5 0 5 5" Padding="5" BorderThickness="1" BorderBrush="White" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
@@ -134,17 +136,31 @@
                     </Grid.RowDefinitions>
                     <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Focusable="False"
                             Content="Конец круга" Command="{Binding EndTourCommand}" />
+                    
                     <StackPanel  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">                    
                         <Label Content="Круг:"/>
                         <Label Content="{Binding CurentLap}" />
                     </StackPanel>
                     <StackPanel  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Label Content="Пасажиров:"/>
-                        <Label Content="{Binding CurentLapPasangerCount}" />
+                        <Label Content="{Binding CurentLapPasangersCount}" />
                     </StackPanel>
                     <StackPanel  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Label Content="Льготников:"/>
-                        <Label Content="{Binding CurentLapExemptionPasangerCount}" />
+                        <Label Content="{Binding CurentLapExemptionPasangersCount}" />
+                    </StackPanel>
+
+                    <StackPanel  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="Пасажиров всего:"/>
+                        <Label Content="{Binding PasangersCount}" />
+                    </StackPanel>
+                    <StackPanel  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="Льготников всего:"/>
+                        <Label Content="{Binding ExemptionPasangersCount}" />
+                    </StackPanel>
+                    <StackPanel  Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="Sum:"/>
+                        <Label Content="{Binding PasangersTotalPay}" />
                     </StackPanel>
 
                     <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Focusable="False"

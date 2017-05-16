@@ -157,7 +157,7 @@ namespace DD_DVR.ViewModel
             }
         }
 
-        public string CurentLapPasangerCount
+        public string CurentLapPasangersCount
         {
             get
             {
@@ -170,13 +170,87 @@ namespace DD_DVR.ViewModel
             }
         }
 
-        public string CurentLapExemptionPasangerCount
+        public string CurentLapExemptionPasangersCount
         {
             get
             {
                 if (fr == null) return "0";
-                return fr.Report.Tours[fr.Report.Tours.Count].passengers.Where(p => p.isExemption).Count().ToString();
+                return fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Where(p => p.isExemption).Count().ToString();
             }
+        }
+
+        public string PasangersCount
+        {
+            get
+            {
+                if (fr != null && fr.Report.Tours != null)
+                {
+                    int count = 0;
+                    foreach (Tour item in fr.Report.Tours)
+                    {
+                        count += item.passengers.Count;
+                    }
+                    return count.ToString();
+                }
+                else
+                    return "0";
+            }
+        }
+
+        public string ExemptionPasangersCount
+        {
+            get
+            {
+                if (fr != null && fr.Report.Tours != null)
+                {
+                    int count = 0;
+                    foreach (Tour item in fr.Report.Tours)
+                    {
+                        if (item.passengers != null)
+                        {
+                            count += item.passengers.Where(p => p.isExemption).Count();
+                        }
+                    }
+                    return count.ToString();
+                }
+                else
+                    return "0";
+            }
+        }
+
+        public string PasangersTotalPay
+        {
+            get
+            {
+                if (fr != null && fr.Report.Tours != null)
+                {
+                    decimal count = 0;
+                    foreach (Tour t in fr.Report.Tours)
+                    {
+                        if (t.passengers != null)
+                        {
+                            foreach (Passenger p in t.passengers)
+                            {
+                                count += p.pay;
+                            }
+                            
+                        }
+                    }
+                    return count.ToString();
+                }
+                else
+                    return "0";
+            }
+        }
+
+        private void UpdareReportView()
+        {
+            OnPropertyChanged("CurentLapPasangersCount");
+            OnPropertyChanged("CurentLapExemptionPasangersCount");
+            OnPropertyChanged("PasangersCount");
+            OnPropertyChanged("ExemptionPasangersCount");
+            OnPropertyChanged("PasangersTotalPay");
+            
         }
 
         #endregion Repport
@@ -208,28 +282,65 @@ namespace DD_DVR.ViewModel
                     {
                         if(fr != null)
                         {
-                            fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Add(
-                                new Passenger()
+                            if(fr.isClosedTour)
+                            {
+                                if(MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
-                                    isExemption = false,
-                                    pay = SelectedRate.Price,
-                                    payTime = DateTime.Now
-                                });
-                            OnPropertyChanged("CurentLapPasangerCount");
+                                    StartTourCommand.Execute(null);
+                                    fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                                   new Passenger()
+                                   {
+                                       isExemption = false,
+                                       pay = SelectedRate.Price,
+                                       payTime = DateTime.Now
+                                   });
+                                    UpdareReportView();
+                                }
+                                
+                            }
+                            else
+                            {
+                                fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                                    new Passenger()
+                                    {
+                                        isExemption = false,
+                                        pay = SelectedRate.Price,
+                                        payTime = DateTime.Now
+                                    });
+                                UpdareReportView();
+                            }
                         }
                     }
                     else if ("V" == param.ToString())
                     {
                         if (fr != null)
                         {
-                            fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                            if (fr.isClosedTour)
+                            {
+                                if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
+                                {
+                                    StartTourCommand.Execute(null);
+                                    fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                                    new Passenger()
+                                    {
+                                        isExemption = true,
+                                        pay = 0,
+                                        payTime = DateTime.Now
+                                    });
+                                    UpdareReportView();
+                                }
+                            }
+                            else
+                            {
+                                fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
                                new Passenger()
                                {
                                    isExemption = true,
                                    pay = 0,
                                    payTime = DateTime.Now
                                });
-                            OnPropertyChanged("CurentLapExemptionPasangerCount");
+                                UpdareReportView();
+                            }
                         }
                     }
 
@@ -364,7 +475,7 @@ namespace DD_DVR.ViewModel
                 {
                     fr.StartTour();
                     OnPropertyChanged("CurentLap");
-
+                    UpdareReportView();
                 },
                 param=>
                 {

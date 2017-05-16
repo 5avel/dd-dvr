@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DD_DVR.Data.Model
 {
-    public class FareReport
+    public class FareReport 
     {
-       
-
         public FareReport()
         {
             Tours = new List<Tour>();
