@@ -161,9 +161,9 @@ namespace DD_DVR.ViewModel
         {
             get
             {
-                if (fr != null && fr.Report.Tours != null && fr.Report.Tours[fr.Report.Tours.Count-1].passengers != null)
+                if (fr != null && fr.Report.Tours != null && fr.Report.Tours[fr.Report.Tours.Count - 1].passengers != null)
                 {
-                    return fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Count.ToString();
+                    return fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Count.ToString();
                 }
                 else
                     return "0";
@@ -175,7 +175,7 @@ namespace DD_DVR.ViewModel
             get
             {
                 if (fr == null) return "0";
-                return fr.Report.Tours[fr.Report.Tours.Count-1].passengers.Where(p => p.isExemption).Count().ToString();
+                return fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Where(p => p.isExemption).Count().ToString();
             }
         }
 
@@ -233,7 +233,7 @@ namespace DD_DVR.ViewModel
                             {
                                 count += p.pay;
                             }
-                            
+
                         }
                     }
                     return count.ToString();
@@ -250,7 +250,7 @@ namespace DD_DVR.ViewModel
             OnPropertyChanged("PasangersCount");
             OnPropertyChanged("ExemptionPasangersCount");
             OnPropertyChanged("PasangersTotalPay");
-            
+
         }
 
         #endregion Repport
@@ -280,11 +280,11 @@ namespace DD_DVR.ViewModel
                     }
                     else if ("Space" == param.ToString())
                     {
-                        if(fr != null)
+                        if (fr != null)
                         {
-                            if(fr.isClosedTour)
+                            if (fr.isClosedTour)
                             {
-                                if(MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
+                                if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
                                     StartTourCommand.Execute(null);
                                     fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
@@ -292,11 +292,11 @@ namespace DD_DVR.ViewModel
                                    {
                                        isExemption = false,
                                        pay = SelectedRate.Price,
-                                       payTime = DateTime.Now
+                                       payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                    });
                                     UpdareReportView();
                                 }
-                                
+
                             }
                             else
                             {
@@ -305,7 +305,7 @@ namespace DD_DVR.ViewModel
                                     {
                                         isExemption = false,
                                         pay = SelectedRate.Price,
-                                        payTime = DateTime.Now
+                                        payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                     });
                                 UpdareReportView();
                             }
@@ -325,7 +325,7 @@ namespace DD_DVR.ViewModel
                                     {
                                         isExemption = true,
                                         pay = 0,
-                                        payTime = DateTime.Now
+                                        payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                     });
                                     UpdareReportView();
                                 }
@@ -337,7 +337,7 @@ namespace DD_DVR.ViewModel
                                {
                                    isExemption = true,
                                    pay = 0,
-                                   payTime = DateTime.Now
+                                   payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                });
                                 UpdareReportView();
                             }
@@ -395,7 +395,7 @@ namespace DD_DVR.ViewModel
                                     VideoViewModel.GetInstance().IsPoused = true;
                                     DVRPlayer.Instance.p1.Dispatcher.BeginInvoke(new Action(delegate ()
                                     {
-                                        
+
                                         if (!DVRPlayer.Instance.LoadMedia(saveVideoFolder))
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
 
@@ -407,13 +407,13 @@ namespace DD_DVR.ViewModel
                             {
 
                             }
-                        }                    
+                        }
                     }
-                  
+
                 },
-                param => 
+                param =>
                 {
-                    if ( SelectedRout == null || SelectedBus == null || SelectedDriver == null
+                    if (SelectedRout == null || SelectedBus == null || SelectedDriver == null
                     ) return false;
                     return true;
                 }));
@@ -477,9 +477,9 @@ namespace DD_DVR.ViewModel
                     OnPropertyChanged("CurentLap");
                     UpdareReportView();
                 },
-                param=>
+                param =>
                 {
-                    if(fr?.Report == null || !fr.isClosedTour) return false;
+                    if (fr?.Report == null || !fr.isClosedTour) return false;
                     return true;
                 }));
             }

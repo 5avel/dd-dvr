@@ -239,7 +239,7 @@ namespace DD_DVR.BL.Player
             StartDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
 
             string temp2 = pName + "_" + fName.Substring(14, 6);
-            FinishDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);  
+            FinishDT = DateTime.ParseExact(temp2, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);  
         }
 
         public string Text
