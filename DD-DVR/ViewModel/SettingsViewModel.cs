@@ -8,8 +8,6 @@ using DD_DVR.Data;
 
 namespace DD_DVR.ViewModel
 {
-    
-
     class SettingsViewModel : ViewModelBase
     {
         public SettingsViewModel()

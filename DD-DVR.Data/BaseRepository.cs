@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace DD_DVR.Data
@@ -34,7 +30,7 @@ namespace DD_DVR.Data
         protected static T Load()
         {
             XmlSerializer formatter = new XmlSerializer(typeof(T));
-            using (FileStream fs = new FileStream(savePath, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(savePath, FileMode.Open))
             {
                 return (T)formatter.Deserialize(fs);
             }
@@ -43,7 +39,7 @@ namespace DD_DVR.Data
         public void Save()
         {
             XmlSerializer formatter = new XmlSerializer(typeof(T));
-            using (FileStream fs = new FileStream(savePath, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(savePath, FileMode.Create))
             {
                 formatter.Serialize(fs, this);
             }
