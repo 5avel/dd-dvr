@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace DD_DVR.Data
 {
-    public class ConfigurationRepository
+    public class ConfigurationRepository : BaseRepository<ConfigurationRepository>
     {
-        public ConfigurationRepository()
-        {
-            Currency = "грн.";
-        }
-        public string Currency { set; get; }
-        public string GetOutputVodeoDir()
-        {
-            return @"D:\DD-DVR\Video\";
-        }
+        private ConfigurationRepository(){ }
+
+        public static new string savePath = "Configs\\ConfigurationRepository.xml";
+
+        public string OutputVodeoDir { set; get; }
+
     }
 }

@@ -92,6 +92,7 @@ namespace DD_DVR.BL.Player
                     Stream3 = i < stream3FileInfo.Length ? stream3FileInfo[i].FullName : null,
                     Stream4 = i < stream4FileInfo.Length ? stream4FileInfo[i].FullName : null
                     //TODO: перед добавлением в сримы сверять время файлов, отличия 2 секунды.
+                    //BUG: Если один файл не переконвертировался, то после загрузки медиа стрима на этом плеере остается старый видео файл
                 });
             }
 

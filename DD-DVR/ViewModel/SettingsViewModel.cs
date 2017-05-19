@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DD_DVR.Data;
 
 namespace DD_DVR.ViewModel
 {
@@ -13,7 +14,7 @@ namespace DD_DVR.ViewModel
     {
         public SettingsViewModel()
         {
-            VideoLibPath = "test";
+            _videoLibPath = ConfigurationRepository.Instanse.OutputVodeoDir;
         }
 
         private string _videoLibPath;
@@ -23,6 +24,8 @@ namespace DD_DVR.ViewModel
             set
             {
                 _videoLibPath = value;
+                ConfigurationRepository.Instanse.OutputVodeoDir = value;
+                ConfigurationRepository.Instanse.Save();
                 OnPropertyChanged();
             }
         }

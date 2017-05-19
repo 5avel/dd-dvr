@@ -24,9 +24,10 @@ namespace DD_DVR.BL
             // получить путь к корню для сохранения конвертированного вигео
             // сформировать полный путь для сохранения конвертированного вигео: корень/номер_автобуса/дата
             // проверить свободное место на диске для сохранения конвертированного видео
-            ConfigurationRepository cr = new ConfigurationRepository();
-            string outputVodeoDir = cr.GetOutputVodeoDir();
-            DirectoryInfo di = new DirectoryInfo(path);
+
+            string outputVodeoDir = ConfigurationRepository.Instanse.OutputVodeoDir;
+            
+           DirectoryInfo di = new DirectoryInfo(path);
             var separator = Path.DirectorySeparatorChar;
 
             saveVideoFolder = outputVodeoDir + separator + busTitle + separator +di.Name;

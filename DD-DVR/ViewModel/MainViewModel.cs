@@ -428,9 +428,9 @@ namespace DD_DVR.ViewModel
                     // Открываем готовое к просмотру видео для подсчета пасажиров
                     using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
                     {
-                        ConfigurationRepository cr = new ConfigurationRepository();
+                       
                         dlg.RootFolder = Environment.SpecialFolder.MyComputer; // установка корневого коталага
-                        dlg.SelectedPath = cr.GetOutputVodeoDir(); // установка текущей папки из конфига
+                        dlg.SelectedPath = ConfigurationRepository.Instanse.OutputVodeoDir; // установка текущей папки из конфига
                         if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
                         {
                             VideoViewModel.GetInstance().IsPoused = true; // ставим состояние вюмодели плеера на паузу
