@@ -11,6 +11,7 @@ namespace DD_DVR.Data.Model
     {
         public decimal Price { set; get;}
         
+        
         public string Text
         {
             get

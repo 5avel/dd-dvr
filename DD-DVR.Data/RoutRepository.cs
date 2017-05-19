@@ -1,43 +1,19 @@
 ﻿using DD_DVR.Data.Model;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace DD_DVR.Data
 {
-    public class RoutRepository
+    public class RoutRepository : BaseRepository<RoutRepository>
     {
-        public IEnumerable<Driver> GetAllDrivers()
-        {
-            return new List<Driver>
-            {
-                new Driver() {Title = "Иванов И.И."},
-                new Driver(){Title = "Петров П.П."},
-                new Driver(){ Title = "Максимов М.М." },
-                new Driver() {Title = "Павлов П.П." }
-            };
-        }
-
-        public IEnumerable<Bus> GetAllBuses()
-        {
-            return new List<Bus>
-            {
-                new Bus() {Title = "1234"},
-                new Bus(){Title = "2345"},
-                new Bus(){ Title = "5662" },
-                new Bus() {Title = "1111" }
-            };
-        }
-        public IEnumerable<Rout> GetAllRoutes()
-        {
-            return new List<Rout>
-            {
-                new Rout() {Title = "Орловщина"},
-                new Rout(){Title = "Маршрут №5"},
-                new Rout(){ Title = "Маршрут №6" }
-            };
-        }
+        public static new string savePath = "Configs\\RoutRepository.xml";
+        private RoutRepository() { }
+   
+        public List<Driver> Drivers { set; get; }
+        public List<Bus> Buses { set; get; }
+        public List<Rout> Routes { set; get; }
     }
 }

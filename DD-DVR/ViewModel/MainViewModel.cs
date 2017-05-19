@@ -18,13 +18,11 @@ namespace DD_DVR.ViewModel
     {
         public MainViewModel()
         {
-            var routRepository = new RoutRepository();
-            var rateRepository = new RateRepository();
-            Drivers = new ObservableCollection<Driver>(routRepository.GetAllDrivers());
-            Routes = new ObservableCollection<Rout>(routRepository.GetAllRoutes());
-            Buses = new ObservableCollection<Bus>(routRepository.GetAllBuses());
-            Rates = new ObservableCollection<Rate>(rateRepository.GetAllRates());
-            SelectedRate = rateRepository.GetSelectedRate();
+            Drivers = new ObservableCollection<Driver>(RoutRepository.Instanse.Drivers);
+            Routes = new ObservableCollection<Rout>(RoutRepository.Instanse.Routes);
+            Buses = new ObservableCollection<Bus>(RoutRepository.Instanse.Buses);
+            Rates = new ObservableCollection<Rate>(RateRepository.Instanse.Rates);
+            SelectedRate = Rates[RateRepository.Instanse.SelectedRateNum];
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }

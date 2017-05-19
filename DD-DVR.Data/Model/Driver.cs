@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DD_DVR.Data.Model
 {
+    [Serializable]
     public class Driver
     {
         public string Title { set; get; }

@@ -1,34 +1,21 @@
 ﻿using DD_DVR.Data.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DD_DVR.Data
 {
-    public class RateRepository
+    public class RateRepository : BaseRepository<RateRepository>
     {
-        public RateRepository()
-        {
-            Rates = new List<Rate>
-            {
-                new Rate() {Price = 3.00m },
-                new Rate() {Price = 4.00m },
-                new Rate() { Price = 5m },
-                new Rate() {Price = 6m }
-            };
-        }
-        private List<Rate> Rates = new List<Rate>();
+        public static new string savePath = "Configs\\RateRepository.xml";
 
-        public IEnumerable<Rate> GetAllRates()
-        {
-            return Rates;
-        }
-
-        public Rate GetSelectedRate()
-        {
-            return Rates[2];
-        }
+        private RateRepository() {}
+       
+        public List<Rate> Rates { set; get; }
+        public int SelectedRateNum { set; get; }
     }
 }
