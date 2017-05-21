@@ -56,5 +56,16 @@
   <ItemGroup>
     <Folder Include="Settings\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configs\ConfigurationRepository.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\RateRepository.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\RoutRepository.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

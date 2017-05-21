@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<RateRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Rates>
+    <Rate>
+      <Price>105</Price>
+    </Rate>
+    <Rate>
+      <Price>4.00</Price>
+    </Rate>
+    <Rate>
+      <Price>5</Price>
+    </Rate>
+    <Rate>
+      <Price>6</Price>
+    </Rate>
+  </Rates>
+  <SelectedRateNum>2</SelectedRateNum>
+</RateRepository>

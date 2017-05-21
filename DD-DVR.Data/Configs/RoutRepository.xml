@@ -1,0 +1,42 @@
+﻿<?xml version="1.0"?>
+<RoutRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Drivers>
+    <Driver>
+      <Title>Иванов И.И.</Title>
+    </Driver>
+    <Driver>
+      <Title>Петров П.П.</Title>
+    </Driver>
+    <Driver>
+      <Title>Максимов М.М.</Title>
+    </Driver>
+    <Driver>
+      <Title>Павлов П.П.</Title>
+    </Driver>
+  </Drivers>
+  <Buses>
+    <Bus>
+      <Title>1234</Title>
+    </Bus>
+    <Bus>
+      <Title>2345</Title>
+    </Bus>
+    <Bus>
+      <Title>5662</Title>
+    </Bus>
+    <Bus>
+      <Title>1111</Title>
+    </Bus>
+  </Buses>
+  <Routes>
+    <Rout>
+      <Title>Орловщина</Title>
+    </Rout>
+    <Rout>
+      <Title>Маршрут №5</Title>
+    </Rout>
+    <Rout>
+      <Title>Маршрут №668</Title>
+    </Rout>
+  </Routes>
+</RoutRepository>
