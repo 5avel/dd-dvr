@@ -16,13 +16,17 @@ namespace DD_DVR.ViewModel
 {
     class MainViewModel : ViewModelBase
     {
+        private RateRepository rateRepository;
         public MainViewModel()
         {
-            Drivers = new ObservableCollection<Driver>(RoutRepository.LoadObjFromFile().Drivers);
-            Routes = new ObservableCollection<Rout>(RoutRepository.LoadObjFromFile().Routes);
-            Buses = new ObservableCollection<Bus>(RoutRepository.LoadObjFromFile().Buses);
-            Rates = new ObservableCollection<Rate>(RateRepository.LoadObjFromFile().Rates);
-            SelectedRate = Rates[ RateRepository.LoadObjFromFile().SelectedRateNum];
+            RoutRepository routRepository = RoutRepository.LoadObjFromFile();
+            Drivers = new ObservableCollection<Driver>(routRepository.Drivers);
+            Routes = new ObservableCollection<Rout>(routRepository.Routes);
+            Buses = new ObservableCollection<Bus>(routRepository.Buses);
+
+            rateRepository = RateRepository.LoadObjFromFile();
+            Rates = new ObservableCollection<Rate>(rateRepository.Rates);
+            SelectedRate = Rates[rateRepository.SelectedRateNum];
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
@@ -123,6 +127,9 @@ namespace DD_DVR.ViewModel
             {
                 DVRPlayer.Instance.CurentMediaSource = value;
                 VideoViewModel.GetInstance().IsPoused = true;
+                VideoViewModel.GetInstance().Position = 0;
+
+
                 OnPropertyChanged();
             }
         }
@@ -138,6 +145,10 @@ namespace DD_DVR.ViewModel
             set
             {
                 _selectedRate = value;
+
+                rateRepository.SelectedRateNum = Rates.IndexOf(_selectedRate);
+                RateRepository.SaveObjToFile(rateRepository);  // записываем в файл выбраную стоимость проезда
+
                 OnPropertyChanged();
             }
         }
@@ -378,7 +389,15 @@ namespace DD_DVR.ViewModel
                             int videoFilesCount;
                             if (vfr.ResolveRawVideoFolder(dlg.SelectedPath, SelectedBus.Title, out saveVideoFolder, out streamCount, out videoFilesCount))
                             {
-                                // если все ок, открываем флайаут с информацией о ковертации и предлагаем начать конвертацию
+                                //TODO: Сохраняем данные видео:Маршрут, Автобус, Водитель
+                                VideoDataRepository videoDataRepository = new VideoDataRepository()
+                                {
+                                    Rout = SelectedRout,
+                                    Bus = SelectedBus,
+                                    Driver = SelectedDriver
+                                };
+                                VideoDataRepository.SaveObjToFile(videoDataRepository, saveVideoFolder + "\\Data\\");
+
                                 VideoConverter vc = new VideoConverter(dlg.SelectedPath, saveVideoFolder);
                                 vc.ConvertingStarted += (s, e) =>
                                 {
@@ -438,7 +457,7 @@ namespace DD_DVR.ViewModel
                             { // загрузили видео 
                                 // в BL начинаем просчет дня
                                 fr = new BL.FareReportBuilder();
-                                fr.StartCalculation();
+                                fr.StartCalculation(dlg.SelectedPath);
                             }
                             else
                             {
@@ -446,6 +465,19 @@ namespace DD_DVR.ViewModel
                             }
                         }
                     }
+
+                }));
+            }
+        }
+
+        private RelayCommand _closeReportCommand;
+        public ICommand CloseReportCommand
+        {
+            get
+            {
+                return _closeReportCommand ?? (_closeReportCommand = new RelayCommand(param =>
+                {
+                    fr.EndCalculation();
 
                 }));
             }

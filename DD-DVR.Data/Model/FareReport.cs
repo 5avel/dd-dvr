@@ -13,6 +13,11 @@ namespace DD_DVR.Data.Model
         {
             Tours = new List<Tour>();
         }
+
+        public Rout Rout { set; get; }
+        public Bus Bus { set; get; }
+        public Driver Driver { set; get; }
+
         public List<Tour> Tours { set; get; }
         public bool IsClosed { get; set; }
     }

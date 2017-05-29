@@ -121,6 +121,11 @@
                     <KeyBinding Key="V" CommandParameter="V" Command="{Binding VideoKeyBinding}"/>
                 </ListBox.InputBindings>
             </ListBox>
+            <StackPanel Orientation="Horizontal" Margin="5 0 5 5" >
+                <!--<Button Content="Начать" />-->
+                <Button Content="Закрыть" Command="{Binding CloseReportCommand}" Focusable="False"  />
+                <Button Content="Excel"  Focusable="False" />
+            </StackPanel>
             <Border Margin="5 0 5 5" Padding="5" BorderThickness="1" BorderBrush="White" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -142,7 +147,7 @@
                         <Label Content="{Binding CurentLap}" />
                     </StackPanel>
                     <StackPanel  Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">
-                        <Label  Width="80" Content="Пасажиров:"/>
+                        <Label  Width="80" Content="Пассажиров:"/>
                         <Label Content="{Binding CurentLapPasangersCount}" />
                     </StackPanel>
                     <StackPanel  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" Orientation="Horizontal">
@@ -151,7 +156,7 @@
                     </StackPanel>
 
                     <StackPanel  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Horizontal">
-                        <Label  Width="110" Content="Пасажиров всего:"/>
+                        <Label  Width="110" Content="Пассажиров всего:"/>
                         <Label Content="{Binding PasangersCount}" />
                     </StackPanel>
                     <StackPanel  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Orientation="Horizontal">

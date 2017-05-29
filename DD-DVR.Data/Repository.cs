@@ -32,8 +32,13 @@ namespace DD_DVR.Data
             if (!string.IsNullOrEmpty(savePath)) path = savePath;
             else path = defoultePath;
 
+            if(!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
             XmlSerializer formatter = new XmlSerializer(typeof(T));
-            using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.Create))
+            using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, obj);
             }

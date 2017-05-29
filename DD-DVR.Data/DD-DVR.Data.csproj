@@ -52,6 +52,7 @@
     <Compile Include="ReportRepository.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="RoutRepository.cs" />
+    <Compile Include="VideoDataRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Settings\" />
