@@ -9,12 +9,8 @@ using System.Xml.Serialization;
 
 namespace DD_DVR.Data
 {
-    public class RateRepository : BaseRepository<RateRepository>
+    public class RateRepository
     {
-        public static new string savePath = "Configs\\RateRepository.xml";
-
-        private RateRepository() {}
-       
         public List<Rate> Rates { set; get; }
         public int SelectedRateNum { set; get; }
     }

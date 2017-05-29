@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRepository.cs" />
     <Compile Include="Model\Bus.cs" />
     <Compile Include="ConfigurationRepository.cs" />
     <Compile Include="Model\Driver.cs" />
@@ -51,6 +50,7 @@
     <Compile Include="RateRepository.cs" />
     <Compile Include="Model\Rout.cs" />
     <Compile Include="ReportRepository.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="RoutRepository.cs" />
   </ItemGroup>
   <ItemGroup>

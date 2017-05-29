@@ -1,10 +1,5 @@
-﻿using MVVMLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DD_DVR.Data;
+﻿using DD_DVR.Data;
+using MVVMLib;
 
 namespace DD_DVR.ViewModel
 {
@@ -12,7 +7,7 @@ namespace DD_DVR.ViewModel
     {
         public SettingsViewModel()
         {
-            _videoLibPath = ConfigurationRepository.Instanse.OutputVodeoDir;
+            _videoLibPath = new Repository().LoadObjFromFile<ConfigurationRepository>().OutputVodeoDir;
         }
 
         private string _videoLibPath;
@@ -22,8 +17,8 @@ namespace DD_DVR.ViewModel
             set
             {
                 _videoLibPath = value;
-                ConfigurationRepository.Instanse.OutputVodeoDir = value;
-                ConfigurationRepository.Instanse.Save();
+                 new Repository().LoadObjFromFile<ConfigurationRepository>().OutputVodeoDir = value;
+                 new Repository().SaveObjToFile<ConfigurationRepository>();
                 OnPropertyChanged();
             }
         }
