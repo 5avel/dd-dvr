@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace DD_DVR.Data
 {
-    public class RateRepository
+    public class RateRepository : Repository<RateRepository> 
     {
         public List<Rate> Rates { set; get; }
         public int SelectedRateNum { set; get; }

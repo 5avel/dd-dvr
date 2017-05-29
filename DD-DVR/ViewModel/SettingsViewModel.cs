@@ -7,7 +7,7 @@ namespace DD_DVR.ViewModel
     {
         public SettingsViewModel()
         {
-            _videoLibPath = new Repository().LoadObjFromFile<ConfigurationRepository>().OutputVodeoDir;
+            _videoLibPath = ConfigurationRepository.LoadObjFromFile().OutputVodeoDir;
         }
 
         private string _videoLibPath;
@@ -17,8 +17,9 @@ namespace DD_DVR.ViewModel
             set
             {
                 _videoLibPath = value;
-                 new Repository().LoadObjFromFile<ConfigurationRepository>().OutputVodeoDir = value;
-                 new Repository().SaveObjToFile<ConfigurationRepository>();
+                var obj = ConfigurationRepository.LoadObjFromFile();
+                obj.OutputVodeoDir = value;
+                ConfigurationRepository.SaveObjToFile(obj);
                 OnPropertyChanged();
             }
         }

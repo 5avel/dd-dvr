@@ -18,11 +18,11 @@ namespace DD_DVR.ViewModel
     {
         public MainViewModel()
         {
-            Drivers = new ObservableCollection<Driver>(new Repository().LoadObjFromFile<RoutRepository>().Drivers);
-            Routes = new ObservableCollection<Rout>( new Repository().LoadObjFromFile<RoutRepository>().Routes);
-            Buses = new ObservableCollection<Bus>( new Repository().LoadObjFromFile<RoutRepository>().Buses);
-            Rates = new ObservableCollection<Rate>( new Repository().LoadObjFromFile<RateRepository>().Rates);
-            SelectedRate = Rates[ new Repository().LoadObjFromFile<RateRepository>().SelectedRateNum];
+            Drivers = new ObservableCollection<Driver>(RoutRepository.LoadObjFromFile().Drivers);
+            Routes = new ObservableCollection<Rout>(RoutRepository.LoadObjFromFile().Routes);
+            Buses = new ObservableCollection<Bus>(RoutRepository.LoadObjFromFile().Buses);
+            Rates = new ObservableCollection<Rate>(RateRepository.LoadObjFromFile().Rates);
+            SelectedRate = Rates[ RateRepository.LoadObjFromFile().SelectedRateNum];
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
         }
@@ -430,7 +430,7 @@ namespace DD_DVR.ViewModel
                     {
                        
                         dlg.RootFolder = Environment.SpecialFolder.MyComputer; // установка корневого коталага
-                        dlg.SelectedPath =  new Repository().LoadObjFromFile<ConfigurationRepository>().OutputVodeoDir; // установка текущей папки из конфига
+                        dlg.SelectedPath =  ConfigurationRepository.LoadObjFromFile().OutputVodeoDir; // установка текущей папки из конфига
                         if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
                         {
                             VideoViewModel.GetInstance().IsPoused = true; // ставим состояние вюмодели плеера на паузу

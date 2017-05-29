@@ -1,6 +1,6 @@
 ﻿namespace DD_DVR.Data
 {
-    public class ConfigurationRepository
+    public class ConfigurationRepository : Repository<ConfigurationRepository>
     {
         public string OutputVodeoDir { set; get; }
 

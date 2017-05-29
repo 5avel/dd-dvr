@@ -3,10 +3,10 @@ using System.Xml.Serialization;
 
 namespace DD_DVR.Data
 {
-    public class Repository
+    public class Repository<T> where T : new()
     {
-        private readonly string defoultePath = "Configs\\";
-        private string path;
+        private static readonly string defoultePath = "Configs\\";
+        private static string path;
 
         /// <summary>
         /// загружает объект из файла XML
@@ -15,7 +15,7 @@ namespace DD_DVR.Data
         /// <param name="savePath">принимает путь к объекту, без имени.(имя - это имя типа +".xml"),
         /// если путь не задан то используется Configs\. </param>
         /// <returns>возвращает экземплар обекта</returns>
-        public T LoadObjFromFile<T>(string loadPath = "") where T : new()
+        public static T LoadObjFromFile(string loadPath = "") 
         {
             if (!string.IsNullOrEmpty(loadPath)) path = loadPath;
             else path = defoultePath;
@@ -27,7 +27,7 @@ namespace DD_DVR.Data
             }
         }
 
-        public void SaveObjToFile<T>(string savePath = "") where T : new()
+        public static void SaveObjToFile(T obj, string savePath = "")
         {
             if (!string.IsNullOrEmpty(savePath)) path = savePath;
             else path = defoultePath;
@@ -35,7 +35,7 @@ namespace DD_DVR.Data
             XmlSerializer formatter = new XmlSerializer(typeof(T));
             using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.Create))
             {
-                formatter.Serialize(fs, this);
+                formatter.Serialize(fs, obj);
             }
         }
 
