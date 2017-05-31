@@ -480,7 +480,7 @@ namespace DD_DVR.ViewModel
             {
                 return _saveUsExcelCommand ?? (_saveUsExcelCommand = new RelayCommand(param =>
                 {
-                    fr.Report.IsClosed = false;
+                    fr.SaveReportAsExecl();
                 },
                 param =>
                 {
@@ -573,8 +573,6 @@ namespace DD_DVR.ViewModel
                 }));
             }
         }
-
-        //ConvrtationFlyoutIsOpen
 
     }
 }

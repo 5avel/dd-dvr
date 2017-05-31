@@ -67,6 +67,9 @@ namespace DD_DVR.BL
             CurentTour.tourEnd = dt;
         }
 
-
+        public void SaveReportAsExecl()
+        {
+            new ExcelReport().SaveExcelReport();
+        }
     }
 }
