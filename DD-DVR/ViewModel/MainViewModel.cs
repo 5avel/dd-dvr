@@ -162,7 +162,7 @@ namespace DD_DVR.ViewModel
             get
             {
                 if (fr == null) return "0";
-                return fr.Report.Tours.Count.ToString(); ;
+                return fr.Report.Tours.Count.ToString();
             }
         }
 
@@ -170,7 +170,7 @@ namespace DD_DVR.ViewModel
         {
             get
             {
-                if (fr != null && fr.Report.Tours != null && fr.Report.Tours[fr.Report.Tours.Count - 1].passengers != null)
+                if (fr != null && fr.Report.Tours != null && fr.Report.Tours.Count != 0 && fr.Report.Tours[fr.Report.Tours.Count - 1].passengers != null)
                 {
                     return fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Count.ToString();
                 }
@@ -183,7 +183,7 @@ namespace DD_DVR.ViewModel
         {
             get
             {
-                if (fr == null) return "0";
+                if (fr == null || fr.Report.Tours.Count == 0) return "0";
                 return fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Where(p => p.isExemption).Count().ToString();
             }
         }
@@ -254,6 +254,7 @@ namespace DD_DVR.ViewModel
 
         private void UpdareReportView()
         {
+            OnPropertyChanged("CurentLap");
             OnPropertyChanged("CurentLapPasangersCount");
             OnPropertyChanged("CurentLapExemptionPasangersCount");
             OnPropertyChanged("PasangersCount");
@@ -289,9 +290,9 @@ namespace DD_DVR.ViewModel
                     }
                     else if ("Space" == param.ToString())
                     {
-                        if (fr != null)
+                        if (fr != null && !fr.Report.IsClosed)
                         {
-                            if (fr.isClosedTour)
+                            if (fr.CurentTour.tourEnd != new DateTime())
                             {
                                 if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
@@ -322,9 +323,9 @@ namespace DD_DVR.ViewModel
                     }
                     else if ("V" == param.ToString())
                     {
-                        if (fr != null)
+                        if (fr != null && !fr.Report.IsClosed)
                         {
-                            if (fr.isClosedTour)
+                            if (fr.CurentTour.tourEnd != new DateTime())
                             {
                                 if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
@@ -449,6 +450,7 @@ namespace DD_DVR.ViewModel
                     {
                        
                         dlg.RootFolder = Environment.SpecialFolder.MyComputer; // установка корневого коталага
+                        
                         dlg.SelectedPath =  ConfigurationRepository.LoadObjFromFile().OutputVodeoDir; // установка текущей папки из конфига
                         if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))
                         {
@@ -458,6 +460,7 @@ namespace DD_DVR.ViewModel
                                 // в BL начинаем просчет дня
                                 fr = new BL.FareReportBuilder();
                                 fr.StartCalculation(dlg.SelectedPath);
+                                UpdareReportView();
                             }
                             else
                             {
@@ -470,6 +473,41 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private RelayCommand _saveUsExcelCommand;
+        public ICommand SaveUsExcelCommand
+        {
+            get
+            {
+                return _saveUsExcelCommand ?? (_saveUsExcelCommand = new RelayCommand(param =>
+                {
+                    fr.Report.IsClosed = false;
+                },
+                param =>
+                {
+                    if (fr == null || !fr.Report.IsClosed) return false;
+                    return true;
+                }));
+            }
+        }
+
+
+        private RelayCommand _saveReportCommand;
+        public ICommand SaveReportCommand
+        {
+            get
+            {
+                return _saveReportCommand ?? (_saveReportCommand = new RelayCommand(param =>
+                {
+                    fr.SaveReport();
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return false;
+                    return true;
+                }));
+            }
+        }
+
         private RelayCommand _closeReportCommand;
         public ICommand CloseReportCommand
         {
@@ -478,7 +516,12 @@ namespace DD_DVR.ViewModel
                 return _closeReportCommand ?? (_closeReportCommand = new RelayCommand(param =>
                 {
                     fr.EndCalculation();
-
+                    fr.SaveReport();
+                },
+                param =>
+                {
+                    if(fr == null || fr.CurentTour.tourEnd == new DateTime() || fr.Report.IsClosed) return false;
+                    return true;
                 }));
             }
         }
@@ -503,13 +546,12 @@ namespace DD_DVR.ViewModel
             {
                 return _startTourCommand ?? (_startTourCommand = new RelayCommand(param =>
                 {
-                    fr.StartTour();
-                    OnPropertyChanged("CurentLap");
+                    fr.StartTour(SelectedMediaSource.StartDT + DVRPlayer.Instance.Position);
                     UpdareReportView();
                 },
                 param =>
                 {
-                    if (fr?.Report == null || !fr.isClosedTour) return false;
+                    if (fr?.Report == null || fr.CurentTour.tourEnd == new DateTime() || fr.Report.IsClosed) return false;
                     return true;
                 }));
             }
@@ -522,11 +564,11 @@ namespace DD_DVR.ViewModel
             {
                 return _endTourCommand ?? (_endTourCommand = new RelayCommand(param =>
                 {
-                    fr.EndTour();
+                    fr.EndTour(SelectedMediaSource.StartDT + DVRPlayer.Instance.Position);
                 },
                 param =>
                 {
-                    if (fr?.Report == null || fr.isClosedTour) return false;
+                    if (fr?.Report == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return false;
                     return true;
                 }));
             }

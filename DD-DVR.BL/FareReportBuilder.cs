@@ -12,9 +12,6 @@ namespace DD_DVR.BL
     public class FareReportBuilder
     {
         public Data.Model.FareReport Report;
-
-        public bool isClosedTour = true;
-
         private string reportPath = "";
 
         public Tour CurentTour
@@ -53,19 +50,21 @@ namespace DD_DVR.BL
         public void EndCalculation()
         {
             Report.IsClosed = true;
+        }
+
+        public void SaveReport()
+        {
             ReportRepository.SaveObjToFile(new ReportRepository() { FareReport = Report }, reportPath);
         }
 
-        public void StartTour()
+        public void StartTour(DateTime dt)
         {
-            Report.Tours.Add(new Tour() { tourStart = DateTime.Now });
-            isClosedTour = false;
+            Report.Tours.Add(new Tour() { tourStart = dt });
         }
 
-        public void EndTour()
+        public void EndTour(DateTime dt)
         {
-            CurentTour.tourEnd = DateTime.Now;
-            isClosedTour = true;
+            CurentTour.tourEnd = dt;
         }
 
 

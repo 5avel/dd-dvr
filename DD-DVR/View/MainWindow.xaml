@@ -124,7 +124,8 @@
             <StackPanel Orientation="Horizontal" Margin="5 0 5 5" >
                 <!--<Button Content="Начать" />-->
                 <Button Content="Закрыть" Command="{Binding CloseReportCommand}" Focusable="False"  />
-                <Button Content="Excel"  Focusable="False" />
+                <Button Content="Сохранить" Command="{Binding SaveReportCommand}" Focusable="False" />
+                <Button Content="Excel"  Focusable="False" Command="{Binding SaveUsExcelCommand}" />
             </StackPanel>
             <Border Margin="5 0 5 5" Padding="5" BorderThickness="1" BorderBrush="White" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid>
