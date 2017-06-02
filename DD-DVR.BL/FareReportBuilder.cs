@@ -11,7 +11,7 @@ namespace DD_DVR.BL
 {
     public class FareReportBuilder
     {
-        public Data.Model.FareReport Report;
+        public FareReport Report;
         private string reportPath = "";
 
         public Tour CurentTour
@@ -69,7 +69,7 @@ namespace DD_DVR.BL
 
         public void SaveReportAsExecl()
         {
-            new ExcelReport().SaveExcelReport();
+            new ExcelReport().SaveExcelReport(Report);
         }
     }
 }
