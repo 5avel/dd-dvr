@@ -38,9 +38,12 @@ namespace DD_DVR.Data
             }
 
             XmlSerializer formatter = new XmlSerializer(typeof(T));
-            using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.OpenOrCreate))
+            lock (new object())
             {
-                formatter.Serialize(fs, obj);
+                using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.Create))
+                {
+                    formatter.Serialize(fs, obj);
+                }
             }
         }
 

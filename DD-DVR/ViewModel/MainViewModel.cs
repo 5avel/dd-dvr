@@ -292,7 +292,7 @@ namespace DD_DVR.ViewModel
                     {
                         if (fr != null && !fr.Report.IsClosed)
                         {
-                            if (fr.CurentTour.tourEnd != new DateTime())
+                            if (fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime())
                             {
                                 if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
@@ -310,7 +310,7 @@ namespace DD_DVR.ViewModel
                             }
                             else
                             {
-                                fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                               fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
                                     new Passenger()
                                     {
                                         isExemption = false,
@@ -325,7 +325,7 @@ namespace DD_DVR.ViewModel
                     {
                         if (fr != null && !fr.Report.IsClosed)
                         {
-                            if (fr.CurentTour.tourEnd != new DateTime())
+                            if (fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime())
                             {
                                 if (MessageBoxResult.Yes == MessageBox.Show("Круг закончен! Начать новый?", "", MessageBoxButton.YesNo))
                                 {
@@ -520,7 +520,7 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
-                    if(fr == null || fr.CurentTour.tourEnd == new DateTime() || fr.Report.IsClosed) return false;
+                    if (fr == null || fr.CurentTour == null || fr.CurentTour.tourEnd == new DateTime() || fr.Report.IsClosed) return false;
                     return true;
                 }));
             }
@@ -551,8 +551,13 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
-                    if (fr?.Report == null || fr.CurentTour.tourEnd == new DateTime() || fr.Report.IsClosed) return false;
-                    return true;
+                    if (fr?.Report != null)
+                    {
+                        if (fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return true;
+                        return false;
+                    }
+                        return false;
+
                 }));
             }
         }
@@ -568,7 +573,7 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
-                    if (fr?.Report == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return false;
+                    if (fr?.Report == null || fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return false;
                     return true;
                 }));
             }
