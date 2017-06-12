@@ -540,27 +540,30 @@ namespace DD_DVR.ViewModel
         }
 
         private RelayCommand _startTourCommand;
-        public ICommand StartTourCommand
-        {
-            get
+        public ICommand StartTourCommand => _startTourCommand ?? (_startTourCommand = new RelayCommand(
+            param =>
             {
-                return _startTourCommand ?? (_startTourCommand = new RelayCommand(param =>
+                fr.StartTour(SelectedMediaSource.StartDT + DVRPlayer.Instance.Position);
+                UpdareReportView();
+            },
+            param =>
+            {
+                if (fr?.Report != null) 
                 {
-                    fr.StartTour(SelectedMediaSource.StartDT + DVRPlayer.Instance.Position);
-                    UpdareReportView();
-                },
-                param =>
-                {
-                    if (fr?.Report != null)
+                    if (fr.CurentTour == null || (fr.CurentTour.tourEnd != new DateTime() && fr.Report.IsClosed == false))
                     {
-                        if (fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return true;
+                        return true;
+                    }
+                    else
+                    {
                         return false;
                     }
-                        return false;
-
-                }));
-            }
-        }
+                }
+                else
+                {
+                    return false;
+                }
+            }));
 
         private RelayCommand _endTourCommand;
         public ICommand EndTourCommand
@@ -573,8 +576,14 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
-                    if (fr?.Report == null || fr.CurentTour == null || fr.CurentTour.tourEnd != new DateTime() || fr.Report.IsClosed) return false;
-                    return true;
+                    if (fr?.Report == null || fr.CurentTour == null || fr.Report.IsClosed || fr.CurentTour.tourEnd != new DateTime())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }));
             }
         }
