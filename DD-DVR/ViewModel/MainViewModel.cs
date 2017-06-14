@@ -11,6 +11,7 @@ using DD_DVR.Data;
 using DD_DVR.BL.Player;
 using DD_DVR.Data.Model;
 using System.Linq;
+using System.Timers;
 
 namespace DD_DVR.ViewModel
 {
@@ -29,6 +30,25 @@ namespace DD_DVR.ViewModel
             SelectedRate = Rates[rateRepository.SelectedRateNum];
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
+
+            //"56036f3210937607ff5a543722798d23"
+            if (!BL.VideoFolderResolver.Test(Data.ConfigurationRepository.LoadObjFromFile().Key))
+            {
+                MessageBox.Show("Ошыбка 13!");
+                Timer timer = new Timer(30*1000);
+                timer.Elapsed += Timer_Elapsed;
+                timer.Start();
+                //this.Shutdown(-1);
+            }
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            App.Current.Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+                App.Current.Shutdown(-1);
+            }));
+            
         }
 
         BL.FareReportBuilder fr;

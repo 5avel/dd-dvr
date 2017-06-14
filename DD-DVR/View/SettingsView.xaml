@@ -10,13 +10,11 @@
     <Window.DataContext>
         <viewModel:SettingsViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="229*"/>
-        </Grid.RowDefinitions>
-        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+    <StackPanel Margin="5">
+       
+        
         <TextBox Text="{Binding VideoLibPath}" />
+        <TextBox Margin="0 5 0 0" Text="{Binding LicKey}" />
 
-    </Grid>
+    </StackPanel>
 </controls:MetroWindow>

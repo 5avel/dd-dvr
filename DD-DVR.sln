@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DD-DVR", "DD-DVR\DD-DVR.csproj", "{13570D6D-94C7-4BAC-A730-EB4E56177D42}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DD-DVR.Converter.Test", "DD-DVR.Converter.Test\DD-DVR.Converter.Test.csproj", "{F1329583-E98E-452F-BC1D-EC8947701C61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1B28F8C-C963-470C-A275-0AEECF1D1A56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lic", "Lic", "{67F463B5-C41A-429D-8AE9-C44BCE9C67EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetHesh", "GetHesh\GetHesh.csproj", "{23D7847A-4AE2-47F5-9F26-DE99441F5497}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetLic", "GetLic\GetLic.csproj", "{AAF1FFBA-E480-4203-8FCD-034734F126D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,11 +53,21 @@ Global
 		{F1329583-E98E-452F-BC1D-EC8947701C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1329583-E98E-452F-BC1D-EC8947701C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1329583-E98E-452F-BC1D-EC8947701C61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23D7847A-4AE2-47F5-9F26-DE99441F5497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23D7847A-4AE2-47F5-9F26-DE99441F5497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23D7847A-4AE2-47F5-9F26-DE99441F5497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23D7847A-4AE2-47F5-9F26-DE99441F5497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAF1FFBA-E480-4203-8FCD-034734F126D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAF1FFBA-E480-4203-8FCD-034734F126D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAF1FFBA-E480-4203-8FCD-034734F126D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAF1FFBA-E480-4203-8FCD-034734F126D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F1329583-E98E-452F-BC1D-EC8947701C61} = {C1B28F8C-C963-470C-A275-0AEECF1D1A56}
+		{23D7847A-4AE2-47F5-9F26-DE99441F5497} = {67F463B5-C41A-429D-8AE9-C44BCE9C67EC}
+		{AAF1FFBA-E480-4203-8FCD-034734F126D8} = {67F463B5-C41A-429D-8AE9-C44BCE9C67EC}
 	EndGlobalSection
 EndGlobal

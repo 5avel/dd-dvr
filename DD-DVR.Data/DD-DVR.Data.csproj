@@ -54,9 +54,7 @@
     <Compile Include="RoutRepository.cs" />
     <Compile Include="VideoDataRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Configs\ConfigurationRepository.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

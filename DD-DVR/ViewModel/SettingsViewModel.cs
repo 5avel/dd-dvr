@@ -7,7 +7,9 @@ namespace DD_DVR.ViewModel
     {
         public SettingsViewModel()
         {
-            _videoLibPath = ConfigurationRepository.LoadObjFromFile().OutputVodeoDir;
+            var config = ConfigurationRepository.LoadObjFromFile();
+            _videoLibPath = config.OutputVodeoDir;
+            _licKey = config.Key;
         }
 
         private string _videoLibPath;
@@ -19,6 +21,20 @@ namespace DD_DVR.ViewModel
                 _videoLibPath = value;
                 var obj = ConfigurationRepository.LoadObjFromFile();
                 obj.OutputVodeoDir = value;
+                ConfigurationRepository.SaveObjToFile(obj);
+                OnPropertyChanged();
+            }
+        }
+
+        private string _licKey;
+        public string LicKey
+        {
+            get => _licKey;
+            set
+            {
+                _licKey = value;
+                var obj = ConfigurationRepository.LoadObjFromFile();
+                obj.Key = value;
                 ConfigurationRepository.SaveObjToFile(obj);
                 OnPropertyChanged();
             }
