@@ -191,7 +191,7 @@ namespace DD_DVR.ViewModel
             get => _curspeedRatio;
             set
             {
-                if (value >= 0.25 && value <= 64)
+                if (value >= 0.25 && value <= 128)
                 {
                     _curspeedRatio = value;
                     dvr.SetSpeedRatio(_curspeedRatio);

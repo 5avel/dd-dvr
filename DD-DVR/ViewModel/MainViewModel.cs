@@ -413,9 +413,18 @@ namespace DD_DVR.ViewModel
                                     VideoViewModel.GetInstance().IsPoused = true;
                                     DVRPlayer.Instance.p1.Dispatcher.BeginInvoke(new Action(delegate ()
                                     {
-
-                                        if (!DVRPlayer.Instance.LoadMedia(saveVideoFolder))
+                                        VideoViewModel.GetInstance().IsPoused = true; // ставим состояние вюмодели плеера на паузу
+                                        if (DVRPlayer.Instance.LoadMedia(saveVideoFolder))
+                                        { // загрузили видео 
+                                          // в BL начинаем просчет дня
+                                            fr = new BL.FareReportBuilder();
+                                            fr.StartCalculation(saveVideoFolder);
+                                            UpdareReportView();
+                                        }
+                                        else
+                                        {
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
+                                        }
 
                                     }));
                                 };
