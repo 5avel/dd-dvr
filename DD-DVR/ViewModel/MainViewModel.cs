@@ -34,7 +34,7 @@ namespace DD_DVR.ViewModel
             //"56036f3210937607ff5a543722798d23"
             if (!BL.VideoFolderResolver.Test(Data.ConfigurationRepository.LoadObjFromFile().Key))
             {
-                MessageBox.Show("Ошыбка 13!");
+                MessageBox.Show("Ошибка лицензии!");
                 Timer timer = new Timer(30*1000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Start();
