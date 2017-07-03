@@ -56,6 +56,7 @@ namespace DD_DVR.ViewModel
                 if (_position == value) return;
                 _position = value;
                     
+                    //BUG: падает при клацание кнопками, без открытого видео! (как вариант делать не активными пока не загружено видео)
                 var newPosition = new TimeSpan(0, 0, 0, 0, _position);
                 PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
                 dvr.Position = newPosition;
