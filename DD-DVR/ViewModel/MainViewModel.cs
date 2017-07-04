@@ -325,6 +325,7 @@ namespace DD_DVR.ViewModel
                                        payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                    });
                                     UpdareReportView();
+                                    VideoViewModel.GetInstance().ShowGreenIcon = true;
                                 }
 
                             }
@@ -338,6 +339,7 @@ namespace DD_DVR.ViewModel
                                         payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                     });
                                 UpdareReportView();
+                                VideoViewModel.GetInstance().ShowGreenIcon = true;
                             }
                         }
                     }
@@ -358,6 +360,7 @@ namespace DD_DVR.ViewModel
                                         payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                     });
                                     UpdareReportView();
+                                    VideoViewModel.GetInstance().ShowRedIcon = true;
                                 }
                             }
                             else
@@ -370,6 +373,7 @@ namespace DD_DVR.ViewModel
                                    payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                });
                                 UpdareReportView();
+                                VideoViewModel.GetInstance().ShowRedIcon = true;
                             }
                         }
                     }

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AsyncCommand.cs" />
     <Compile Include="AsyncCommandBase.cs" />
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="IAsyncCommand.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />

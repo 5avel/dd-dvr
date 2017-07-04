@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\VideoViewModel.cs" />
+    <Compile Include="View\ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\ValueConverters\HeightToWidth3x4ValueConverter.cs" />
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>

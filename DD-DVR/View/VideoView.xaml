@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:converter="clr-namespace:DD_DVR.View.ValueConverters"
       x:Class="DD_DVR.View.VideoView"
       d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type={x:Type viewModel:VideoViewModel}}"
       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="350">
@@ -12,6 +13,11 @@
     <Page.DataContext>
         <viewModel:VideoViewModel x:Name="dc"/>
     </Page.DataContext>
+    <Page.Resources>
+        <ResourceDictionary>
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
 
 
     <Grid >
@@ -38,37 +44,8 @@
             <Rectangle Fill="{Binding VideoBrushCam4}" />
         </Border>
         <DockPanel Name="TopMenuArea" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <iconPacks:PackIconMaterial Kind="HumanHandsdown" Opacity="0" Width="64" Height="64" DockPanel.Dock="Bottom" Foreground="Green">
-                <iconPacks:PackIconMaterial.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurspeedRatio}" Value="8">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard
-                                                        Storyboard.TargetProperty="Opacity"
-                                                        Duration="0:0:1">
-                                            <DoubleAnimation To="1" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard
-                                                        Storyboard.TargetProperty="Opacity"
-                                                        Duration="0:0:1">
-                                            <DoubleAnimation To="0" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </iconPacks:PackIconMaterial.Style>
-            </iconPacks:PackIconMaterial>
-
-
-
+            <iconPacks:PackIconMaterial Visibility="{Binding ShowGreenIcon, Converter={StaticResource BoolToVisibilityConverter}}" Kind="HumanHandsdown" Width="64" Height="64" DockPanel.Dock="Bottom" Foreground="Green"/>
+            <iconPacks:PackIconMaterial Visibility="{Binding ShowRedIcon, Converter={StaticResource BoolToVisibilityConverter}}" Kind="HumanHandsdown" Width="64" Height="64" DockPanel.Dock="Bottom" Foreground="Red"/>
         </DockPanel>
        
         <Grid Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">

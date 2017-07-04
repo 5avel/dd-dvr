@@ -201,7 +201,55 @@ namespace DD_DVR.ViewModel
             }
         }
 
-     
+
+
+        private bool _showGreenIcon = false;
+        public bool ShowGreenIcon
+        {
+            get => _showGreenIcon;
+            set
+            {
+                _showGreenIcon = value;
+                if(_showGreenIcon)
+                {
+                    Timer greenIconTimer = new Timer(600);
+                    greenIconTimer.Elapsed += GreenIconTimer_Elapsed; ;
+                    greenIconTimer.Start();
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private void GreenIconTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            ShowGreenIcon = false;
+            ((Timer)sender).Stop();
+        }
+
+        private bool _showRedIcon = false;
+        public bool ShowRedIcon
+        {
+            get => _showRedIcon;
+            set
+            {
+                _showRedIcon = value;
+                if (_showRedIcon)
+                {
+                    Timer redIconTimer = new Timer(600);
+                    redIconTimer.Elapsed += RedIconTimer_Elapsed; ;
+                    redIconTimer.Start();
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private void RedIconTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            ShowRedIcon = false;
+            ((Timer)sender).Stop();
+        }
+
+
         #endregion SpeedRatio
         #region implementation GetInstance
         private static VideoViewModel instance;
