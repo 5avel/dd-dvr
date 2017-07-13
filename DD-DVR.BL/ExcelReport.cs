@@ -7,15 +7,20 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DD_DVR.Data;
 
 namespace DD_DVR.BL
 {
     class ExcelReport
     {
+        private RateRepository _rateRepository = RateRepository.LoadObjFromFile();
         public void SaveExcelReport(FareReport report)
         {
             var workbook = new XLWorkbook();
+
             var worksheet = workbook.Worksheets.Add("Отчет");
+           
+
 
             // Таблица Круги
             var dataTable = GetToursTable(report);
@@ -29,33 +34,38 @@ namespace DD_DVR.BL
             tableWithData.Style.Border.BottomBorderColor = XLColor.Black;
             tableWithData.Style.Border.RightBorder = XLBorderStyleValues.Thin;
             tableWithData.Style.Border.RightBorderColor = XLColor.Black;
+            
 
-            var dataTableCosts = GetResultTable(report);
-            var tableWithData2 = worksheet.Cell(2+ dataTable.Rows.Count+2, 1).InsertTable(dataTableCosts.AsEnumerable());
-            tableWithData2.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            tableWithData2.ShowAutoFilter = false;
-            tableWithData2.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-            tableWithData2.Style.Border.OutsideBorderColor = XLColor.Black;
-            tableWithData2.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
-            tableWithData2.Style.Border.BottomBorderColor = XLColor.Black;
-            tableWithData2.Style.Border.RightBorder = XLBorderStyleValues.Thin;
-            tableWithData2.Style.Border.RightBorderColor = XLColor.Black;
+            var dataTableResult = GetResultTable(report);
+            var tableWithResultData = worksheet.Cell(2+ dataTable.Rows.Count+2, 1).InsertTable(dataTableResult.AsEnumerable());
+            tableWithResultData.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            tableWithResultData.ShowAutoFilter = false;
+            tableWithResultData.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            tableWithResultData.Style.Border.OutsideBorderColor = XLColor.Black;
+            tableWithResultData.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            tableWithResultData.Style.Border.BottomBorderColor = XLColor.Black;
+            tableWithResultData.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+            tableWithResultData.Style.Border.RightBorderColor = XLColor.Black;
 
+            var dataTableRates = GetRatesTable(report);
+            var tableWithRatesData = worksheet.Cell(2 + dataTable.Rows.Count + 2, 4).InsertTable(dataTableRates.AsEnumerable());
+            tableWithRatesData.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            tableWithRatesData.ShowAutoFilter = false;
+            tableWithRatesData.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            tableWithRatesData.Style.Border.OutsideBorderColor = XLColor.Black;
+            tableWithRatesData.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+            tableWithRatesData.Style.Border.BottomBorderColor = XLColor.Black;
+            tableWithRatesData.Style.Border.RightBorder = XLBorderStyleValues.Thin;
+            tableWithRatesData.Style.Border.RightBorderColor = XLColor.Black;
 
-            // Prepare the style for the titles
-            //var titlesStyle = workbook.Style;
-            //titlesStyle.Font.Bold = true;
-            //titlesStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            //titlesStyle.Fill.BackgroundColor = XLColor.LightBlue;
-            //titlesStyle.Border.RightBorder = titlesStyle.Border.LeftBorder 
-            //    = titlesStyle.Border.TopBorder = XLBorderStyleValues.Thin;
-            //titlesStyle.Border.RightBorderColor = titlesStyle.Border.LeftBorderColor 
-            //    = titlesStyle.Border.TopBorderColor = XLColor.Black;
-
-            // Format all titles in one shot
-            //workbook.NamedRanges.NamedRange("Titles").Ranges.Style = titlesStyle;
 
             worksheet.Columns().AdjustToContents();
+
+            worksheet.Column("C").Width = 10;
+            worksheet.Column("D").Width = 10;
+            worksheet.Column("E").Width = 12;
+            worksheet.Column("F").Width = 14;
+            worksheet.Column("G").Width = 10;
 
             workbook.SaveAs("InsertingTables.xlsx");
         }
@@ -133,11 +143,15 @@ namespace DD_DVR.BL
             table.Columns.Add(date.ToString("Количество"), typeof(String));
             table.Columns.Add(date.ToString("Сумма"), typeof(String));
 
-            // получить все ставки 
-            // вывести количества и суммы по всем ставкам
+            List<Rate> rates = _rateRepository.Rates;
 
-            table.Rows.Add("День недели:", CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName(date.DayOfWeek));
-            
+            foreach(var item in rates)
+            {
+                decimal price = item.Price;
+                int count = report.Tours.Sum(x => x.passengers.Count(q => q.pay == price));
+                decimal sum = price * count;
+                table.Rows.Add(price, count, sum);
+            }
             return table;
         }
     }
