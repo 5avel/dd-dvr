@@ -144,14 +144,16 @@ namespace DD_DVR.BL
             table.Columns.Add(date.ToString("Сумма"), typeof(String));
 
             List<Rate> rates = _rateRepository.Rates;
-
+            decimal totalSum = 0;
             foreach(var item in rates)
             {
                 decimal price = item.Price;
                 int count = report.Tours.Sum(x => x.passengers.Count(q => q.pay == price));
                 decimal sum = price * count;
                 table.Rows.Add(price, count, sum);
+                totalSum += sum;
             }
+            table.Rows.Add("", "Итого:", totalSum);
             return table;
         }
     }
