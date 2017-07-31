@@ -18,9 +18,12 @@ namespace DD_DVR.ViewModel
     class MainViewModel : ViewModelBase
     {
         private RateRepository rateRepository;
+        private RoutRepository routRepository;
+
+
         public MainViewModel()
         {
-            RoutRepository routRepository = RoutRepository.LoadObjFromFile();
+            routRepository = RoutRepository.LoadObjFromFile();
             Drivers = new ObservableCollection<Driver>(routRepository.Drivers);
             Routes = new ObservableCollection<Rout>(routRepository.Routes);
             Buses = new ObservableCollection<Bus>(routRepository.Buses);
@@ -91,6 +94,9 @@ namespace DD_DVR.ViewModel
             }
         }
 
+
+        #region drivers Props and Commands
+
         ObservableCollection<Driver> _drivers = new ObservableCollection<Driver>();
         public ObservableCollection<Driver> Drivers { get => _drivers; set => _drivers = value; }
 
@@ -105,6 +111,52 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private RelayCommand _addNewDriverCommand;
+        public ICommand AddNewDriverCommand
+        {
+            get
+            {
+                return _addNewDriverCommand ?? (_addNewDriverCommand = new RelayCommand(param =>
+                {
+                    Driver newDriver = new Driver();
+                    routRepository.Drivers.Add(newDriver);
+                    Drivers.Add(newDriver);
+                    SelectedDriver = Drivers[Drivers.IndexOf(newDriver)];
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        private RelayCommand _deleteSelectedDriverCommand;
+        public ICommand DeleteSelectedDriverCommand
+        {
+            get
+            {
+                return _deleteSelectedDriverCommand ?? (_deleteSelectedDriverCommand = new RelayCommand(param =>
+                {
+
+                    routRepository.Drivers.Remove(routRepository.Drivers[routRepository.Drivers.IndexOf(SelectedDriver)]);
+                    
+
+                    Drivers.Remove(SelectedDriver);
+                    SelectedDriver = Drivers[0];
+
+                    RoutRepository.SaveObjToFile(routRepository);
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        #endregion
+
         ObservableCollection<Rout> _routes = new ObservableCollection<Rout>();
         public ObservableCollection<Rout> Routes { get => _routes; set => _routes = value; }
 
@@ -116,6 +168,50 @@ namespace DD_DVR.ViewModel
             {
                 _selectedRout = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private RelayCommand _addNewRoutCommand;
+        public ICommand AddNewRoutCommand
+        {
+            get
+            {
+                return _addNewRoutCommand ?? (_addNewRoutCommand = new RelayCommand(param =>
+                {
+                    Rout newRout = new Rout();
+                    routRepository.Routes.Add(newRout);
+                    Routes.Add(newRout);
+                    SelectedRout = Routes[Routes.IndexOf(newRout)];
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        private RelayCommand _deleteSelectedRoutCommand;
+        public ICommand DeleteSelectedRoutCommand
+        {
+            get
+            {
+                return _deleteSelectedRoutCommand ?? (_deleteSelectedRoutCommand = new RelayCommand(param =>
+                {
+
+                    routRepository.Routes.Remove(routRepository.Routes[routRepository.Routes.IndexOf(SelectedRout)]);
+
+
+                    Routes.Remove(SelectedRout);
+                    SelectedRout = Routes[0];
+
+                    RoutRepository.SaveObjToFile(routRepository);
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
             }
         }
 
@@ -133,9 +229,49 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private RelayCommand _addNewBusCommand;
+        public ICommand AddNewBusCommand
+        {
+            get
+            {
+                return _addNewBusCommand ?? (_addNewBusCommand = new RelayCommand(param =>
+                {
+                    Bus newBus = new Bus();
+                    routRepository.Buses.Add(newBus);
+                    Buses.Add(newBus);
+                    SelectedBus = Buses[Buses.IndexOf(newBus)];
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        private RelayCommand _deleteSelectedBusCommand;
+        public ICommand DeleteSelectedBusCommand
+        {
+            get
+            {
+                return _deleteSelectedBusCommand ?? (_deleteSelectedBusCommand = new RelayCommand(param =>
+                {
+
+                    routRepository.Buses.Remove(routRepository.Buses[routRepository.Buses.IndexOf(SelectedBus)]);
+                    Buses.Remove(SelectedBus);
+                    SelectedBus = Buses[0];
+
+                    RoutRepository.SaveObjToFile(routRepository);
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
         #endregion  Convrtation
-
-
 
         ObservableCollection<MediaSource> _mediaSource = DVRPlayer.Instance.MediaSourceCollection;
         public ObservableCollection<MediaSource> MediaSourceCollection { get => DVRPlayer.Instance.MediaSourceCollection; set => DVRPlayer.Instance.MediaSourceCollection = value; }
@@ -183,6 +319,11 @@ namespace DD_DVR.ViewModel
                     rateRepository.Rates.Add(newRate);
                     Rates.Add(newRate);
                     SelectedRate = Rates[Rates.IndexOf(newRate)];
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
                 }));
             }
         }
@@ -202,6 +343,11 @@ namespace DD_DVR.ViewModel
                     SelectedRate = Rates[0];
 
                     RateRepository.SaveObjToFile(rateRepository);
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
                 }));
             }
         }

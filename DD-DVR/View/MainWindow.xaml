@@ -55,10 +55,11 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Button Focusable="False" Content="Add" />
-                            <Button Focusable="False" Content="Del" />
+                            <TextBox Width="120" Text="{Binding SelectedRout.Title}"/>
+                            <Button Command="{Binding AddNewRoutCommand}" Width="20" Focusable="False" Content="Add" />
+                            <Button Command="{Binding DeleteSelectedRoutCommand}" Width="20" Focusable="False" Content="Del" />
                         </StackPanel>
-                        <ComboBox Margin="5"  Width="150" Focusable="False" Height="15" Padding="0 -2 0 0"
+                        <ComboBox Margin="5"  Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="маршрут..."
@@ -68,10 +69,11 @@
                    
                         <StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Focusable="False" Content="Add" />
-                                <Button Focusable="False" Content="Del" />
+                                <TextBox Width="120" Text="{Binding SelectedBus.Title}"/>
+                                <Button Command="{Binding AddNewBusCommand}" Width="20" Focusable="False" Content="Add" />
+                                <Button Command="{Binding DeleteSelectedBusCommand}" Width="20" Focusable="False" Content="Del" />
                             </StackPanel>
-                            <ComboBox Margin="5" Width="150" Focusable="False" Height="15" Padding="0 -2 0 0"
+                            <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="астобус..."
@@ -81,10 +83,11 @@
                        
                             <StackPanel>
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <Button Focusable="False" Content="Add" />
-                                    <Button Focusable="False" Content="Del" />
+                                    <TextBox Width="120" Text="{Binding SelectedDriver.Title}"/>
+                                    <Button Command="{Binding AddNewDriverCommand}" Width="20" Focusable="False" Content="Add" />
+                                    <Button Command="{Binding DeleteSelectedDriverCommand}" Width="20" Focusable="False" Content="Del" />
                                 </StackPanel>
-                                <ComboBox Margin="5" Width="150" Focusable="False"  Height="15" Padding="0 -2 0 0"
+                                <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="водитель..."
@@ -157,9 +160,9 @@
                     </ListBox.InputBindings>
                 </ListBox>
 
-                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0 5 5 5"  Text="{Binding SelectedRate.Price, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
+                    <TextBox IsEnabled="{Binding ElementName=btnAddNewRate, Path=IsEnabled}" Grid.Column="1" Grid.Row="0" Margin="0 5 5 5"  Text="{Binding SelectedRate.Price, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                        <Button Margin="0 0 5 5"  Content="Add" Command="{Binding AddNewRateCommand}" Focusable="False"  />
+                        <Button Name="btnAddNewRate" Margin="0 0 5 5"  Content="Add" Command="{Binding AddNewRateCommand}" Focusable="False"  />
                         <Button Margin="0 0 5 5"  Content="Del" Command="{Binding DeleteSelectedRateCommand}" Focusable="False" />
                     </StackPanel>
                 </Grid>
