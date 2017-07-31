@@ -93,6 +93,7 @@ namespace DD_DVR.BL.Player
                     Stream4 = i < stream4FileInfo.Length ? stream4FileInfo[i].FullName : null
                     //TODO: перед добавлением в сримы сверять время файлов, отличия 2 секунды.
                     //BUG: Если один файл не переконвертировался, то после загрузки медиа стрима на этом плеере остается старый видео файл
+                    //FIX: Очищаем колекцию перед заполнением
                 });
             }
 
@@ -218,7 +219,7 @@ namespace DD_DVR.BL.Player
                 if (!string.IsNullOrEmpty(value))
                 {
                     _stream1 = value;
-                    SetStartOrFinishDT(value);
+                    SetStartAndFinishDT(value);
                 }
             }
         }
@@ -227,10 +228,10 @@ namespace DD_DVR.BL.Player
         public string Stream3 { set; get; }
         public string Stream4 { set; get; }
 
-        public DateTime StartDT { set; get; }
-        public DateTime FinishDT { set; get; }
+        public DateTime StartDT { private set; get; }
+        public DateTime FinishDT { private set; get; }
 
-        private void SetStartOrFinishDT(string value)
+        private void SetStartAndFinishDT(string value)
         {  
             FileInfo fi = new FileInfo(value);
             string fName = fi.Name;            // "201-01-194924-200424-00p000.h264.mkv"

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DD_DVR.Data;
+using System.Windows;
 
 namespace DD_DVR.BL
 {
@@ -67,7 +68,14 @@ namespace DD_DVR.BL
             worksheet.Column("F").Width = 14;
             worksheet.Column("G").Width = 10;
 
-            workbook.SaveAs("InsertingTables.xlsx");
+            try
+            {
+                workbook.SaveAs("InsertingTables.xlsx");
+            }
+            catch(System.IO.IOException)
+            {
+                MessageBox.Show("Файл .xlsx открыт в другой программе!");
+            }
         }
 
 

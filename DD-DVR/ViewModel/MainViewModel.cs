@@ -154,6 +154,7 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        #region Rates Props and Commands
 
         ObservableCollection<Rate> _rates = new ObservableCollection<Rate>();
         public ObservableCollection<Rate> Rates { get => _rates; set => _rates = value; }
@@ -165,15 +166,47 @@ namespace DD_DVR.ViewModel
             set
             {
                 _selectedRate = value;
-
                 rateRepository.SelectedRateNum = Rates.IndexOf(_selectedRate);
                 RateRepository.SaveObjToFile(rateRepository);  // записываем в файл выбраную стоимость проезда
-
                 OnPropertyChanged();
             }
         }
 
+        private RelayCommand _addNewRateCommand;
+        public ICommand AddNewRateCommand
+        {
+            get
+            {
+                return _addNewRateCommand ?? (_addNewRateCommand = new RelayCommand(param =>
+                {
+                    Rate newRate = new Rate();
+                    rateRepository.Rates.Add(newRate);
+                    Rates.Add(newRate);
+                    SelectedRate = Rates[Rates.IndexOf(newRate)];
+                }));
+            }
+        }
 
+        private RelayCommand _deleteSelectedRateCommand;
+        public ICommand DeleteSelectedRateCommand
+        {
+            get
+            {
+                return _deleteSelectedRateCommand ?? (_deleteSelectedRateCommand = new RelayCommand(param =>
+                {
+                    
+                    rateRepository.Rates.Remove(rateRepository.Rates[rateRepository.Rates.IndexOf(SelectedRate)]);
+                    rateRepository.SelectedRateNum = 0;
+
+                    Rates.Remove(SelectedRate);
+                    SelectedRate = Rates[0];
+
+                    RateRepository.SaveObjToFile(rateRepository);
+                }));
+            }
+        }
+
+        #endregion Rates Prop and Commands
 
         #region Repport
 
