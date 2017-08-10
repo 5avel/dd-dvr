@@ -73,6 +73,12 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\VideoViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddEditRoutView.xaml.cs">
+      <DependentUpon>AddEditRoutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="View\ValueConverters\HeightToWidth3x4ValueConverter.cs" />
     <Compile Include="View\SettingsView.xaml.cs">
@@ -87,6 +93,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddEditRoutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\VideoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

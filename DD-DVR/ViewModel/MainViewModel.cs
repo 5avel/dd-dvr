@@ -118,10 +118,22 @@ namespace DD_DVR.ViewModel
             {
                 return _addNewDriverCommand ?? (_addNewDriverCommand = new RelayCommand(param =>
                 {
-                    Driver newDriver = new Driver();
-                    routRepository.Drivers.Add(newDriver);
-                    Drivers.Add(newDriver);
-                    SelectedDriver = Drivers[Drivers.IndexOf(newDriver)];
+                    AddEditRoutView view = new AddEditRoutView();
+                    view.Title = "Имя водителя";
+                    view.ShowDialog();
+                    view.Unloaded += (s, e) =>
+                    {
+                        string name = (s as AddEditRoutView).Str;
+                        if (!string.IsNullOrWhiteSpace(name))
+                        {
+                            Driver newDriver = new Driver();
+                            newDriver.Title = name;
+                            routRepository.Drivers.Add(newDriver);
+                            RoutRepository.SaveObjToFile(routRepository);
+                            Drivers.Add(newDriver);
+                            SelectedDriver = Drivers[Drivers.IndexOf(newDriver)];
+                        }
+                    };
                 },
                 param =>
                 {
@@ -130,6 +142,10 @@ namespace DD_DVR.ViewModel
                 }));
             }
         }
+
+
+ 
+
 
         private RelayCommand _deleteSelectedDriverCommand;
         public ICommand DeleteSelectedDriverCommand
@@ -149,6 +165,7 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
+                    if (SelectedDriver == null) return false;
                     if (fr == null || fr.Report.IsClosed) return true;
                     return false;
                 }));
@@ -178,10 +195,22 @@ namespace DD_DVR.ViewModel
             {
                 return _addNewRoutCommand ?? (_addNewRoutCommand = new RelayCommand(param =>
                 {
-                    Rout newRout = new Rout();
-                    routRepository.Routes.Add(newRout);
-                    Routes.Add(newRout);
-                    SelectedRout = Routes[Routes.IndexOf(newRout)];
+                    AddEditRoutView view = new AddEditRoutView();
+                    view.Title = "Название маршрута:";
+                    view.ShowDialog();
+                    view.Unloaded += (s, e) =>
+                    {
+                        string name = (s as AddEditRoutView).Str;
+                        if (!string.IsNullOrWhiteSpace(name))
+                        {
+                            Rout newRout = new Rout();
+                            newRout.Title = name;
+                            routRepository.Routes.Add(newRout);
+                            RoutRepository.SaveObjToFile(routRepository);
+                            Routes.Add(newRout);
+                            SelectedRout = Routes[Routes.IndexOf(newRout)];
+                        }
+                    };
                 },
                 param =>
                 {
@@ -209,6 +238,7 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
+                    if (SelectedRout == null) return false;
                     if (fr == null || fr.Report.IsClosed) return true;
                     return false;
                 }));
@@ -236,10 +266,22 @@ namespace DD_DVR.ViewModel
             {
                 return _addNewBusCommand ?? (_addNewBusCommand = new RelayCommand(param =>
                 {
-                    Bus newBus = new Bus();
-                    routRepository.Buses.Add(newBus);
-                    Buses.Add(newBus);
-                    SelectedBus = Buses[Buses.IndexOf(newBus)];
+                    AddEditRoutView view = new AddEditRoutView();
+                    view.Title = "Номер автобуса:";
+                    view.ShowDialog();
+                    view.Unloaded += (s, e) =>
+                    {
+                        string name = (s as AddEditRoutView).Str;
+                        if (!string.IsNullOrWhiteSpace(name))
+                        {
+                            Bus newBus = new Bus();
+                            newBus.Title = name;
+                            routRepository.Buses.Add(newBus);
+                            RoutRepository.SaveObjToFile(routRepository);
+                            Buses.Add(newBus);
+                            SelectedBus = Buses[Buses.IndexOf(newBus)];
+                        }
+                    };
                 },
                 param =>
                 {
@@ -256,15 +298,14 @@ namespace DD_DVR.ViewModel
             {
                 return _deleteSelectedBusCommand ?? (_deleteSelectedBusCommand = new RelayCommand(param =>
                 {
-
                     routRepository.Buses.Remove(routRepository.Buses[routRepository.Buses.IndexOf(SelectedBus)]);
                     Buses.Remove(SelectedBus);
                     SelectedBus = Buses[0];
-
                     RoutRepository.SaveObjToFile(routRepository);
                 },
                 param =>
                 {
+                    if (SelectedBus == null) return false;
                     if (fr == null || fr.Report.IsClosed) return true;
                     return false;
                 }));
@@ -473,6 +514,7 @@ namespace DD_DVR.ViewModel
             {
                 return _videoKeyBinding ?? (_videoKeyBinding = new RelayCommand(param =>
                 {
+                    
                     var videoVM = VideoViewModel.GetInstance();
                     if (videoVM == null && param == null) return;
                     if ("W" == param.ToString())
@@ -557,6 +599,11 @@ namespace DD_DVR.ViewModel
                         }
                     }
 
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return false;
+                    return true;
                 }));
             }
         }

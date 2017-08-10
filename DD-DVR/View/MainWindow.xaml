@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:viewModel="clr-namespace:DD_DVR.ViewModel"
         xmlns:converter="clr-namespace:DD_DVR.View.ValueConverters"
-        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
+         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="DD-DVR"
-        MinHeight="650"
+        MinHeight="650" 
         MinWidth="1024"  BorderBrush="#FF0B1B66" Background="#FF007ACC">
     <Window.Resources>
         <ResourceDictionary>
@@ -21,8 +22,8 @@
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Window.InputBindings>
-        <KeyBinding Key="W" CommandParameter="W" Command="{Binding VideoKeyBinding}"/>
+    <Window.InputBindings >
+        <KeyBinding  Key="W"   CommandParameter="W" Command="{Binding VideoKeyBinding}"/>
         <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
         <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
@@ -53,47 +54,57 @@
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel>
-                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <TextBox Width="120" Text="{Binding SelectedRout.Title}"/>
-                            <Button Command="{Binding AddNewRoutCommand}" Width="20" Focusable="False" Content="Add" />
-                            <Button Command="{Binding DeleteSelectedRoutCommand}" Width="20" Focusable="False" Content="Del" />
-                        </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        
                         <ComboBox Margin="5"  Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="маршрут..."
                       SelectedItem="{Binding SelectedRout}"
                           SelectedIndex="-1"/>
+                        <Button Command="{Binding AddNewRoutCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                    ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
+                        </Button>
+                        <Button Command="{Binding DeleteSelectedRoutCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                            ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
+                        </Button>
                     </StackPanel>
-                   
-                        <StackPanel>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <TextBox Width="120" Text="{Binding SelectedBus.Title}"/>
-                                <Button Command="{Binding AddNewBusCommand}" Width="20" Focusable="False" Content="Add" />
-                                <Button Command="{Binding DeleteSelectedBusCommand}" Width="20" Focusable="False" Content="Del" />
-                            </StackPanel>
-                            <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
+
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="астобус..."
                           SelectedItem="{Binding SelectedBus}"
                           SelectedIndex="-1"/>
-                        </StackPanel>
-                       
-                            <StackPanel>
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <TextBox Width="120" Text="{Binding SelectedDriver.Title}"/>
-                                    <Button Command="{Binding AddNewDriverCommand}" Width="20" Focusable="False" Content="Add" />
-                                    <Button Command="{Binding DeleteSelectedDriverCommand}" Width="20" Focusable="False" Content="Del" />
-                                </StackPanel>
-                                <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -2 0 0"
-                          ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
-                          Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="водитель..."
-                          SelectedItem="{Binding SelectedDriver}"
-                          SelectedIndex="-1"/>
-                            </StackPanel>
+                        <Button Command="{Binding AddNewBusCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                    ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
+                        </Button>
+                        <Button Command="{Binding DeleteSelectedBusCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                            ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -2 0 0"
+                              ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
+                              Controls:TextBoxHelper.ClearTextButton="False"
+                              Controls:TextBoxHelper.Watermark="водитель..."
+                              SelectedItem="{Binding SelectedDriver}"
+                              SelectedIndex="-1"/>
+                        <Button Command="{Binding AddNewDriverCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                    ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
+                        </Button>
+                        <Button Command="{Binding DeleteSelectedDriverCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                            ToolTip="Добавить новую группу.">
+                            <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
+                        </Button>
+
+                    </StackPanel>
                         
 
                         <Button Margin="5" Width="70" Height="15" Padding="0 -2 0 0"

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace DD_DVR.Data.Model
 {
     [Serializable]
-    public class Bus
+    public class Bus : Rout
     {
-        public string Title { set; get; }
     }
 }
