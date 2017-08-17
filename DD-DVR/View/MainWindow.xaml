@@ -172,9 +172,13 @@
                 </ListBox>
 
                     <TextBox IsEnabled="{Binding ElementName=btnAddNewRate, Path=IsEnabled}" Grid.Column="1" Grid.Row="0" Margin="0 5 5 5"  Text="{Binding SelectedRate.Price, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"/>
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                        <Button Name="btnAddNewRate" Margin="0 0 5 5"  Content="Add" Command="{Binding AddNewRateCommand}" Focusable="False"  />
-                        <Button Margin="0 0 5 5"  Content="Del" Command="{Binding DeleteSelectedRateCommand}" Focusable="False" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center">
+                        <Button Name="btnAddNewRate" Command="{Binding AddNewRateCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}" >
+                            <iconPacks:PackIconMaterial Kind="Plus"  Width="15" Height="15" Foreground="#FF1B23D1" />
+                        </Button>
+                        <Button Command="{Binding DeleteSelectedRateCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}" >
+                            <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
+                        </Button>
                     </StackPanel>
                 </Grid>
 

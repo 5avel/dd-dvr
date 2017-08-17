@@ -6,8 +6,10 @@ using System.Windows.Media;
 
 namespace DD_DVR.BL.Player
 {
+    public enum SourceType {Null, Old, New }
     public class DVRPlayer
     {
+        public SourceType _sourceType;
         public MediaPlayer p1 = new MediaPlayer() { ScrubbingEnabled = true };
         private MediaPlayer p2 = new MediaPlayer() { ScrubbingEnabled = true };
         private MediaPlayer p3 = new MediaPlayer() { ScrubbingEnabled = true };
@@ -76,14 +78,40 @@ namespace DD_DVR.BL.Player
 
             Stop();
             MediaSourceCollection.Clear(); // clear MediaSourceCollection
-            //Close(); // clear MediaPlayer
+                                           //Close(); // clear MediaPlayer
 
-            var stream1FileInfo = dir.GetFiles(@"*-01-*-*-*.mkv");
-            var stream2FileInfo = dir.GetFiles(@"*-02-*-*-*.mkv");
-            var stream3FileInfo = dir.GetFiles(@"*-03-*-*-*.mkv");
-            var stream4FileInfo = dir.GetFiles(@"*-04-*-*-*.mkv");
+            //channel3_161103_100401_103401_20110300.264
 
-            for (int i = 0; i < stream1FileInfo.Length; i++)
+            FileInfo[] stream1FileInfo = null;
+            FileInfo[] stream2FileInfo = null;
+            FileInfo[] stream3FileInfo = null;
+            FileInfo[] stream4FileInfo = null;
+
+            if (dir.GetFiles(@"*-*-*-*-*.mkv").Length > 0 & dir.GetFiles(@"*_*_*_*_*.mkv").Length == 0)
+            {
+                 stream1FileInfo = dir.GetFiles(@"*-01-*-*-*.mkv");
+                 stream2FileInfo = dir.GetFiles(@"*-02-*-*-*.mkv");
+                 stream3FileInfo = dir.GetFiles(@"*-03-*-*-*.mkv");
+                 stream4FileInfo = dir.GetFiles(@"*-04-*-*-*.mkv");
+                _sourceType = SourceType.New;
+            }
+            else if (dir.GetFiles(@"*_*_*_*_*.mkv").Length > 0 & dir.GetFiles(@"*-*-*-*-*.mkv").Length == 0)
+            {
+                 stream1FileInfo = dir.GetFiles(@"channel1_*_*_*_*.mkv");
+                 stream2FileInfo = dir.GetFiles(@"channel2_*_*_*_*.mkv");
+                 stream3FileInfo = dir.GetFiles(@"channel3_*_*_*_*.mkv");
+                 stream4FileInfo = dir.GetFiles(@"channel4_*_*_*_*.mkv");
+                _sourceType = SourceType.Old;
+            }
+
+            int maxCount = 0;
+            try
+            {
+                maxCount = Math.Max(Math.Max(stream1FileInfo.Length, stream2FileInfo.Length), Math.Max(stream3FileInfo.Length, stream4FileInfo.Length));
+            }
+            catch { }
+
+            for (int i = 0; i < maxCount; i++)
             {
                 MediaSourceCollection.Add(new MediaSource
                 {
@@ -237,11 +265,22 @@ namespace DD_DVR.BL.Player
             string fName = fi.Name;            // "201-01-194924-200424-00p000.h264.mkv"
             string pName = fi.Directory.Name;  // "2017-04-26"
 
-            string temp = pName + "_" + fName.Substring(7,6);
-            StartDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+            if (DVRPlayer.Instance._sourceType == SourceType.New)
+            {
+                string temp = pName + "_" + fName.Substring(7, 6);
+                StartDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
 
-            string temp2 = pName + "_" + fName.Substring(14, 6);
-            FinishDT = DateTime.ParseExact(temp2, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);  
+                string temp2 = pName + "_" + fName.Substring(14, 6);
+                FinishDT = DateTime.ParseExact(temp2, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else if (DVRPlayer.Instance._sourceType == SourceType.Old)
+            {
+                string temp = pName + "_" + fName.Substring(16, 6);
+                StartDT = DateTime.ParseExact(temp, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+
+                string temp2 = pName + "_" + fName.Substring(23, 6);
+                FinishDT = DateTime.ParseExact(temp2, "yyyy-MM-dd_HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+            }
         }
 
         public string Text
