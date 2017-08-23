@@ -342,10 +342,17 @@ namespace DD_DVR.ViewModel
             get => _selectedRate;
             set
             {
-                _selectedRate = value;
-                rateRepository.SelectedRateNum = Rates.IndexOf(_selectedRate);
-                RateRepository.SaveObjToFile(rateRepository);  // записываем в файл выбраную стоимость проезда
-                OnPropertyChanged();
+                if (value != _selectedRate)
+                {
+                    _selectedRate = value;
+                    rateRepository.SelectedRateNum = Rates.IndexOf(_selectedRate);
+                    rateRepository.Rates = rateRepository.Rates.OrderBy(rate => rate.Price).ToList<Rate>(); // Sorting
+                    RateRepository.SaveObjToFile(rateRepository);  // записываем в файл выбраную стоимость проезда
+                    Rates = new ObservableCollection<Rate>(rateRepository.Rates);
+
+                    OnPropertyChanged();
+                    OnPropertyChanged("Rates");
+                }
             }
         }
 
@@ -358,8 +365,10 @@ namespace DD_DVR.ViewModel
                 {
                     Rate newRate = new Rate();
                     rateRepository.Rates.Add(newRate);
-                    Rates.Add(newRate);
+                    rateRepository.Rates = rateRepository.Rates.OrderBy(rate => rate.Price).ToList<Rate>(); // Sorting
+                    Rates = new ObservableCollection<Rate>(rateRepository.Rates);
                     SelectedRate = Rates[Rates.IndexOf(newRate)];
+                    OnPropertyChanged("Rates");
                 },
                 param =>
                 {
@@ -381,6 +390,7 @@ namespace DD_DVR.ViewModel
                     rateRepository.SelectedRateNum = 0;
 
                     Rates.Remove(SelectedRate);
+                    OnPropertyChanged("Rates");
                     SelectedRate = Rates[0];
 
                     RateRepository.SaveObjToFile(rateRepository);
@@ -577,7 +587,7 @@ namespace DD_DVR.ViewModel
                                     new Passenger()
                                     {
                                         isExemption = true,
-                                        pay = 0,
+                                        pay = SelectedRate.Price * -1,
                                         payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                     });
                                     UpdareReportView();
@@ -590,7 +600,7 @@ namespace DD_DVR.ViewModel
                                new Passenger()
                                {
                                    isExemption = true,
-                                   pay = 0,
+                                   pay = SelectedRate.Price * -1,
                                    payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
                                });
                                 UpdareReportView();

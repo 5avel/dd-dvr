@@ -147,13 +147,13 @@ namespace DD_DVR.BL
         {
             DataTable table = new DataTable();
             DateTime date = report.Tours[0].tourStart;
-            table.Columns.Add("Цена:", typeof(String));
+            table.Columns.Add("Цена:", typeof(Decimal));
             table.Columns.Add(date.ToString("Количество"), typeof(String));
             table.Columns.Add(date.ToString("Сумма"), typeof(String));
 
             List<Rate> rates = _rateRepository.Rates;
             decimal totalSum = 0;
-            foreach(var item in rates)
+            foreach(var item in rates.OrderBy(x => x.Price))
             {
                 decimal price = item.Price;
                 int count = report.Tours.Sum(x => x.passengers.Count(q => q.pay == price));
@@ -161,7 +161,15 @@ namespace DD_DVR.BL
                 table.Rows.Add(price, count, sum);
                 totalSum += sum;
             }
-            table.Rows.Add("", "Итого:", totalSum);
+            foreach (var item in rates.OrderByDescending(x => x.Price))
+            {
+                decimal price = item.Price * -1;
+                int count = report.Tours.Sum(x => x.passengers.Count(q => q.pay == price));
+                decimal sum = (price * count);
+                table.Rows.Add(price, count, sum);
+                //totalSum += sum;
+            }
+            table.Rows.Add(0, "Итого:", totalSum);
             return table;
         }
     }

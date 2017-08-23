@@ -138,7 +138,7 @@
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
 
-                    <ListBox  Margin="5" Grid.Column="0" Grid.RowSpan="3"  SelectedItem="{Binding SelectedRate}"  ItemsSource="{Binding Rates}" >
+                    <ListBox  Margin="5" Grid.Column="0" Grid.RowSpan="3"  SelectedItem="{Binding SelectedRate}" ItemsSource="{Binding Rates}" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
 
