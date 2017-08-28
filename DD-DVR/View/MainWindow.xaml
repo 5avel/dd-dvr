@@ -63,11 +63,11 @@
                       SelectedItem="{Binding SelectedRout}"
                           SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewRoutCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                    ToolTip="Добавить новую группу.">
+                    ToolTip="Добавить маршрут.">
                             <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
                         </Button>
                         <Button Command="{Binding DeleteSelectedRoutCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                            ToolTip="Добавить новую группу.">
+                            ToolTip="Удалить маршрут.">
                             <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
                         </Button>
                     </StackPanel>
@@ -76,15 +76,15 @@
                         <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
                           ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
-                          Controls:TextBoxHelper.Watermark="астобус..."
+                          Controls:TextBoxHelper.Watermark="автобус..."
                           SelectedItem="{Binding SelectedBus}"
                           SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewBusCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                    ToolTip="Добавить новую группу.">
+                    ToolTip="Добавить автобус.">
                             <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
                         </Button>
                         <Button Command="{Binding DeleteSelectedBusCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                            ToolTip="Добавить новую группу.">
+                            ToolTip="Удалить автобус.">
                             <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
                         </Button>
                     </StackPanel>
@@ -96,11 +96,11 @@
                               SelectedItem="{Binding SelectedDriver}"
                               SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewDriverCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                    ToolTip="Добавить новую группу.">
+                    ToolTip="Добавить водителья.">
                             <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
                         </Button>
                         <Button Command="{Binding DeleteSelectedDriverCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
-                            ToolTip="Добавить новую группу.">
+                            ToolTip="Удалить водителья.">
                             <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
                         </Button>
 
