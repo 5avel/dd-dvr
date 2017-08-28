@@ -56,10 +56,11 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         
-                        <ComboBox Margin="5"  Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
+                        <ComboBox Margin="5"  Width="160" Focusable="False" Height="25" Padding="0 -5 0 0"
                           ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="маршрут..."
+                          Controls:TextBoxHelper.UseFloatingWatermark="True"
                       SelectedItem="{Binding SelectedRout}"
                           SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewRoutCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
@@ -73,10 +74,11 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -2 0 0"
+                        <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -5 0 0"
                           ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="автобус..."
+                          Controls:TextBoxHelper.UseFloatingWatermark="True"
                           SelectedItem="{Binding SelectedBus}"
                           SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewBusCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
@@ -89,10 +91,11 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -2 0 0"
+                        <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -5 0 0"
                               ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
                               Controls:TextBoxHelper.ClearTextButton="False"
                               Controls:TextBoxHelper.Watermark="водитель..."
+                              Controls:TextBoxHelper.UseFloatingWatermark="True"
                               SelectedItem="{Binding SelectedDriver}"
                               SelectedIndex="-1"/>
                         <Button Command="{Binding AddNewDriverCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
