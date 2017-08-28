@@ -488,7 +488,7 @@ namespace DD_DVR.ViewModel
                     {
                         if (t.passengers != null)
                         {
-                            foreach (Passenger p in t.passengers)
+                            foreach (Passenger p in t.passengers.Where(p => p.isExemption == false))
                             {
                                 count += p.pay;
                             }

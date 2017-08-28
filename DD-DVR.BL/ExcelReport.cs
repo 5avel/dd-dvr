@@ -97,10 +97,17 @@ namespace DD_DVR.BL
                 int tourNum = i + 1;
                 int passengersCount = report.Tours[i].passengers.Count;
                 int exemptionPassengers = report.Tours[i].passengers.Count<Passenger>(p => p.isExemption);
-                DateTime expectation = 
-                    i > 0 
-                    ? new DateTime(report.Tours[i].tourStart.Ticks - report.Tours[i - 1].tourEnd.Ticks) 
-                    : DateTime.MinValue;
+                DateTime expectation = DateTime.MinValue;
+                if(i != 0)
+                {
+                    long expectationTiks = report.Tours[i].tourStart.Ticks - report.Tours[i - 1].tourEnd.Ticks;
+                    if (expectationTiks > 0) //Fix если время старта совпадает с временем финиша 
+                    { 
+                        expectation = new DateTime();
+                    }
+                }
+                    
+                   
                 DateTime tourStart = report.Tours[i].tourStart;
                 DateTime tourLenght = new DateTime(report.Tours[i].tourEnd.Ticks - report.Tours[i].tourStart.Ticks);
                 DateTime tourEnd = report.Tours[i].tourEnd;
@@ -139,7 +146,10 @@ namespace DD_DVR.BL
             table.Rows.Add("Льготных:", report.Tours.Sum(x => x.passengers.Count(q => q.isExemption)));
             table.Rows.Add("Платили:", report.Tours.Sum(x => x.passengers.Count(q => q.isExemption == false)));
             //table.Rows.Add("Тариф:", "");
-            table.Rows.Add("Касса:", report.Tours.Sum(x => x.passengers.Sum(q => q.pay)).ToString());
+            table.Rows.Add("Касса:", report.Tours.
+                Sum(x => x.passengers.
+                Where(p => p.isExemption == false).
+                Sum(q => q.pay)).ToString());
             return table;
         }
 
