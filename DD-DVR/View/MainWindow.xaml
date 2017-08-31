@@ -27,8 +27,8 @@
         <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
         <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
-        <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
-        <KeyBinding Key="V" CommandParameter="V" Command="{Binding VideoKeyBinding}"/>
+        <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding ClculeteKeyBinding}"/>
+        <KeyBinding Key="V" CommandParameter="V" Command="{Binding ClculeteKeyBinding}"/>
     </Window.InputBindings>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -169,8 +169,8 @@
                         <KeyBinding Key="E" CommandParameter="E" Command="{Binding VideoKeyBinding}"/>
                         <KeyBinding Key="Q" CommandParameter="Q" Command="{Binding VideoKeyBinding}"/>
 
-                        <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding VideoKeyBinding}"/>
-                        <KeyBinding Key="V" CommandParameter="V" Command="{Binding VideoKeyBinding}"/>
+                            <KeyBinding Key="Space" CommandParameter="Space" Command="{Binding ClculeteKeyBinding}"/>
+                            <KeyBinding Key="V" CommandParameter="V" Command="{Binding ClculeteKeyBinding}"/>
                     </ListBox.InputBindings>
                 </ListBox>
 

@@ -515,31 +515,14 @@ namespace DD_DVR.ViewModel
 
         #endregion Repport
 
-
-
-        private RelayCommand _videoKeyBinding;
-        public ICommand VideoKeyBinding
+        private RelayCommand _clculeteKeyBinding;
+        public ICommand ClculeteKeyBinding
         {
             get
             {
-                return _videoKeyBinding ?? (_videoKeyBinding = new RelayCommand(param =>
+                return _clculeteKeyBinding ?? (_clculeteKeyBinding = new RelayCommand(param =>
                 {
-                    
-                    var videoVM = VideoViewModel.GetInstance();
-                    if (videoVM == null && param == null) return;
-                    if ("W" == param.ToString())
-                    {
-                        videoVM.DvrPlayPauseCommand.Execute(null);
-                    }
-                    else if ("E" == param.ToString())
-                    {
-                        videoVM.DvrSpeedUpRightStepCommand.Execute(null);
-                    }
-                    else if ("Q" == param.ToString())
-                    {
-                        videoVM.DvrSpeedDownLeftStepCommand.Execute(null);
-                    }
-                    else if ("Space" == param.ToString())
+                    if ("Space" == param.ToString())
                     {
                         if (fr != null && !fr.Report.IsClosed)
                         {
@@ -562,13 +545,13 @@ namespace DD_DVR.ViewModel
                             }
                             else
                             {
-                               fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
-                                    new Passenger()
-                                    {
-                                        isExemption = false,
-                                        pay = SelectedRate.Price,
-                                        payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
-                                    });
+                                fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                                     new Passenger()
+                                     {
+                                         isExemption = false,
+                                         pay = SelectedRate.Price,
+                                         payTime = SelectedMediaSource.StartDT + DVRPlayer.Instance.Position
+                                     });
                                 UpdareReportView();
                                 VideoViewModel.GetInstance().ShowGreenIcon = true;
                             }
@@ -608,11 +591,43 @@ namespace DD_DVR.ViewModel
                             }
                         }
                     }
-
                 },
                 param =>
                 {
                     if (fr == null || fr.Report.IsClosed) return false;
+                    return true;
+                }));
+            }
+        }
+
+
+
+
+        private RelayCommand _videoKeyBinding;
+        public ICommand VideoKeyBinding
+        {
+            get
+            {
+                return _videoKeyBinding ?? (_videoKeyBinding = new RelayCommand(param =>
+                {
+                    var videoVM = VideoViewModel.GetInstance();
+                    if (videoVM == null && param == null) return;
+                    if ("W" == param.ToString())
+                    {
+                        videoVM.DvrPlayPauseCommand.Execute(null);
+                    }
+                    else if ("E" == param.ToString())
+                    {
+                        videoVM.DvrSpeedUpRightStepCommand.Execute(null);
+                    }
+                    else if ("Q" == param.ToString())
+                    {
+                        videoVM.DvrSpeedDownLeftStepCommand.Execute(null);
+                    }
+                },
+                param =>
+                {
+                    if (fr == null) return false;
                     return true;
                 }));
             }
