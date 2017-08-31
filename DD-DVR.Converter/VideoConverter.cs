@@ -92,13 +92,14 @@ namespace DD_DVR.Converter
         {
             if (repair)
             {
-                m_ffmpegProcess.StartInfo.Arguments = @" -r 12 -y -i " + inPath + "\\" + fileName
-                + @" -vcodec mpeg4 -acodec copy " + outPath + "\\" + fileName + ".mkv"; // параметры конвертации  -preset ultrafast
+                m_ffmpegProcess.StartInfo.Arguments 
+                    = $@" -r 12 -y -i ""{inPath}\{fileName}"" -vcodec mpeg4 -acodec copy ""{outPath}\{fileName}.mkv""";
             }
             else
             {
-                m_ffmpegProcess.StartInfo.Arguments = @" -r 12 -y -i " + inPath + "\\" + fileName
-                + @" -vcodec copy -acodec copy " + outPath + "\\" + fileName + ".mkv"; // параметры конвертации
+ 
+                m_ffmpegProcess.StartInfo.Arguments 
+                    = $@" -r 12 -y -i ""{inPath}\{fileName}"" -vcodec copy -acodec copy ""{outPath}\{fileName}.mkv""";
             }
 
             try

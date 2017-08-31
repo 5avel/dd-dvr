@@ -28,7 +28,7 @@ namespace DD_DVR.BL
            DirectoryInfo di = new DirectoryInfo(path);
             var separator = Path.DirectorySeparatorChar;
 
-            saveVideoFolder = outputVodeoDir + separator + busTitle + separator +di.Name;
+            saveVideoFolder = outputVodeoDir + busTitle + separator +di.Name;
             System.IO.Directory.CreateDirectory(saveVideoFolder);
             streamCount = 3;
             videoFilesCount = 69;
