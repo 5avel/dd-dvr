@@ -39,4 +39,15 @@
       <Title>Маршрут №668</Title>
     </Rout>
   </Routes>
+  <Operators>
+    <Operator>
+      <Title>Орловщина</Title>
+    </Operator>
+    <Operator>
+      <Title>Маршрут №5</Title>
+    </Operator>
+    <Operator>
+      <Title>Маршрут №668</Title>
+    </Operator>
+</Operators>
 </RoutRepository>

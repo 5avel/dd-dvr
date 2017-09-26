@@ -56,7 +56,7 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         
-                        <ComboBox Margin="5"  Width="160" Focusable="False" Height="25" Padding="0 -5 0 0"
+                        <ComboBox Margin="5"  Width="130" Focusable="False" Height="25" Padding="0 -5 0 0"
                           ItemsSource="{Binding Routes}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="маршрут..."
@@ -74,7 +74,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox Margin="5" Width="160" Focusable="False" Height="15" Padding="0 -5 0 0"
+                        <ComboBox Margin="5" Width="80" Focusable="False" Height="15" Padding="0 -5 0 0"
                           ItemsSource="{Binding Buses}" DisplayMemberPath="Title"
                           Controls:TextBoxHelper.ClearTextButton="False"
                           Controls:TextBoxHelper.Watermark="автобус..."
@@ -91,7 +91,7 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox Margin="5" Width="160" Focusable="False"  Height="15" Padding="0 -5 0 0"
+                        <ComboBox Margin="5" Width="120" Focusable="False"  Height="15" Padding="0 -5 0 0"
                               ItemsSource="{Binding Drivers}" DisplayMemberPath="Title"
                               Controls:TextBoxHelper.ClearTextButton="False"
                               Controls:TextBoxHelper.Watermark="водитель..."
@@ -108,9 +108,27 @@
                         </Button>
 
                     </StackPanel>
-                        
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="5" Width="120" Focusable="False"  Height="15" Padding="0 -5 0 0"
+                              ItemsSource="{Binding Operators}" DisplayMemberPath="Title"
+                              Controls:TextBoxHelper.ClearTextButton="False"
+                              Controls:TextBoxHelper.Watermark="оператор..."
+                              Controls:TextBoxHelper.UseFloatingWatermark="True"
+                              SelectedItem="{Binding SelectedOperator}"
+                              SelectedIndex="-1"/>
+                        <Button Command="{Binding AddNewOperatorCommand}" Margin="-3" Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                    ToolTip="Добавить оператора.">
+                            <iconPacks:PackIconMaterial Kind="Plus" Width="12" Height="12" Foreground="#FF1B23D1" />
+                        </Button>
+                        <Button Command="{Binding DeleteSelectedOperatorCommand}" Margin="-3"  Focusable="False" Width="35" Height="35" Style="{DynamicResource MetroCircleButtonStyle}"
+                            ToolTip="Удалить Оператора.">
+                            <iconPacks:PackIconMaterial Kind="DeleteCircle"  Width="25" Height="25" Foreground="#FF1B23D1" />
+                        </Button>
 
-                        <Button Margin="5" Width="70" Height="15" Padding="0 -2 0 0"
+                    </StackPanel>
+
+
+                    <Button Margin="5" Width="70" Height="15" Padding="0 -2 0 0"
                     Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
                 </StackPanel>

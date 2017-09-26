@@ -27,10 +27,11 @@ namespace DD_DVR.ViewModel
             Drivers = new ObservableCollection<Driver>(routRepository.Drivers);
             Routes = new ObservableCollection<Rout>(routRepository.Routes);
             Buses = new ObservableCollection<Bus>(routRepository.Buses);
+            Operators = new ObservableCollection<Operator>(routRepository.Operators);
 
             rateRepository = RateRepository.LoadObjFromFile();
             Rates = new ObservableCollection<Rate>(rateRepository.Rates);
-            SelectedRate = Rates[rateRepository.SelectedRateNum];
+            _selectedRate = Rates[rateRepository.SelectedRateNum];
 
             DVRPlayer.Instance.CurentMediaSourceUpdated += (s, e) => OnPropertyChanged("SelectedMediaSource");
 
@@ -143,10 +144,6 @@ namespace DD_DVR.ViewModel
             }
         }
 
-
- 
-
-
         private RelayCommand _deleteSelectedDriverCommand;
         public ICommand DeleteSelectedDriverCommand
         {
@@ -154,13 +151,9 @@ namespace DD_DVR.ViewModel
             {
                 return _deleteSelectedDriverCommand ?? (_deleteSelectedDriverCommand = new RelayCommand(param =>
                 {
-
                     routRepository.Drivers.Remove(routRepository.Drivers[routRepository.Drivers.IndexOf(SelectedDriver)]);
-                    
-
                     Drivers.Remove(SelectedDriver);
-                    SelectedDriver = Drivers[0];
-
+                    SelectedDriver = Drivers.Count > 0 ? Drivers[0] : null;
                     RoutRepository.SaveObjToFile(routRepository);
                 },
                 param =>
@@ -173,6 +166,8 @@ namespace DD_DVR.ViewModel
         }
 
         #endregion
+
+        #region Routes Props and Commands
 
         ObservableCollection<Rout> _routes = new ObservableCollection<Rout>();
         public ObservableCollection<Rout> Routes { get => _routes; set => _routes = value; }
@@ -227,13 +222,9 @@ namespace DD_DVR.ViewModel
             {
                 return _deleteSelectedRoutCommand ?? (_deleteSelectedRoutCommand = new RelayCommand(param =>
                 {
-
                     routRepository.Routes.Remove(routRepository.Routes[routRepository.Routes.IndexOf(SelectedRout)]);
-
-
                     Routes.Remove(SelectedRout);
-                    SelectedRout = Routes[0];
-
+                    SelectedRout = Routes.Count > 0 ? Routes[0] : null;
                     RoutRepository.SaveObjToFile(routRepository);
                 },
                 param =>
@@ -244,6 +235,10 @@ namespace DD_DVR.ViewModel
                 }));
             }
         }
+
+        #endregion  
+
+        #region Buses Props and Commands
 
         ObservableCollection<Bus> _bus = new ObservableCollection<Bus>();
         public ObservableCollection<Bus> Buses { get => _bus; set => _bus = value; }
@@ -300,7 +295,7 @@ namespace DD_DVR.ViewModel
                 {
                     routRepository.Buses.Remove(routRepository.Buses[routRepository.Buses.IndexOf(SelectedBus)]);
                     Buses.Remove(SelectedBus);
-                    SelectedBus = Buses[0];
+                    SelectedBus = Buses.Count > 0 ? Buses[0] : null;
                     RoutRepository.SaveObjToFile(routRepository);
                 },
                 param =>
@@ -311,6 +306,80 @@ namespace DD_DVR.ViewModel
                 }));
             }
         }
+
+        #endregion  
+
+
+        #region operators Props and Commands
+
+        ObservableCollection<Operator> _operators = new ObservableCollection<Operator>();
+        public ObservableCollection<Operator> Operators { get => _operators; set => _operators = value; }
+
+        private Operator _selectedOperator;
+        public Operator SelectedOperator
+        {
+            get => _selectedOperator;
+            set
+            {
+                _selectedOperator = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private RelayCommand _addNewOperatorCommand;
+        public ICommand AddNewOperatorCommand
+        {
+            get
+            {
+                return _addNewOperatorCommand ?? (_addNewOperatorCommand = new RelayCommand(param =>
+                {
+                    AddEditRoutView view = new AddEditRoutView();
+                    view.Title = "Имя оператора.";
+                    view.ShowDialog();
+                    view.Unloaded += (s, e) =>
+                    {
+                        string name = (s as AddEditRoutView).Str;
+                        if (!string.IsNullOrWhiteSpace(name))
+                        {
+                            Operator newOperator = new Operator();
+                            newOperator.Title = name;
+                            routRepository.Operators.Add(newOperator);
+                            RoutRepository.SaveObjToFile(routRepository);
+                            Operators.Add(newOperator);
+                            SelectedOperator = Operators[Operators.IndexOf(newOperator)];
+                        }
+                    };
+                },
+                param =>
+                {
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        private RelayCommand _deleteSelectedOperatorCommand;
+        public ICommand DeleteSelectedOperatorCommand
+        {
+            get
+            {
+                return _deleteSelectedOperatorCommand ?? (_deleteSelectedOperatorCommand = new RelayCommand(param =>
+                {
+                    routRepository.Operators.Remove(routRepository.Operators[routRepository.Operators.IndexOf(SelectedOperator)]);
+                    Operators.Remove(SelectedOperator);
+                    SelectedOperator = Operators.Count > 0 ? Operators[0] : null;
+                    RoutRepository.SaveObjToFile(routRepository);
+                },
+                param =>
+                {
+                    if (SelectedOperator == null) return false;
+                    if (fr == null || fr.Report.IsClosed) return true;
+                    return false;
+                }));
+            }
+        }
+
+        #endregion
 
         #endregion  Convrtation
 
@@ -325,8 +394,6 @@ namespace DD_DVR.ViewModel
                 DVRPlayer.Instance.CurentMediaSource = value;
                 VideoViewModel.GetInstance().IsPoused = true;
                 VideoViewModel.GetInstance().Position = 0;
-
-
                 OnPropertyChanged();
             }
         }
@@ -510,7 +577,6 @@ namespace DD_DVR.ViewModel
             OnPropertyChanged("PasangersCount");
             OnPropertyChanged("ExemptionPasangersCount");
             OnPropertyChanged("PasangersTotalPay");
-
         }
 
         #endregion Repport
@@ -541,7 +607,6 @@ namespace DD_DVR.ViewModel
                                     UpdareReportView();
                                     VideoViewModel.GetInstance().ShowGreenIcon = true;
                                 }
-
                             }
                             else
                             {
@@ -579,7 +644,7 @@ namespace DD_DVR.ViewModel
                             }
                             else
                             {
-                                fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
+                               fr.Report.Tours[fr.Report.Tours.Count - 1].passengers.Add(
                                new Passenger()
                                {
                                    isExemption = true,
@@ -700,7 +765,6 @@ namespace DD_DVR.ViewModel
                                         {
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
                                         }
-
                                     }));
                                 };
                                 vc.StartConvertAsync();
