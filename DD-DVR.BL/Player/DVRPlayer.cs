@@ -59,16 +59,20 @@ namespace DD_DVR.BL.Player
         }
 
         private TimeSpan position;
+        private object SyncRoot = new object();
         public TimeSpan Position
         {
             get { return position; }
             set
             {
-                position = value;
-                p1.Position = position;
-                p2.Position = position;
-                p3.Position = position;
-                p4.Position = position;
+                lock (syncRoot)
+                {
+                    position = value;
+                    p1.Position = position;
+                    p2.Position = position;
+                    p3.Position = position;
+                    p4.Position = position;
+                }
             }
         }
 

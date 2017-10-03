@@ -711,6 +711,8 @@ namespace DD_DVR.ViewModel
             }
         }
 
+        private bool convertingStarted = false;
+
         private RelayCommand _loadRawVideoCommand;
         public ICommand LoadRawVideoCommand
         {
@@ -718,6 +720,7 @@ namespace DD_DVR.ViewModel
             {
                 return _loadRawVideoCommand ?? (_loadRawVideoCommand = new RelayCommand(param =>
                 {
+                    convertingStarted = true;
                     // открываем папку с rawVideo
                     using (var dlg = new System.Windows.Forms.FolderBrowserDialog())
                     {
@@ -760,11 +763,14 @@ namespace DD_DVR.ViewModel
                                             fr = new BL.FareReportBuilder();
                                             fr.StartCalculation(saveVideoFolder);
                                             UpdareReportView();
+                                            convertingStarted = false;
                                         }
                                         else
                                         {
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
+                                            convertingStarted = false;
                                         }
+
                                     }));
                                 };
                                 vc.StartConvertAsync();
@@ -779,7 +785,7 @@ namespace DD_DVR.ViewModel
                 },
                 param =>
                 {
-                    if (SelectedRout == null || SelectedBus == null || SelectedDriver == null
+                    if (convertingStarted || SelectedRout == null || SelectedBus == null || SelectedDriver == null || SelectedOperator == null
                     ) return false;
                     return true;
                 }));

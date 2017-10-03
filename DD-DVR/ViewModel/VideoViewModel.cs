@@ -46,23 +46,26 @@ namespace DD_DVR.ViewModel
         }
 
         private System.Timers.Timer timer;
-
+        private object SyncRoot = new object();
         private int _position = 0;
         public int Position
         {
             get { return _position; }
             set
             {
-                if (_position == value) return;
-                _position = value;
-                    
-                    //BUG: падает при клацание кнопками, без открытого видео! (как вариант делать не активными пока не загружено видео)
-                var newPosition = new TimeSpan(0, 0, 0, 0, _position);
-                PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
-                dvr.Position = newPosition;
-                //foreach (StreamOld s in dvr.Streams) s.player.Position = newPosition;
+                lock (SyncRoot)
+                {
+                    if (_position == value) return;
+                    _position = value;
 
-                OnPropertyChanged();
+                    //BUG: падает при клацание кнопками, без открытого видео! (как вариант делать не активными пока не загружено видео)
+                    var newPosition = new TimeSpan(0, 0, 0, 0, _position);
+                    PositionS = Convert.ToDateTime(newPosition.ToString()).ToLongTimeString();
+                    dvr.Position = newPosition;
+                    //foreach (StreamOld s in dvr.Streams) s.player.Position = newPosition;
+
+                    OnPropertyChanged();
+                }
             }
         } // позиия воспроизведения видео, Tiks от начала файла
 
@@ -142,22 +145,24 @@ namespace DD_DVR.ViewModel
                     {
                         if (isPoused)
                         {
-                            if (dvr.p1.NaturalDuration.HasTimeSpan)
+                            if (dvr.p1.NaturalDuration.HasTimeSpan) //BUG: непонятно зачем
                             {
                                 var ndts = dvr.p1.NaturalDuration.TimeSpan;
                                // NaturalDurationS = Convert.ToDateTime(ndts.ToString()).ToLongTimeString();
                                // NaturalDuration = (int)ndts.TotalMilliseconds;
                             }
+                            isPoused = false;
                             dvr.Play();
                             timer.Start();
-                            isPoused = false;
+                            
                         }
                         else
                         {
-                            dvr.Pause();
-                            timer.Stop();
                             CurspeedRatio = 1;
                             isPoused = true;
+                            timer.Stop();
+                            dvr.Pause();
+                            
                         }
                     }));
             }
@@ -192,7 +197,7 @@ namespace DD_DVR.ViewModel
             get => _curspeedRatio;
             set
             {
-                if (value >= 0.25 && value <= 128)
+                if (value >= 0.25 && value <= 32)
                 {
                     _curspeedRatio = value;
                     dvr.SetSpeedRatio(_curspeedRatio);

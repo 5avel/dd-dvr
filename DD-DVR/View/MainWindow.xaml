@@ -129,7 +129,7 @@
 
 
                     <Button Margin="5" Width="70" Height="15" Padding="0 -2 0 0"
-                    Content="Загузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
+                    Content="Загрузить" Focusable="False" Command="{Binding LoadRawVideoCommand}"
                     Style="{DynamicResource AccentedSquareButtonStyle}" />
                 </StackPanel>
                 <ProgressBar Margin="5" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding ConvrtationItemNum}" Maximum="{Binding ConvrtationItemCount}" Minimum="0"/>
