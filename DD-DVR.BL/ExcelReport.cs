@@ -9,19 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using DD_DVR.Data;
 using System.Windows;
+using System.IO;
 
 namespace DD_DVR.BL
 {
     class ExcelReport
     {
         private RateRepository _rateRepository = RateRepository.LoadObjFromFile();
-        public void SaveExcelReport(FareReport report)
+        public void SaveExcelReport(FareReport report, string reportPath)
         {
             var workbook = new XLWorkbook();
 
             var worksheet = workbook.Worksheets.Add("Отчет");
-           
-
 
             // Таблица Круги
             var dataTable = GetToursTable(report);
@@ -70,7 +69,17 @@ namespace DD_DVR.BL
 
             try
             {
-                workbook.SaveAs("InsertingTables.xlsx");
+                
+                workbook.SaveAs(reportPath+"InsertingTables.xlsx");
+                FileInfo fi = new FileInfo(reportPath + "InsertingTables.xlsx");
+                if (fi.Exists)
+                {
+                    System.Diagnostics.Process.Start(reportPath + "InsertingTables.xlsx");
+                }
+                else
+                {
+                    //file doesn't exist
+                }
             }
             catch(System.IO.IOException)
             {

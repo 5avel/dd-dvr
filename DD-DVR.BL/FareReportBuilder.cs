@@ -69,7 +69,7 @@ namespace DD_DVR.BL
 
         public void SaveReportAsExecl()
         {
-            new ExcelReport().SaveExcelReport(Report);
+            new ExcelReport().SaveExcelReport(Report, reportPath);
         }
     }
 }

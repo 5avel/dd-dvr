@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace DD_DVR.Data
@@ -7,6 +8,7 @@ namespace DD_DVR.Data
     {
         private static readonly string defoultePath = "Configs\\";
         private static string path;
+        private static object syncRoot = new object();
 
         /// <summary>
         /// загружает объект из файла XML
@@ -38,7 +40,7 @@ namespace DD_DVR.Data
             }
 
             XmlSerializer formatter = new XmlSerializer(typeof(T));
-            lock (new object())
+            lock(syncRoot)
             {
                 using (FileStream fs = new FileStream(path + typeof(T).Name + ".xml", FileMode.Create))
                 {

@@ -764,11 +764,13 @@ namespace DD_DVR.ViewModel
                                             fr.StartCalculation(saveVideoFolder);
                                             UpdareReportView();
                                             convertingStarted = false;
+                                            ConvrtationFlyoutIsOpen = false;
                                         }
                                         else
                                         {
                                             MessageBox.Show("В папке '" + saveVideoFolder + "' не найдены файлы *.mkv!");
                                             convertingStarted = false;
+                                            
                                         }
 
                                     }));
